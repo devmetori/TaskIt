@@ -1,0 +1,36 @@
+.item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    font-size: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    &:not(.active) input.text,
+    .icon {
+        color: white;
+    }
+    input.text {
+        background-color: transparent;
+        border: none;
+        font-size: 24px;
+        width: 100%;
+        outline: none;
+    }
+
+    .icon {
+        visibility: hidden;
+        cursor: pointer;
+    }
+
+    &:hover {
+        .icon {
+            visibility: visible;
+        }
+    }
+
+    &.active {
+        color: #000;
+        cursor: default;
+        background-color: #f2c86b;
+    }
+}

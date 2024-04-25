@@ -1,0 +1,10 @@
+<li class="item">
+    <div class="checkbox-wrapper-18">
+        <div class="round">
+            <input type="checkbox" [id]="task.id" (change)="check(task.id)" [checked]="task.completed" />
+            <label [htmlFor]="task.id"></label>
+        </div>
+    </div>
+    <span class="description">{{ task.description }}</span>
+    <span class="on-delete" (click)="delete(task.id)">X</span>
+</li>

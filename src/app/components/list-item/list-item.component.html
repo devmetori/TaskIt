@@ -1,0 +1,4 @@
+<li class="item" [ngClass]="{ active: list.id == selected }" (click)="selectList(list)">
+    <input [(ngModel)]="list.name" class="text" />
+    <span class="icon" (click)="removeList(list.id)">X</span>
+</li>
