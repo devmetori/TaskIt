@@ -1,4 +1,4 @@
-import { TTodoList } from '../types';
+import { TKPI, TTodoList } from '../types';
 import { UUID } from '../utils';
 
 export const List: TTodoList[] = [
@@ -33,6 +33,20 @@ export const List: TTodoList[] = [
         filter: {
             by: 'all',
             tags: [],
+        },
+        KPI: {
+            today: {
+                total: 2,
+                completed: 0,
+            },
+            week: {
+                total: 2,
+                completed: 0,
+            },
+            month: {
+                total: 2,
+                completed: 0,
+            },
         },
     },
     {
@@ -85,6 +99,20 @@ export const List: TTodoList[] = [
             by: 'all',
             tags: [],
         },
+        KPI: {
+            today: {
+                total: 4,
+                completed: 0,
+            },
+            week: {
+                total: 4,
+                completed: 0,
+            },
+            month: {
+                total: 4,
+                completed: 0,
+            },
+        },
     },
     {
         id: UUID(),
@@ -109,6 +137,20 @@ export const List: TTodoList[] = [
             by: 'all',
             tags: [],
         },
+        KPI: {
+            today: {
+                total: 1,
+                completed: 0,
+            },
+            week: {
+                total: 1,
+                completed: 0,
+            },
+            month: {
+                total: 1,
+                completed: 0,
+            },
+        },
     },
     {
         id: UUID(),
@@ -123,9 +165,36 @@ export const List: TTodoList[] = [
             by: 'all',
             tags: [],
         },
+        KPI: {
+            today: {
+                total: 0,
+                completed: 0,
+            },
+            week: {
+                total: 0,
+                completed: 0,
+            },
+            month: {
+                total: 0,
+                completed: 0,
+            },
+        },
     },
 ];
-
+export const defaultKpi: TKPI = {
+    today: {
+        total: 0,
+        completed: 0,
+    },
+    week: {
+        total: 0,
+        completed: 0,
+    },
+    month: {
+        total: 0,
+        completed: 0,
+    },
+};
 export const defaultList: TTodoList = {
     id: UUID(),
     name: 'New List',
@@ -139,4 +208,5 @@ export const defaultList: TTodoList = {
         by: 'all',
         tags: [],
     },
+    KPI: defaultKpi,
 };

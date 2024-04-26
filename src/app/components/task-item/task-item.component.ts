@@ -13,12 +13,12 @@ import { TTask } from '../../common/types';
 export class TaskItemComponent {
     @Input() task: TTask = {} as TTask;
     @Output() checkTask = new EventEmitter<string>();
-    @Output() deleteTask = new EventEmitter<string>();
+    @Output() deleteTask = new EventEmitter<TTask>();
 
     check(id: string) {
         this.checkTask.emit(id);
     }
-    delete(id: string) {
-        this.deleteTask.emit(id);
+    delete(task: TTask) {
+        this.deleteTask.emit(task);
     }
 }

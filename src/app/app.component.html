@@ -33,15 +33,38 @@
             <ul *ngIf="SelectedList.Tasks.length <= 0">
                 No tasks added yet...
             </ul>
+            <div class="sort-wrapper">sort</div>
+            <div class="filter-wrapper">filter</div>
         </div>
-        <div class="footer"></div>
+        <div class="footer">
+            <app-kpi [KPI]="SelectedList.KPI.today" title="Today" />
+            <app-kpi [KPI]="SelectedList.KPI.week" title="This Week" />
+            <app-kpi [KPI]="SelectedList.KPI.month" title="This Month" />
+        </div>
     </section>
     <section class="container-calendar">
-        <div class="header">posar el progress en la realització de les tasques</div>
-        <div class="content">
-            <app-calendar />
+        <div class="header">
+            <app-calendar [CalendarEvents]="SelectedList.Tasks" />
         </div>
-        <div class="footer">listar les tasques del dia seleccionat</div>
+        <div class="content">
+            <h2>
+                Tareas del dia {{ selectedDate.getDate() }} de
+                {{ selectedDate.toLocaleString('default', { month: 'long' }) }}
+            </h2>
+            <ul class="list">
+                @for (task of SelectedList.Tasks; track task) {
+                    <app-task-item
+                        [task]="task"
+                        (checkTask)="checkTask($event)"
+                        (deleteTask)="deleteTask($event)"
+                        *ngIf="isSelected(task.dateStart)"
+                    />
+                }
+            </ul>
+            <ul *ngIf="SelectedList.Tasks.length <= 0">
+                No task for this day...
+            </ul>
+        </div>
     </section>
 </main>
 

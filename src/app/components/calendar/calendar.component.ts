@@ -9,11 +9,13 @@ import {
     isSameDay,
     getDay,
 } from 'date-fns';
-import { Component, OnDestroy, Output } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+
 import { CalendarService } from '../../services';
-import { CalendarEvent } from '../../common/types';
+import { TTask } from '../../common/types';
+
 @Component({
     selector: 'app-calendar',
     standalone: true,
@@ -22,19 +24,18 @@ import { CalendarEvent } from '../../common/types';
     styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent implements OnDestroy {
+    @Input() CalendarEvents: TTask[] = [];
     today: Date = new Date();
     currentMonth: Date = new Date();
     selectedDate: Date = new Date();
     weekDays: string[] = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
     days: Date[] = [];
-    events: CalendarEvent[] = [];
     private subscriptions = new Subscription();
 
     constructor(private calendarService: CalendarService) {
         this.subscriptions.add(
             this.calendarService.selectedDate$.subscribe((date) => {
                 this.selectedDate = date;
-                this.events = this.calendarService.getEventsOnDate(date);
             }),
         );
         this.generateCalendar();
@@ -90,6 +91,9 @@ export class CalendarComponent implements OnDestroy {
         return isSameDay(date, this.selectedDate);
     }
 
+    hasEvents(date: Date): boolean {
+        return this.CalendarEvents.some((task) => isSameDay(task.dateStart, date));
+    }
     ngOnDestroy() {
         this.subscriptions.unsubscribe();
     }

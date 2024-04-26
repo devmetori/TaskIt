@@ -81,11 +81,22 @@
     }
 }
 
-.event-indicator {
-    height: 5px;
-    width: 5px;
-    border-radius: 50%;
-    margin: 1px;
-    display: inline-block;
-    background-color: aqua;
+.indicators {
+    visibility: hidden;
+    opacity: 0;
+    transition:
+        opacity 0.5s ease-in-out,
+        visibility 0.5s ease-in-out;
+    &.isVisible {
+        visibility: visible;
+        opacity: 1;
+    }
+    .event-indicator {
+        height: 5px;
+        width: 5px;
+        border-radius: 50%;
+        margin: 1px;
+        display: inline-block;
+        background-color: aqua;
+    }
 }

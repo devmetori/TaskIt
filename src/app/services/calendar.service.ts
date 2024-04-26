@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { startOfDay } from 'date-fns';
+import { isSameDay, startOfDay } from 'date-fns';
 import { CalendarEvent } from '../common/types';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CalendarService {
-    private selectedDateSubject = new BehaviorSubject<Date>(startOfDay(new Date()));
-    selectedDate$ = this.selectedDateSubject.asObservable();
+    private _selectedDate = new BehaviorSubject<Date>(startOfDay(new Date()));
+    selectedDate$ = this._selectedDate.asObservable();
 
     private events: CalendarEvent[] = [];
 
     constructor() {}
 
     selectDate(date: Date): void {
-        this.selectedDateSubject.next(startOfDay(date));
+        this._selectedDate.next(startOfDay(date));
     }
 
     addEvent(event: CalendarEvent): void {
@@ -24,5 +24,9 @@ export class CalendarService {
 
     getEventsOnDate(date: Date): CalendarEvent[] {
         return this.events.filter((event) => startOfDay(event.date).getTime() === startOfDay(date).getTime());
+    }
+
+    isSelected(date: Date): boolean {
+        return isSameDay(date, this._selectedDate.getValue());
     }
 }

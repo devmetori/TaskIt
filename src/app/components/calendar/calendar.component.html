@@ -22,9 +22,7 @@
                     class="day"
                 >
                     {{ day.getDate() }}
-                    <div>
-                        <span class="event-indicator"></span>
-                        <span class="event-indicator"></span>
+                    <div [class.isVisible]="hasEvents(day)" class="indicators">
                         <span class="event-indicator"></span>
                     </div>
                 </td>

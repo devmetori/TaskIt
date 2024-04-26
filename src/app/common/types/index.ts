@@ -15,6 +15,7 @@ export type TTodoList = {
     Tasks: TTask[];
     sort: any;
     filter: any;
+    KPI: TKPI;
 };
 
 export type CalendarEvent = {
@@ -22,4 +23,15 @@ export type CalendarEvent = {
     title: string;
     date: Date;
     description?: string;
+};
+
+export type TSimpleKpi = {
+    total: number;
+    completed: number;
+};
+
+export type TKPI = {
+    today: TSimpleKpi;
+    week: TSimpleKpi;
+    month: TSimpleKpi;
 };
