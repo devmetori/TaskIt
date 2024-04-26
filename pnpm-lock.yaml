@@ -29,6 +29,9 @@ dependencies:
   '@angular/router':
     specifier: ^17.0.0
     version: 17.3.5(@angular/common@17.3.5)(@angular/core@17.3.5)(@angular/platform-browser@17.3.5)(rxjs@7.8.1)
+  date-fns:
+    specifier: ^3.6.0
+    version: 3.6.0
   rxjs:
     specifier: ~7.8.0
     version: 7.8.1
@@ -3575,6 +3578,10 @@ packages:
   /custom-event@1.0.1:
     resolution: {integrity: sha512-GAj5FOq0Hd+RsCGVJxZuKaIDXDf3h6GQoNEjFgbLLI/trgtavwUbSnZ5pVfg27DVCaWjIohryS0JFwIJyT2cMg==}
     dev: true
+
+  /date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
+    dev: false
 
   /date-format@4.0.14:
     resolution: {integrity: sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==}

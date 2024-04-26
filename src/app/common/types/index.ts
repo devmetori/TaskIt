@@ -15,5 +15,11 @@ export type TTodoList = {
     Tasks: TTask[];
     sort: any;
     filter: any;
-}
+};
 
+export type CalendarEvent = {
+    id: string;
+    title: string;
+    date: Date;
+    description?: string;
+};

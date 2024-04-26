@@ -1,0 +1,34 @@
+<div class="calendar">
+    <div class="controls">
+        <button (click)="previousMonth()" class="btn">&lt;</button>
+        <span>{{ currentMonth.toLocaleString('default', { month: 'long' }) }} de {{ currentMonth.getFullYear() }}</span>
+        <button (click)="nextMonth()" class="btn">&gt;</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th *ngFor="let day of weekDays">{{ day }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let week of getWeeks()">
+                <td
+                    *ngFor="let day of week"
+                    (click)="selectDay(day)"
+                    [class.not-current-month]="day.getMonth() !== currentMonth.getMonth()"
+                    [class.today]="isToday(day)"
+                    [class.weekend]="isWeekend(day)"
+                    [class.selected]="isSelected(day)"
+                    class="day"
+                >
+                    {{ day.getDate() }}
+                    <div>
+                        <span class="event-indicator"></span>
+                        <span class="event-indicator"></span>
+                        <span class="event-indicator"></span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
