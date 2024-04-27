@@ -71,3 +71,9 @@
         opacity: 1;
     }
 }
+:host {
+    width: 60%;
+    &.task-item .item {
+        background-color: #a3a3a371;
+    }
+}

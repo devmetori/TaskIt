@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { TSimpleKpi } from '../../common/types';
+import { TSimpleKpi } from '../../../common/types';
 
 @Component({
     selector: 'app-kpi',

@@ -23,18 +23,23 @@
         </div>
         <div class="content">
             <ul class="list">
-                <app-task-item
-                    *ngFor="let task of SelectedList.Tasks"
-                    [task]="task"
-                    (checkTask)="checkTask($event)"
-                    (deleteTask)="deleteTask($event)"
-                />
+                <ng-container *ngFor="let task of SelectedList.Tasks">
+                    <app-task-item [task]="task" (checkTask)="checkTask($event)" (deleteTask)="deleteTask($event)" />
+                </ng-container>
+                <li *ngIf="SelectedList.Tasks.length <= 0">No tasks added yet...</li>
             </ul>
-            <ul *ngIf="SelectedList.Tasks.length <= 0">
-                No tasks added yet...
-            </ul>
-            <div class="sort-wrapper">sort</div>
-            <div class="filter-wrapper">filter</div>
+            <div class="sort-wrapper">
+                <select class="sort" (change)="sortTasks($event)">
+                    <ng-container *ngFor="let option of sortOptions">
+                        <option [value]="option.value" [selected]="SelectedList.sort.by == option.value">
+                            {{ option.label }}
+                        </option>
+                    </ng-container>
+                </select>
+                <button (click)="toggleSortOrder()" [class]="SelectedList.sort.asc ? 'asc' : 'desc'">
+                    {{ SelectedList.sort.asc ? 'ASC' : 'DESC' }}
+                </button>
+            </div>
         </div>
         <div class="footer">
             <app-kpi [KPI]="SelectedList.KPI.today" title="Today" />
@@ -52,17 +57,16 @@
                 {{ selectedDate.toLocaleString('default', { month: 'long' }) }}
             </h2>
             <ul class="list">
-                @for (task of SelectedList.Tasks; track task) {
+                <ng-container *ngFor="let task of SelectedList.Tasks">
                     <app-task-item
                         [task]="task"
+                        class="task-item"
                         (checkTask)="checkTask($event)"
                         (deleteTask)="deleteTask($event)"
                         *ngIf="isSelected(task.dateStart)"
                     />
-                }
-            </ul>
-            <ul *ngIf="SelectedList.Tasks.length <= 0">
-                No task for this day...
+                </ng-container>
+                <li *ngIf="SelectedList.Tasks.length <= 0">No task for this day...</li>
             </ul>
         </div>
     </section>

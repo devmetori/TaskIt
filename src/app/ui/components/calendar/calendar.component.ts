@@ -13,8 +13,8 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
-import { CalendarService } from '../../services';
-import { TTask } from '../../common/types';
+import { CalendarService } from '../../../services';
+import { TTask } from '../../../common/types';
 
 @Component({
     selector: 'app-calendar',

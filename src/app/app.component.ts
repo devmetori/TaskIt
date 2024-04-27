@@ -9,9 +9,10 @@ import {
     TaskItemComponent,
     CalendarComponent,
     KpiComponent,
-} from './components';
+    SelectorComponent,
+} from './ui';
 import { CalendarService, ListsService } from './services';
-import { TKPI, TTask, TTodoList } from './common/types';
+import { TKPI, TTask, TTodoList, TSortOption, TSort } from './common/types';
 
 @Component({
     selector: 'app-root',
@@ -22,8 +23,9 @@ import { TKPI, TTask, TTodoList } from './common/types';
         TaskInputComponent,
         TaskItemComponent,
         ListItemComponent,
-        CalendarComponent,
         KpiComponent,
+        CalendarComponent,
+        SelectorComponent,
     ],
     providers: [ListsService],
     templateUrl: './app.component.html',
@@ -33,26 +35,26 @@ export class AppComponent implements OnDestroy {
     lists: TTodoList[] = [];
     selectedDate: Date = new Date();
     SelectedList: TTodoList = {} as TTodoList;
-
-    private SelectedSubscription: Subscription;
-    private ListsSubscription: Subscription;
-    private SelectedDateSub: Subscription;
     kpi: TKPI = {} as TKPI;
 
+    private SelectedSubscription: Subscription = this.listsService.selectedList$.subscribe((list) => {
+        this.SelectedList = list;
+    });
+    private ListsSubscription: Subscription = this.listsService.lists$.subscribe((lists) => {
+        this.lists = lists;
+    });
+    private SelectedDateSub: Subscription = this.calendarService.selectedDate$.subscribe((date) => {
+        this.selectedDate = date;
+    });
+    sortOptions: TSortOption[] = [
+        { value: 'description', label: 'By description', asc: true },
+        { value: 'dateStart', label: 'By priority', asc: true },
+        { value: 'priority', label: 'By date', asc: true },
+    ];
     constructor(
         private listsService: ListsService,
         private calendarService: CalendarService,
-    ) {
-        this.ListsSubscription = this.listsService.lists$.subscribe((lists) => {
-            this.lists = lists;
-        });
-        this.SelectedSubscription = this.listsService.selectedList$.subscribe((list) => {
-            this.SelectedList = list;
-        });
-        this.SelectedDateSub = this.calendarService.selectedDate$.subscribe((date) => {
-            this.selectedDate = date;
-        });
-    }
+    ) {}
 
     addList() {
         this.listsService.addList();
@@ -68,6 +70,11 @@ export class AppComponent implements OnDestroy {
     addNewTask(description: string) {
         this.listsService.addNewTask(description, this.selectedDate);
     }
+    sortTasks(event: Event) {
+        const target = event.target as HTMLSelectElement;
+        const value = target.value as string;
+        this.listsService.sortTasks(value as TSort, this.SelectedList.sort.asc);
+    }
     checkTask(id: string) {
         this.listsService.checkTask(id);
     }
@@ -77,6 +84,9 @@ export class AppComponent implements OnDestroy {
 
     deleteTask(task: TTask) {
         this.listsService.deleteTask(task);
+    }
+    toggleSortOrder() {
+        this.listsService.toggleSortOrder();
     }
     ngOnDestroy(): void {
         this.ListsSubscription.unsubscribe();

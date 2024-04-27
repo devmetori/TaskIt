@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TTodoList } from '../../common/types';
+import { TTodoList } from '../../../common/types';
 
 @Component({
     selector: 'app-list-item',

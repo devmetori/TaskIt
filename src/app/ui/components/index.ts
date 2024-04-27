@@ -3,5 +3,4 @@ export * from './task-item/task-item.component';
 export * from './task-input/input-task.component';
 export * from './task-input/input-task.component';
 export * from './calendar/calendar.component';
-export * from './calendar/calendar.component';
-export * from './kpi/kpi.component';
+export * from '../base/kpi/kpi.component';

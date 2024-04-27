@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { TTask } from '../../common/types';
+import { TTask } from '../../../common/types';
 
 @Component({
     selector: 'app-task-item',

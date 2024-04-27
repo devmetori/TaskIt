@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TTask, TTodoList } from '../common/types';
-import { List, defaultList, defaultKpi } from '../common/data';
+import { TPriority, TSort, TTask, TTodoList } from '../common/types';
+import { defaultList, defaultKpi, generateRandomTodoLists } from '../common/data';
 import { UUID } from '../common/utils';
 import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 
@@ -9,8 +9,9 @@ import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
     providedIn: 'root',
 })
 export class ListsService {
-    private _lists = new BehaviorSubject<TTodoList[]>(List);
-    private _selectedList = new BehaviorSubject<TTodoList>(List[0]);
+    defaultList = generateRandomTodoLists(5, 2024, 4);
+    private _lists = new BehaviorSubject<TTodoList[]>(this.defaultList);
+    private _selectedList = new BehaviorSubject<TTodoList>(this.defaultList[0]);
     readonly lists$ = this._lists.asObservable();
     readonly selectedList$ = this._selectedList.asObservable();
     today = new Date();
@@ -66,17 +67,6 @@ export class ListsService {
         this._lists.next(updatedLists);
     }
 
-    checkTask_v1(id: string) {
-        const updatedLists = this._lists.getValue().map((list) => {
-            if (list.id === this._selectedList.getValue().id) {
-                list.Tasks = list.Tasks.map((task) =>
-                    task.id === id ? { ...task, completed: !task.completed } : task,
-                );
-            }
-            return list;
-        });
-        this._lists.next(updatedLists);
-    }
     checkTask(id: string): void {
         const updatedLists = this._lists.getValue().map((list) => {
             if (list.id === this._selectedList.getValue()?.id) {
@@ -147,5 +137,45 @@ export class ListsService {
         });
         this._lists.next(updatedLists);
     }
-    private countCompletedTasks = (tasks: TTask[]) => tasks.filter((task) => task.completed).length;
+    sortTasks(sortKey: TSort, asc: boolean) {
+        const updatedLists = this._lists.getValue().map((list) => {
+            if (list.id === this._selectedList.getValue().id) {
+                list.Tasks.sort((a, b) => {
+                    let comparison = 0;
+                    switch (sortKey) {
+                        case 'description':
+                            comparison = a.description.localeCompare(b.description);
+                            break;
+                        case 'dateStart':
+                            comparison = +a.dateStart - +b.dateStart;
+                            break;
+                        case 'priority':
+                            comparison = this.priorityValue(a.priority) - this.priorityValue(b.priority);
+                            break;
+                    }
+                    return asc ? comparison : -comparison;
+                });
+                list.sort = {
+                    by: sortKey,
+                    asc,
+                };
+            }
+            return list;
+        });
+        this._lists.next(updatedLists);
+    }
+
+    private priorityValue(priority: TPriority): number {
+        return { low: 1, medium: 2, high: 3 }[priority];
+    }
+
+    toggleSortOrder() {
+        const updatedLists = this._lists.getValue().map((list) => {
+            if (list.id === this._selectedList.getValue().id) {
+                this.sortTasks(list.sort.by, !list.sort.asc);
+            }
+            return list;
+        });
+        this._lists.next(updatedLists);
+    }
 }

@@ -1,3 +1,4 @@
+export type TPriority = 'low' | 'medium' | 'high';
 export type TTask = {
     id: string;
     description: string;
@@ -5,15 +6,18 @@ export type TTask = {
     dateEnd: Date;
     tags: string[];
     completed: boolean;
-    priority: 'low' | 'medium' | 'high';
+    priority: TPriority;
 };
-
+export type TSort = 'description' | 'dateStart' | 'priority' | 'none';
 export type TTodoList = {
     id: string;
     name: string;
     SelectedDate: Date;
     Tasks: TTask[];
-    sort: any;
+    sort: {
+        by: TSort;
+        asc: boolean;
+    };
     filter: any;
     KPI: TKPI;
 };
@@ -34,4 +38,10 @@ export type TKPI = {
     today: TSimpleKpi;
     week: TSimpleKpi;
     month: TSimpleKpi;
+};
+
+export type TSortOption = {
+    value: string;
+    label: string;
+    asc: boolean;
 };
