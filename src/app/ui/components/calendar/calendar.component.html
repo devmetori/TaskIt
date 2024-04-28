@@ -1,8 +1,10 @@
 <div class="calendar">
     <div class="controls">
-        <button (click)="previousMonth()" class="btn">&lt;</button>
-        <span>{{ currentMonth.toLocaleString('default', { month: 'long' }) }} de {{ currentMonth.getFullYear() }}</span>
-        <button (click)="nextMonth()" class="btn">&gt;</button>
+        <span (click)="previousMonth()" class="arrow left"></span>
+        <span class="text"
+            >{{ currentMonth.toLocaleString('default', { month: 'long' }) }} de {{ currentMonth.getFullYear() }}</span
+        >
+        <span (click)="nextMonth()" class="arrow right"></span>
     </div>
     <table>
         <thead>

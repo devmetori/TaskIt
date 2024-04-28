@@ -6,16 +6,17 @@
     align-items: center;
     justify-content: space-between;
     gap: 5px;
-    border-bottom: solid #f2c86b 2px;
+    border: solid #f2c86b 2px;
     color: white;
     font-weight: bold;
+    border-radius: 5px;
     .title {
         font-size: 14px;
     }
     .value {
         width: 100%;
         height: 40px;
-        font-size: 14px;
+        font-size: 18px;
         padding: 5px;
         text-align: center;
         border-bottom: solid #f2c86b 2px;

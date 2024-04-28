@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TPriority, TSort, TTask, TTodoList } from '../common/types';
+import { TKPI, TPriority, TSimpleKpi, TSort, TTask, TTaskInput, TTodoList } from '../common/types';
 import { defaultList, defaultKpi, generateRandomTodoLists } from '../common/data';
 import { UUID } from '../common/utils';
 import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
@@ -30,15 +30,15 @@ export class ListsService {
         this._lists.next(updatedLists);
     }
 
-    addNewTask(description: string, selectedDate: Date) {
+    addNewTask(newTask: TTaskInput) {
         const task: TTask = {
             id: UUID(),
-            description: description,
-            dateStart: selectedDate,
+            description: newTask.description,
+            dateStart: newTask.date,
             dateEnd: new Date(),
             tags: [],
             completed: false,
-            priority: 'low',
+            priority: newTask.priority,
         };
         const updatedLists = this._lists.getValue().map((list) => {
             if (list.id === this._selectedList.getValue().id) {
@@ -165,10 +165,6 @@ export class ListsService {
         this._lists.next(updatedLists);
     }
 
-    private priorityValue(priority: TPriority): number {
-        return { low: 1, medium: 2, high: 3 }[priority];
-    }
-
     toggleSortOrder() {
         const updatedLists = this._lists.getValue().map((list) => {
             if (list.id === this._selectedList.getValue().id) {
@@ -177,5 +173,9 @@ export class ListsService {
             return list;
         });
         this._lists.next(updatedLists);
+    }
+
+    private priorityValue(priority: TPriority): number {
+        return { low: 1, medium: 2, high: 3 }[priority];
     }
 }

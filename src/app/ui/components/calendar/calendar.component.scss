@@ -1,3 +1,7 @@
+:host {
+    width: 100%;
+}
+
 .calendar {
     display: flex;
     flex-direction: column;
@@ -12,22 +16,32 @@
 }
 .controls {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 0 1rem;
     color: #f2c86b;
-    .btn {
-        color: #f2c86b;
-        min-width: 44px;
-        background: none;
-        font-size: 16px;
-        border: none;
+    .text {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .arrow {
+        display: block;
+        width: 15px;
+        height: 15px;
+        border-top: 2px solid #f2c86b;
+        border-left: 2px solid #f2c86b;
         cursor: pointer;
-        transition: all 0.5s ease-in-out;
         &:hover {
-            color: #f8ab05;
+            border-color: #f8ab05;
         }
+    }
+    .arrow.right {
+        transform: rotate(135deg);
+    }
+
+    .arrow.left {
+        transform: rotate(-45deg);
     }
 }
 

@@ -1,186 +1,11 @@
 import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
-import { TKPI, TPriority, TTodoList } from '../types';
+import { TKPI, TPriority, TPriotyList, TTodoList } from '../types';
 import { UUID } from '../utils';
 
-export const List: TTodoList[] = [
-    {
-        id: UUID(),
-        Tasks: [
-            {
-                id: UUID(),
-                description: 'Create new task',
-                dateStart: new Date(),
-                dateEnd: new Date(),
-                tags: [],
-                completed: false,
-                priority: 'low',
-            },
-            {
-                id: UUID(),
-                description: 'Create new task',
-                dateStart: new Date(),
-                dateEnd: new Date(),
-                tags: [],
-                completed: false,
-                priority: 'low',
-            },
-        ],
-        name: 'Work',
-        SelectedDate: new Date(),
-        sort: {
-            by: 'dateStart',
-            asc: true,
-        },
-        filter: {
-            by: 'all',
-            tags: [],
-        },
-        KPI: {
-            today: {
-                total: 2,
-                completed: 0,
-            },
-            week: {
-                total: 2,
-                completed: 0,
-            },
-            month: {
-                total: 2,
-                completed: 0,
-            },
-        },
-    },
-    {
-        id: UUID(),
-        Tasks: [
-            {
-                id: UUID(),
-                description: 'Create new task',
-                dateStart: new Date(),
-                dateEnd: new Date(),
-                tags: [],
-                completed: false,
-                priority: 'low',
-            },
-            {
-                id: UUID(),
-                description: 'Create new task',
-                dateStart: new Date(),
-                dateEnd: new Date(),
-                tags: [],
-                completed: false,
-                priority: 'low',
-            },
-            {
-                id: UUID(),
-                description: 'Create new task',
-                dateStart: new Date(),
-                dateEnd: new Date(),
-                tags: [],
-                completed: false,
-                priority: 'low',
-            },
-            {
-                id: UUID(),
-                description: 'Create new task',
-                dateStart: new Date(),
-                dateEnd: new Date(),
-                tags: [],
-                completed: false,
-                priority: 'low',
-            },
-        ],
-        name: 'Personal',
-        SelectedDate: new Date(),
-        sort: {
-            by: 'dateStart',
-            asc: true,
-        },
-        filter: {
-            by: 'all',
-            tags: [],
-        },
-        KPI: {
-            today: {
-                total: 4,
-                completed: 0,
-            },
-            week: {
-                total: 4,
-                completed: 0,
-            },
-            month: {
-                total: 4,
-                completed: 0,
-            },
-        },
-    },
-    {
-        id: UUID(),
-        Tasks: [
-            {
-                id: UUID(),
-                description: 'Create new task',
-                dateStart: new Date(),
-                dateEnd: new Date(),
-                tags: [],
-                completed: false,
-                priority: 'low',
-            },
-        ],
-        name: 'Shopping',
-        SelectedDate: new Date(),
-        sort: {
-            by: 'dateStart',
-            asc: true,
-        },
-        filter: {
-            by: 'all',
-            tags: [],
-        },
-        KPI: {
-            today: {
-                total: 1,
-                completed: 0,
-            },
-            week: {
-                total: 1,
-                completed: 0,
-            },
-            month: {
-                total: 1,
-                completed: 0,
-            },
-        },
-    },
-    {
-        id: UUID(),
-        Tasks: [],
-        name: 'Home',
-        SelectedDate: new Date(),
-        sort: {
-            by: 'dateStart',
-            asc: true,
-        },
-        filter: {
-            by: 'all',
-            tags: [],
-        },
-        KPI: {
-            today: {
-                total: 0,
-                completed: 0,
-            },
-            week: {
-                total: 0,
-                completed: 0,
-            },
-            month: {
-                total: 0,
-                completed: 0,
-            },
-        },
-    },
+export const Priorities: TPriotyList[] = [
+    { id: UUID(), level: 'high', label: 'High', selected: false, color: 'red' },
+    { id: UUID(), level: 'medium', label: 'Medium', selected: false, color: 'orange' },
+    { id: UUID(), level: 'low', label: 'Low', selected: true, color: 'green' },
 ];
 export const defaultKpi: TKPI = {
     today: {
@@ -196,6 +21,7 @@ export const defaultKpi: TKPI = {
         completed: 0,
     },
 };
+
 export const defaultList: TTodoList = {
     id: UUID(),
     name: 'New List',

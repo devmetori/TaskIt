@@ -36,26 +36,28 @@
                         </option>
                     </ng-container>
                 </select>
-                <button (click)="toggleSortOrder()" [class]="SelectedList.sort.asc ? 'asc' : 'desc'">
-                    {{ SelectedList.sort.asc ? 'ASC' : 'DESC' }}
-                </button>
+                <div (click)="toggleSortOrder()" class="order">
+                    <span class="indicator" [class.desc]="!SelectedList.sort.asc"></span>
+                    <span class="indicator" [class.asc]="SelectedList.sort.asc"></span>
+                </div>
             </div>
         </div>
-        <div class="footer">
+        <div class="footer"></div>
+    </section>
+    <section class="container-calendar">
+        <div class="header">
             <app-kpi [KPI]="SelectedList.KPI.today" title="Today" />
             <app-kpi [KPI]="SelectedList.KPI.week" title="This Week" />
             <app-kpi [KPI]="SelectedList.KPI.month" title="This Month" />
         </div>
-    </section>
-    <section class="container-calendar">
-        <div class="header">
+        <div class="content">
             <app-calendar [CalendarEvents]="SelectedList.Tasks" />
         </div>
-        <div class="content">
-            <h2>
-                Tareas del dia {{ selectedDate.getDate() }} de
+        <div class="footer">
+            <span>
+                {{ selectedDate.getDate() }} de
                 {{ selectedDate.toLocaleString('default', { month: 'long' }) }}
-            </h2>
+            </span>
             <ul class="list">
                 <ng-container *ngFor="let task of SelectedList.Tasks">
                     <app-task-item
@@ -71,5 +73,3 @@
         </div>
     </section>
 </main>
-
-<router-outlet></router-outlet>

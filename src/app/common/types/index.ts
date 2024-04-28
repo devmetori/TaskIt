@@ -1,4 +1,19 @@
 export type TPriority = 'low' | 'medium' | 'high';
+
+export type TPriotyList = {
+    id: string;
+    level: TPriority;
+    label: string;
+    selected: boolean;
+    color: string;
+};
+
+export type TTaskInput = {
+    description: string;
+    date: Date;
+    priority: TPriority;
+};
+
 export type TTask = {
     id: string;
     description: string;
@@ -8,7 +23,9 @@ export type TTask = {
     completed: boolean;
     priority: TPriority;
 };
+
 export type TSort = 'description' | 'dateStart' | 'priority' | 'none';
+
 export type TTodoList = {
     id: string;
     name: string;
@@ -20,13 +37,6 @@ export type TTodoList = {
     };
     filter: any;
     KPI: TKPI;
-};
-
-export type CalendarEvent = {
-    id: string;
-    title: string;
-    date: Date;
-    description?: string;
 };
 
 export type TSimpleKpi = {

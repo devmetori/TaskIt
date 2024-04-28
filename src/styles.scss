@@ -9,8 +9,25 @@ html,
 body {
     height: 100%;
     width: 100%;
+    overflow: hidden;
 }
 
 li {
     list-style: none;
+}
+
+/* Works on Firefox */
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 2px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(141, 141, 141, 0.3);
+    border-radius: 20px;
 }

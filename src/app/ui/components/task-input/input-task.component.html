@@ -1,3 +1,17 @@
-<form class="task-input" (submit)="hadleSubmit($event)">
-    <input type="text" placeholder="Add new task..." name="description" />
+<form class="task-input" (submit)="hadleSubmit($event)" autocomplete="off">
+    <div class="priority-selector">
+        <ng-container *ngFor="let priority of priorities">
+            <input
+                type="radio"
+                class="stv-radio-button"
+                name="priority"
+                value="{{ priority.label }}"
+                id="{{ priority.id }}"
+                [checked]="priority.selected"
+            />
+            <label for="{{ priority.id }}" [ngStyle]="{ 'background-color': priority.color }"></label>
+        </ng-container>
+    </div>
+    <input type="text" placeholder="Add new task..." name="description" autofocus />
+    <input type="date" name="date" id="" [value]="today" />
 </form>

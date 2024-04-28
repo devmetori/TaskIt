@@ -3,16 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import {
-    TaskInputComponent,
-    ListItemComponent,
-    TaskItemComponent,
-    CalendarComponent,
-    KpiComponent,
-    SelectorComponent,
-} from './ui';
+import { TaskInputComponent, ListItemComponent, TaskItemComponent, CalendarComponent, KpiComponent } from './ui';
 import { CalendarService, ListsService } from './services';
-import { TKPI, TTask, TTodoList, TSortOption, TSort } from './common/types';
+import { TKPI, TTask, TTodoList, TSortOption, TSort, TTaskInput } from './common/types';
 
 @Component({
     selector: 'app-root',
@@ -25,7 +18,6 @@ import { TKPI, TTask, TTodoList, TSortOption, TSort } from './common/types';
         ListItemComponent,
         KpiComponent,
         CalendarComponent,
-        SelectorComponent,
     ],
     providers: [ListsService],
     templateUrl: './app.component.html',
@@ -47,9 +39,9 @@ export class AppComponent implements OnDestroy {
         this.selectedDate = date;
     });
     sortOptions: TSortOption[] = [
-        { value: 'description', label: 'By description', asc: true },
-        { value: 'dateStart', label: 'By priority', asc: true },
-        { value: 'priority', label: 'By date', asc: true },
+        { value: 'description', label: 'Description', asc: true },
+        { value: 'dateStart', label: 'Date', asc: true },
+        { value: 'priority', label: 'Priority', asc: true },
     ];
     constructor(
         private listsService: ListsService,
@@ -67,8 +59,8 @@ export class AppComponent implements OnDestroy {
         this.listsService.removeList(id);
     }
 
-    addNewTask(description: string) {
-        this.listsService.addNewTask(description, this.selectedDate);
+    addNewTask(task: TTaskInput) {
+        this.listsService.addNewTask(task);
     }
     sortTasks(event: Event) {
         const target = event.target as HTMLSelectElement;
