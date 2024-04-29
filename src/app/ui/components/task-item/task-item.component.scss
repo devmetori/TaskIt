@@ -1,13 +1,14 @@
 .item {
     height: 70px;
     width: 100%;
-    background: #262626;
+    background: #282932;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
+    border: solid 1px transparent;
 
     .description {
         width: 100%;
@@ -43,7 +44,7 @@
             content: ' ';
             height: 20px;
             width: 2px;
-            background-color: rgba(153, 0, 0, 0.5);
+            background-color: #5553f5;
             transition: background-color 0.5s ease;
         }
         &:before {
@@ -61,7 +62,7 @@
     }
 
     .checkbox .round label {
-        border: 2px solid rgba(255, 255, 255, 0.5);
+        border: 2px solid rgb(85 83 245);
         border-radius: 50%;
         cursor: pointer;
         height: 28px;
@@ -91,8 +92,8 @@
     }
 
     .checkbox .round input[type='checkbox']:checked + label {
-        background-color: #66bb6a;
-        border-color: #66bb6a;
+        background-color: #5553f5;
+        border-color: #5553f5;
     }
 
     .checkbox .round input[type='checkbox']:checked + label:after {
@@ -107,6 +108,8 @@
     width: 100%;
 
     &.task-item .item {
-        background-color: #a3a3a371;
+        border: solid #282932 2px;
+        background: transparent;
+        color: white;
     }
 }

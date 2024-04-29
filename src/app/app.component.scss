@@ -2,19 +2,33 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 15% 60% 25%;
-    background-color: #171717;
+    grid-template-columns: 10% 65% 25%;
+    background-color: #18181c;
+    padding: 1rem;
 }
 
 .container-list {
     display: grid;
     grid-template-rows: 15% 75% 10%;
-    background-color: #262626;
-    padding: 0.5rem 1rem;
+    background-color: #1e1f25;
+    padding: 0.5rem;
+    height: 100%;
+    border: solid 2px #282932;
+    border-radius: 0.5rem;
 
     .header {
         border-radius: 1rem;
-        background-color: gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .avatar {
+            border-radius: 50%;
+            background-position: center;
+            background-size: cover;
+            height: 100px;
+            width: 100px;
+            border: solid 2px #f2c86b;
+        }
     }
 
     .content {
@@ -28,7 +42,7 @@
             flex-flow: column nowrap;
             max-height: 400px;
             &.empty {
-                color: gray;
+                color: white;
                 cursor: default;
                 font-size: 14px;
             }
@@ -37,14 +51,14 @@
         .add {
             padding: 0.5rem 1rem;
             background-color: transparent;
-            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border: 2px dashed #282932;
             border-radius: 5px;
             color: white;
             cursor: pointer;
             transition: all 0.5s ease;
 
             &:hover {
-                background-color: rgba(255, 255, 255, 0.1);
+                background-color: #282932;
             }
         }
     }
@@ -55,6 +69,7 @@
     gap: 0.5rem;
     padding: 1rem 2rem;
     grid-template-rows: 10% 90%;
+    height: 100%;
 
     .header {
         display: flex;
@@ -83,7 +98,7 @@
     .content {
         display: flex;
         flex-direction: column;
-        border-top: solid 1px #262626;
+        border-top: solid 1px #282932;
         padding: 4rem 0;
         align-items: center;
         color: white;
@@ -101,7 +116,7 @@
             padding: 0 0.5rem;
             .task-item {
                 width: 60%;
-                background-color: #262626;
+                /*  background-color: #262626; */
             }
         }
 
@@ -112,7 +127,7 @@
             width: 150px;
             height: 30px;
             border-radius: 5px;
-            border: solid 2px #363636;
+            border: solid 2px #282932;
             display: flex;
             align-self: center;
             justify-content: center;
@@ -120,12 +135,13 @@
             .sort {
                 width: 100%;
                 height: 100%;
-                background: #171717;
+                background-color: #1b1c21;
                 color: white;
                 border-color: transparent;
                 border-right: solid 2px #262626;
                 cursor: pointer;
                 outline: none;
+                padding: 0 2px;
             }
             .order {
                 width: 100%;
@@ -159,20 +175,20 @@
             }
         }
     }
-
-    .footer {
-    }
 }
 
 .container-calendar {
     display: grid;
     grid-template-rows: 10% 40% 50%;
     grid-template-columns: 1fr;
-    background-color: #262626;
+    background-color: #1e1f25;
     padding: 0.5rem 1rem;
     place-content: center;
     place-items: center;
     gap: 0.5rem;
+    height: 100%;
+    border: solid 2px #282932;
+    border-radius: 0.5rem;
 
     .header {
         width: 100%;
@@ -180,8 +196,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-bottom: solid 1px gray;
-        gap: 4rem;
+        gap: 2rem;
     }
 
     .content {
@@ -194,9 +209,24 @@
     .footer {
         width: 100%;
         height: 100%;
-        padding: 0.5rem;
+        padding: 2rem 0.5rem;
+        .selected-date {
+            font-size: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            text-wrap: nowrap;
+            gap: 0.5rem;
+            &::after,
+            &::before {
+                content: '';
+                display: block;
+                width: 100%;
+                height: 2px;
+                background-color: #282932;
+            }
+        }
         .list {
-            border-top: solid 1px #d3d3d3;
             width: 100%;
             height: 100%;
             display: flex;

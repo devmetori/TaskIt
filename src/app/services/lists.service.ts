@@ -1,9 +1,10 @@
+import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TKPI, TPriority, TSimpleKpi, TSort, TTask, TTaskInput, TTodoList } from '../common/types';
+
+import { TPriority, TSort, TTask, TTaskInput, TTodoList } from '../common/types';
 import { defaultList, defaultKpi, generateRandomTodoLists } from '../common/data';
 import { UUID } from '../common/utils';
-import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 
 @Injectable({
     providedIn: 'root',
@@ -31,6 +32,7 @@ export class ListsService {
     }
 
     addNewTask(newTask: TTaskInput) {
+        console.log(newTask);
         const task: TTask = {
             id: UUID(),
             description: newTask.description,
@@ -39,6 +41,7 @@ export class ListsService {
             tags: [],
             completed: false,
             priority: newTask.priority,
+            priorityColor: newTask.priority === 'low' ? 'green' : newTask.priority === 'medium' ? 'orange' : 'red',
         };
         const updatedLists = this._lists.getValue().map((list) => {
             if (list.id === this._selectedList.getValue().id) {
@@ -146,11 +149,13 @@ export class ListsService {
                         case 'description':
                             comparison = a.description.localeCompare(b.description);
                             break;
-                        case 'dateStart':
+                        case 'date':
                             comparison = +a.dateStart - +b.dateStart;
                             break;
                         case 'priority':
-                            comparison = this.priorityValue(a.priority) - this.priorityValue(b.priority);
+                            comparison =
+                                this.priorityValue(a.priority.toLowerCase() as TPriority) -
+                                this.priorityValue(a.priority.toLowerCase() as TPriority);
                             break;
                     }
                     return asc ? comparison : -comparison;

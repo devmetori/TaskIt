@@ -28,12 +28,8 @@ export const defaultList: TTodoList = {
     Tasks: [],
     SelectedDate: new Date(),
     sort: {
-        by: 'dateStart',
+        by: 'date',
         asc: true,
-    },
-    filter: {
-        by: 'all',
-        tags: [],
     },
     KPI: defaultKpi,
 };
@@ -56,7 +52,7 @@ export const generateRandomTodoLists = (numLists: number, year: number, month: n
         const tasks = Array.from({ length: numTasks }, () => {
             const startDate = randomDate(year, month);
             const endDate = new Date(startDate.getTime() + Math.random() * (1000 * 60 * 60 * 24 * 7));
-
+            const priority = randomPriority();
             return {
                 id: UUID(),
                 description: `Task generated on ${startDate.toDateString()}  `,
@@ -64,7 +60,8 @@ export const generateRandomTodoLists = (numLists: number, year: number, month: n
                 dateEnd: endDate,
                 tags: [],
                 completed: Math.random() > 0.5,
-                priority: randomPriority(),
+                priority,
+                priorityColor: priority === 'low' ? 'green' : priority === 'medium' ? 'orange' : 'red',
             };
         });
 
@@ -72,30 +69,39 @@ export const generateRandomTodoLists = (numLists: number, year: number, month: n
             const isToday = isSameDay(task.dateStart, today);
             const isThisWeek = isSameWeek(task.dateStart, today);
             const isThisMonth = isSameMonth(task.dateStart, today);
-
-            return {
+            const data = {
                 today: {
-                    total: isToday ? acc.today.total + 1 : acc.today.total,
-                    completed: isToday && task.completed ? acc.today.completed + 1 : acc.today.completed,
-                },
-                week: {
-                    total: isThisWeek ? acc.week.total + 1 : acc.week.total,
-                    completed: isThisWeek && task.completed ? acc.week.completed + 1 : acc.week.completed,
+                    total: acc.today.total + 1,
+                    completed: acc.today.completed + (task.completed ? 1 : 0),
                 },
                 month: {
-                    total: isThisMonth ? acc.month.total + 1 : acc.month.total,
-                    completed: isThisMonth && task.completed ? acc.month.completed + 1 : acc.month.completed,
+                    total: acc.month.total + 1,
+                    completed: acc.month.completed + (task.completed ? 1 : 0),
+                },
+                week: {
+                    total: acc.week.total + 1,
+                    completed: acc.week.completed + (task.completed ? 1 : 0),
                 },
             };
+
+            if (isToday) {
+                acc = { today: data.today, month: data.month, week: data.week };
+            }
+            if (isThisWeek) {
+                acc = { ...acc, month: data.month, week: data.week };
+            }
+            if (isThisMonth) {
+                acc = { ...acc, month: data.month };
+            }
+            return acc;
         }, defaultKpi);
 
         return {
             id: UUID(),
-            name: ['Work', 'Personal', 'Shopping', 'Home'][listIndex % 4],
+            name: ['Trabajo', 'Medico', 'Compras', 'Hogar', 'Estudios'][listIndex % 5],
             SelectedDate: today,
             Tasks: tasks,
-            sort: { by: 'dateStart', asc: Math.random() > 0.5 },
-            filter: { by: 'all', tags: [] },
+            sort: { by: 'date', asc: Math.random() > 0.5 },
             KPI: kpi,
         } as TTodoList;
     });

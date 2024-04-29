@@ -9,10 +9,10 @@
     gap: 1rem;
     width: 100%;
     max-width: 100%;
-    background: rgba(128, 128, 128, 0.527);
-    color: #222;
+    color: #fff;
     border-radius: 8px;
     padding: 1rem;
+    border: solid #282932 2px;
 }
 .controls {
     display: flex;
@@ -20,7 +20,6 @@
     align-items: center;
     width: 100%;
     padding: 0 1rem;
-    color: #f2c86b;
     .text {
         font-size: 1.2rem;
         font-weight: bold;
@@ -29,11 +28,11 @@
         display: block;
         width: 15px;
         height: 15px;
-        border-top: 2px solid #f2c86b;
-        border-left: 2px solid #f2c86b;
+        border-top: 2px solid #5051f9;
+        border-left: 2px solid #5051f9;
         cursor: pointer;
         &:hover {
-            border-color: #f8ab05;
+            border-color: #3d3dc5;
         }
     }
     .arrow.right {
@@ -66,23 +65,26 @@
 }
 
 .calendar td:hover {
-    background-color: #f4f4f4;
+    background-color: #5553f51c;
 }
 
 .weekend {
-    color: #f2c86b;
+    color: #5553f5;
 }
 
 .selected {
-    background-color: #f2c86b;
+    background-color: #5553f5;
     color: #fff;
+    .indicators .event-indicator {
+        background-color: #fff;
+    }
 }
 .today.selected {
-    background-color: #c5a04e;
+    background-color: #5051f924;
     color: #fff;
 }
 .today {
-    background-color: #646269;
+    background-color: #282932;
     border-radius: 6px;
     font-weight: bold;
     color: #fff;
@@ -91,7 +93,6 @@
         background: rgba(242, 199, 107, 0.2);
         border-radius: 6px;
         font-weight: bold;
-        color: #f2c86b;
     }
 }
 
@@ -111,6 +112,6 @@
         border-radius: 50%;
         margin: 1px;
         display: inline-block;
-        background-color: aqua;
+        background-color: #5051f9;
     }
 }

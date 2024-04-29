@@ -22,9 +22,10 @@ export type TTask = {
     tags: string[];
     completed: boolean;
     priority: TPriority;
+    priorityColor: string;
 };
 
-export type TSort = 'description' | 'dateStart' | 'priority' | 'none';
+export type TSort = 'description' | 'date' | 'priority' | 'none';
 
 export type TTodoList = {
     id: string;
@@ -35,7 +36,6 @@ export type TTodoList = {
         by: TSort;
         asc: boolean;
     };
-    filter: any;
     KPI: TKPI;
 };
 

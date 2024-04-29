@@ -1,6 +1,8 @@
 <main class="container">
     <section class="container-list">
-        <div class="header"></div>
+        <div class="header">
+            <div class="avatar"></div>
+        </div>
         <div class="content">
             <ul class="list">
                 <app-list-item
@@ -14,7 +16,7 @@
             <ul class="list empty" *ngIf="lists.length <= 0">
                 <span class="text">Create your first list...</span>
             </ul>
-            <button class="add" (click)="addList()">+ Add Todo List</button>
+            <button class="add" (click)="addList()">+ Add new list</button>
         </div>
     </section>
     <section class="Container-TaskList">
@@ -46,15 +48,15 @@
     </section>
     <section class="container-calendar">
         <div class="header">
-            <app-kpi [KPI]="SelectedList.KPI.today" title="Today" />
-            <app-kpi [KPI]="SelectedList.KPI.week" title="This Week" />
-            <app-kpi [KPI]="SelectedList.KPI.month" title="This Month" />
+            <app-kpi [KPI]="SelectedList.KPI.today" title="Hoy" />
+            <app-kpi [KPI]="SelectedList.KPI.week" title="Esta semana" />
+            <app-kpi [KPI]="SelectedList.KPI.month" title="Este mes" />
         </div>
         <div class="content">
             <app-calendar [CalendarEvents]="SelectedList.Tasks" />
         </div>
         <div class="footer">
-            <span>
+            <span class="selected-date">
                 {{ selectedDate.getDate() }} de
                 {{ selectedDate.toLocaleString('default', { month: 'long' }) }}
             </span>

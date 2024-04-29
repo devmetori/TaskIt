@@ -5,15 +5,14 @@
     font-size: 24px;
     border-radius: 5px;
     cursor: pointer;
-    &:not(.active) input.text {
-        color: white;
-    }
+
     input.text {
         background-color: transparent;
         border: none;
         font-size: 24px;
         width: 100%;
         outline: none;
+        color: white;
     }
 
     .on-delete {
@@ -54,8 +53,8 @@
     }
 
     &.active {
-        color: #000;
+        color: #fff;
         cursor: default;
-        background-color: #f2c86b;
+        background-color: rgb(85 83 245);
     }
 }

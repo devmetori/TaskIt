@@ -40,7 +40,7 @@ export class AppComponent implements OnDestroy {
     });
     sortOptions: TSortOption[] = [
         { value: 'description', label: 'Description', asc: true },
-        { value: 'dateStart', label: 'Date', asc: true },
+        { value: 'date', label: 'Date', asc: true },
         { value: 'priority', label: 'Priority', asc: true },
     ];
     constructor(

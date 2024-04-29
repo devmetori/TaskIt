@@ -1,4 +1,4 @@
-<li class="item">
+<li class="item" [ngStyle]="{ 'border-left-color': task.priorityColor }">
     <div class="checkbox">
         <div class="round">
             <input type="checkbox" [id]="task.id" (change)="check(task.id)" [checked]="task.completed" />

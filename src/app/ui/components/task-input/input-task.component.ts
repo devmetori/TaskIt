@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { Priorities } from '../../../common/data';
 import { TPriority, TTaskInput } from 'app/common';
 

@@ -8,12 +8,12 @@
     </div>
     <table>
         <thead>
-            <tr>
-                <th *ngFor="let day of weekDays">{{ day }}</th>
+            <tr class="head-row">
+                <th *ngFor="let day of weekDays" class="head-col">{{ day }}</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let week of getWeeks()">
+            <tr *ngFor="let week of getWeeks()" class="row">
                 <td
                     *ngFor="let day of week"
                     (click)="selectDay(day)"
@@ -21,7 +21,7 @@
                     [class.today]="isToday(day)"
                     [class.weekend]="isWeekend(day)"
                     [class.selected]="isSelected(day)"
-                    class="day"
+                    class="day col"
                 >
                     {{ day.getDate() }}
                     <div [class.isVisible]="hasEvents(day)" class="indicators">
