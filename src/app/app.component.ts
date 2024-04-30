@@ -1,88 +1,83 @@
-import { Component, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-import { Subscription } from 'rxjs';
-
-import { TaskInputComponent, ListItemComponent, TaskItemComponent, CalendarComponent, KpiComponent } from './ui';
-import { CalendarService, ListsService } from './services';
-import { TKPI, TTask, TTodoList, TSortOption, TSort, TTaskInput } from './common/types';
-
+import { Component } from '@angular/core';
+import { TaskComponent } from '@/app/ui';
+import { ScreenSizeDirective } from '@/app/common/directives';
+import { screenSize } from '@/app/common/data';
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [
-        CommonModule,
-        RouterOutlet,
-        TaskInputComponent,
-        TaskItemComponent,
-        ListItemComponent,
-        KpiComponent,
-        CalendarComponent,
-    ],
-    providers: [ListsService],
+    imports: [TaskComponent, ScreenSizeDirective],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnDestroy {
-    lists: TTodoList[] = [];
+export class AppComponent {
+    breakpoints = screenSize;
+    /*     lists: TTodoList[] = [];
     selectedDate: Date = new Date();
-    SelectedList: TTodoList = {} as TTodoList;
-    kpi: TKPI = {} as TKPI;
+    selectedList: TTodoList = {} as TTodoList;
 
-    private SelectedSubscription: Subscription = this.listsService.selectedList$.subscribe((list) => {
-        this.SelectedList = list;
-    });
-    private ListsSubscription: Subscription = this.listsService.lists$.subscribe((lists) => {
-        this.lists = lists;
-    });
-    private SelectedDateSub: Subscription = this.calendarService.selectedDate$.subscribe((date) => {
-        this.selectedDate = date;
-    });
+    private Subscription: Subscription = new Subscription();
+
     sortOptions: TSortOption[] = [
-        { value: 'description', label: 'Description', asc: true },
-        { value: 'date', label: 'Date', asc: true },
-        { value: 'priority', label: 'Priority', asc: true },
+        { value: 'description', label: 'Descripcion', asc: true },
+        { value: 'date', label: 'Fecha', asc: true },
+        { value: 'priority', label: 'Prioridad', asc: true },
+        { value: 'status', label: 'Estado', asc: true },
     ];
     constructor(
-        private listsService: ListsService,
+        private taskService: TaskService,
         private calendarService: CalendarService,
     ) {}
+    ngOnInit(): void {
+        this.Subscription.add(
+            this.taskService.lists$.subscribe((lists) => {
+                this.lists = lists;
+            }),
+        );
+        this.Subscription.add(
+            this.taskService.selectedList$.subscribe((list) => {
+                this.selectedList = list;
+            }),
+        );
+        this.Subscription.add(
+            this.calendarService.selectedDate$.subscribe((date) => {
+                this.selectedDate = date;
+            }),
+        );
+    }
 
     addList() {
-        this.listsService.addList();
+        this.taskService.addList();
     }
     selectList(list: TTodoList) {
-        this.listsService.selectList(list);
+        this.taskService.selectList(list);
     }
 
     removeList(id: string) {
-        this.listsService.removeList(id);
+        this.taskService.removeList(id);
     }
 
     addNewTask(task: TTaskInput) {
-        this.listsService.addNewTask(task);
+        this.taskService.addNewTask(task);
     }
     sortTasks(event: Event) {
         const target = event.target as HTMLSelectElement;
         const value = target.value as string;
-        this.listsService.sortTasks(value as TSort, this.SelectedList.sort.asc);
+        this.taskService.sortTasks(value as TSort, this.selectedList.sort.asc as boolean);
     }
     checkTask(id: string) {
-        this.listsService.checkTask(id);
+        this.taskService.checkTask(id);
     }
     isSelected(date: Date): boolean {
         return this.calendarService.isSelected(date);
     }
 
     deleteTask(task: TTask) {
-        this.listsService.deleteTask(task);
+        this.taskService.deleteTask(task);
     }
     toggleSortOrder() {
-        this.listsService.toggleSortOrder();
+        this.taskService.toggleSortOrder();
     }
     ngOnDestroy(): void {
-        this.ListsSubscription.unsubscribe();
-        this.SelectedSubscription.unsubscribe();
-        this.SelectedDateSub.unsubscribe();
-    }
+        this.Subscription.unsubscribe();
+    } */
 }

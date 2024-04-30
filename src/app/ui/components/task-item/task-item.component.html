@@ -5,6 +5,6 @@
             <label [htmlFor]="task.id"></label>
         </div>
     </div>
-    <span class="description">{{ task.description }}</span>
+    <input [(ngModel)]="task.description" class="description" [readonly]="task.completed" />
     <span class="on-delete" (click)="delete(task)"></span>
 </li>

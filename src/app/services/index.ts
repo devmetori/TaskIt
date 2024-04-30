@@ -1,2 +1,2 @@
-export * from './lists.service';
+export * from './Task.service';
 export * from './calendar.service';

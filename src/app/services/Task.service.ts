@@ -1,38 +1,64 @@
 import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
 
-import { TPriority, TSort, TTask, TTaskInput, TTodoList } from '../common/types';
-import { defaultList, defaultKpi, generateRandomTodoLists } from '../common/data';
+import { defaultList, defaultKpi } from '../common/data';
+import { TSort, TTask, TTaskInput, TTodoList } from '../common/types';
 import { UUID } from '../common/utils';
+import { StoreService } from './store.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ListsService {
-    defaultList = generateRandomTodoLists(5, 2024, 4);
-    private _lists = new BehaviorSubject<TTodoList[]>(this.defaultList);
-    private _selectedList = new BehaviorSubject<TTodoList>(this.defaultList[0]);
-    readonly lists$ = this._lists.asObservable();
-    readonly selectedList$ = this._selectedList.asObservable();
+export class TaskService implements OnDestroy {
+    lists: TTodoList[] = [];
+    selectedList: TTodoList = {} as TTodoList;
     today = new Date();
+    selectedDate = new Date();
+    private subscription: Subscription = new Subscription();
+
+    constructor(private storeService: StoreService) {
+        this.subscription.add(
+            this.storeService.lists$.subscribe((lists) => {
+                console.log('TaskService:', lists);
+                this.lists = lists;
+            }),
+        );
+        this.subscription.add(
+            this.storeService.selectedList$.subscribe((list) => {
+                console.log('TaskService->selectedList:', list);
+                this.selectedList = list;
+            }),
+        );
+    }
+
+    get lists$() {
+        return this.storeService.lists$;
+    }
+
+    get selectedList$() {
+        return this.storeService.selectedList$;
+    }
 
     addList() {
-        const newList = [{ ...defaultList, id: UUID() }, ...this._lists.getValue()];
-        this._lists.next(newList);
+        const newList = [{ ...defaultList, id: UUID() }, ...this.lists];
+        this.storeService.updateSelectedList(newList[0]);
+        this.storeService.updateLists(newList);
     }
 
     selectList(list: TTodoList) {
-        this._selectedList.next(list);
+        this.storeService.updateSelectedList(list);
     }
 
     removeList(id: string) {
-        const updatedLists = this._lists.getValue().filter((l) => l.id !== id);
-        this._lists.next(updatedLists);
+        const updatedLists = this.lists.filter((l) => l.id !== id);
+        if (this.selectedList.id === id) {
+            this.storeService.updateSelectedList(updatedLists[0]);
+        }
+        this.storeService.updateLists(updatedLists);
     }
 
     addNewTask(newTask: TTaskInput) {
-        console.log(newTask);
         const task: TTask = {
             id: UUID(),
             description: newTask.description,
@@ -41,10 +67,11 @@ export class ListsService {
             tags: [],
             completed: false,
             priority: newTask.priority,
-            priorityColor: newTask.priority === 'low' ? 'green' : newTask.priority === 'medium' ? 'orange' : 'red',
+            priorityColor: newTask.priority === 1 ? 'green' : newTask.priority === 2 ? 'orange' : 'red',
         };
-        const updatedLists = this._lists.getValue().map((list) => {
-            if (list.id === this._selectedList.getValue().id) {
+
+        const newState = this.lists.map((list) => {
+            if (list.id === this.selectedList?.id) {
                 list.Tasks = [...list.Tasks, task];
                 if (isSameMonth(task.dateStart, this.today)) {
                     list.KPI.month.total += 1;
@@ -64,15 +91,17 @@ export class ListsService {
                         list.KPI.today.completed += 1;
                     }
                 }
+                this.storeService.updateSelectedList(list);
             }
             return list;
         });
-        this._lists.next(updatedLists);
+
+        this.storeService.updateLists(newState);
     }
 
     checkTask(id: string): void {
-        const updatedLists = this._lists.getValue().map((list) => {
-            if (list.id === this._selectedList.getValue()?.id) {
+        const updatedLists = this.lists.map((list) => {
+            if (list.id === this.selectedList?.id) {
                 list.Tasks = list.Tasks.map((task) => {
                     return task.id === id ? { ...task, completed: !task.completed } : task;
                 });
@@ -107,15 +136,16 @@ export class ListsService {
                     }
                     return acc;
                 }, defaultKpi);
+                this.storeService.updateSelectedList(list);
             }
             return list;
         });
-        this._lists.next(updatedLists);
+        this.storeService.updateLists(updatedLists);
     }
 
     deleteTask(task: TTask) {
-        const updatedLists = this._lists.getValue().map((list) => {
-            if (list.id === this._selectedList.getValue().id) {
+        const updatedLists = this.lists.map((list) => {
+            if (list.id === this.selectedList?.id) {
                 list.Tasks = list.Tasks.filter((t) => t.id !== task.id);
                 if (isSameMonth(task.dateStart, this.today)) {
                     list.KPI.month.total -= 1;
@@ -135,14 +165,15 @@ export class ListsService {
                         list.KPI.today.completed -= 1;
                     }
                 }
+                this.storeService.updateSelectedList(list);
             }
             return list;
         });
-        this._lists.next(updatedLists);
+        this.storeService.updateLists(updatedLists);
     }
     sortTasks(sortKey: TSort, asc: boolean) {
-        const updatedLists = this._lists.getValue().map((list) => {
-            if (list.id === this._selectedList.getValue().id) {
+        const updatedLists = this.lists.map((list) => {
+            if (list.id === this.selectedList?.id) {
                 list.Tasks.sort((a, b) => {
                     let comparison = 0;
                     switch (sortKey) {
@@ -153,9 +184,8 @@ export class ListsService {
                             comparison = +a.dateStart - +b.dateStart;
                             break;
                         case 'priority':
-                            comparison =
-                                this.priorityValue(a.priority.toLowerCase() as TPriority) -
-                                this.priorityValue(a.priority.toLowerCase() as TPriority);
+                            comparison = +a.priority - +a.priority;
+                            console.log(comparison);
                             break;
                     }
                     return asc ? comparison : -comparison;
@@ -164,23 +194,25 @@ export class ListsService {
                     by: sortKey,
                     asc,
                 };
+
+                this.storeService.updateSelectedList(list);
             }
             return list;
         });
-        this._lists.next(updatedLists);
+        this.storeService.updateLists(updatedLists);
     }
 
     toggleSortOrder() {
-        const updatedLists = this._lists.getValue().map((list) => {
-            if (list.id === this._selectedList.getValue().id) {
+        const updatedLists = this.lists.map((list) => {
+            if (list.id === this.selectedList?.id) {
                 this.sortTasks(list.sort.by, !list.sort.asc);
             }
             return list;
         });
-        this._lists.next(updatedLists);
+        this.storeService.updateLists(updatedLists);
     }
 
-    private priorityValue(priority: TPriority): number {
-        return { low: 1, medium: 2, high: 3 }[priority];
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 }

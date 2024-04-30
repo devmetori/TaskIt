@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Priorities } from '../../../common/data';
-import { TPriority, TTaskInput } from 'app/common';
+import { TTaskInput } from '../../../common/types';
 
 @Component({
     selector: 'app-input-task',
@@ -22,13 +22,13 @@ export class TaskInputComponent {
         const data = new FormData(form);
         const description = data.get('description') as string;
         const date = data.get('date') as string;
-        const priority = data.get('priority') as TPriority;
+        const priority = data.get('priority')?.toString();
         if (!description || !priority || !date) return;
 
         const newTask: TTaskInput = {
             description,
             date: new Date(date),
-            priority,
+            priority: parseInt(priority.toString(), 10) as number,
         };
 
         this.addTask.emit(newTask);

@@ -9,7 +9,7 @@
     input.text {
         background-color: transparent;
         border: none;
-        font-size: 24px;
+        font-size: 18px;
         width: 100%;
         outline: none;
         color: white;
@@ -56,5 +56,11 @@
         color: #fff;
         cursor: default;
         background-color: rgb(85 83 245);
+    }
+
+    &.phone {
+        .on-delete {
+            visibility: visible;
+        }
     }
 }

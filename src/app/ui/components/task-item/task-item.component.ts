@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 import { TTask } from '../../../common/types';
 
 @Component({
     selector: 'app-task-item',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './task-item.component.html',
     styleUrl: './task-item.component.scss',
 })

@@ -1,8 +1,10 @@
+import { BREAKPOINTS } from '../data';
+
 export type TPriority = 'low' | 'medium' | 'high';
 
 export type TPriotyList = {
     id: string;
-    level: TPriority;
+    level: number;
     label: string;
     selected: boolean;
     color: string;
@@ -11,7 +13,7 @@ export type TPriotyList = {
 export type TTaskInput = {
     description: string;
     date: Date;
-    priority: TPriority;
+    priority: number;
 };
 
 export type TTask = {
@@ -21,7 +23,7 @@ export type TTask = {
     dateEnd: Date;
     tags: string[];
     completed: boolean;
-    priority: TPriority;
+    priority: number;
     priorityColor: string;
 };
 
@@ -55,3 +57,19 @@ export type TSortOption = {
     label: string;
     asc: boolean;
 };
+
+export type TRandomTodoList = {
+    numLists: number;
+    year: number;
+    month: number;
+};
+
+export type TDefaultValue = {
+    lists: TTodoList[];
+    selectedList: TTodoList;
+};
+
+export interface IBreakpoint {
+    breakpoint: keyof typeof BREAKPOINTS;
+    className: string;
+}

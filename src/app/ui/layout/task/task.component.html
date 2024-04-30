@@ -1,0 +1,40 @@
+<section class="container-list">
+    <div class="header">
+        <div class="avatar"></div>
+    </div>
+    <div class="content">
+        <ul class="list">
+            <app-list-item
+                *ngFor="let list of lists"
+                [list]="list"
+                [selected]="selectedList.id"
+                (remove)="removeList($event)"
+                (select)="selectList($event)"
+            />
+        </ul>
+        <ul class="list empty" *ngIf="lists.length <= 0">
+            <span class="text">Create your first list...</span>
+        </ul>
+        <button class="add" (click)="addList()">+ Crear lista</button>
+    </div>
+</section>
+<section class="Container-TaskList">
+    <div class="header">
+        <app-input-task (addTask)="addNewTask($event)" [appScreenSize]="screenSizes" />
+    </div>
+    <div class="content">
+        <ul class="list">
+            <ng-container *ngFor="let task of selectedList.Tasks">
+                <app-task-item
+                    [task]="task"
+                    (checkTask)="checkTask($event)"
+                    (deleteTask)="deleteTask($event)"
+                    [appScreenSize]="screenSizes"
+                />
+            </ng-container>
+            <li *ngIf="selectedList.Tasks.length <= 0" class="item empty">Sin Tareas pendientes...</li>
+        </ul>
+        <button class="add-new" (click)="openModal($event)">+</button>
+    </div>
+</section>
+<section class="container-calendar"></section>
