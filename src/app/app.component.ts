@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TaskComponent } from '@/app/ui';
+
 import { ScreenSizeDirective } from '@/app/common/directives';
 import { screenSize } from '@/app/common/data';
 @Component({

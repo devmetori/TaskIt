@@ -10,6 +10,8 @@
                 [selected]="selectedList.id"
                 (remove)="removeList($event)"
                 (select)="selectList($event)"
+                (newName)="updateListName($event)"
+                [appScreenSize]="screenSizes"
             />
         </ul>
         <ul class="list empty" *ngIf="lists.length <= 0">
@@ -34,7 +36,7 @@
             </ng-container>
             <li *ngIf="selectedList.Tasks.length <= 0" class="item empty">Sin Tareas pendientes...</li>
         </ul>
-        <button class="add-new" (click)="openModal($event)">+</button>
+        <button class="add-new" (click)="openModal()">+</button>
     </div>
 </section>
 <section class="container-calendar"></section>

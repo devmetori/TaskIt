@@ -1,0 +1,40 @@
+<form class="task-form" (submit)="hadleSubmit($event)" autocomplete="off">
+    <div class="fields">
+        <label for="description" class="field">
+            <span> Descripción </span>
+            <input
+                type="text"
+                placeholder="Add new task..."
+                name="description"
+                id="description"
+                autofocus
+                class="text"
+            />
+        </label>
+        <label for="date-picker" class="field">
+            <span> Fecha </span>
+            <input type="date" name="date" id="date-picker" class="date-picker" [value]="today" />
+        </label>
+
+        <div class="selector">
+            <span> Prioridad </span>
+            <div class="priorities">
+                <ng-container *ngFor="let priority of priorities">
+                    <input
+                        type="radio"
+                        name="priority"
+                        value="{{ priority.level }}"
+                        id="{{ priority.id }}"
+                        [checked]="priority.selected"
+                    />
+                    <label
+                        for="{{ priority.id }}"
+                        [ngStyle]="{ 'background-color': priority.color }"
+                        class="priority"
+                    ></label>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn">crear</button>
+</form>

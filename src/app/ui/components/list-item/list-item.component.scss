@@ -1,65 +1,67 @@
-.item {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 1rem;
-    font-size: 24px;
-    border-radius: 5px;
-    cursor: pointer;
-
-    input.text {
-        background-color: transparent;
-        border: none;
-        font-size: 18px;
-        width: 100%;
-        outline: none;
-        color: white;
-    }
-
-    .on-delete {
-        background-color: transparent;
-        visibility: hidden;
-        padding: 5px;
-        border-radius: 5px;
-        height: 25px;
-        width: 25px;
+:host {
+    .item {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        font-size: 24px;
+        border-radius: 5px;
         cursor: pointer;
-        position: relative;
-        transition: background-color 0.3s ease;
 
-        &:before,
-        &:after {
-            position: absolute;
-            content: ' ';
-            height: 20px;
-            width: 2px;
-            background-color: #ffffff;
-            transition: background-color 0.5s ease;
+        input.text {
+            background-color: transparent;
+            border: none;
+            font-size: 18px;
+            width: 100%;
+            outline: none;
+            color: white;
         }
-        &:before {
-            transform: rotate(45deg);
-        }
-        &:after {
-            transform: rotate(-45deg);
-        }
-    }
 
-    &:hover {
         .on-delete {
-            visibility: visible;
-        }
-    }
+            background-color: transparent;
+            visibility: hidden;
+            padding: 5px;
+            border-radius: 5px;
+            height: 25px;
+            width: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s ease;
 
-    &.active {
-        color: #fff;
-        cursor: default;
-        background-color: rgb(85 83 245);
+            &:before,
+            &:after {
+                position: absolute;
+                content: ' ';
+                height: 20px;
+                width: 2px;
+                background-color: #ffffff;
+                transition: background-color 0.5s ease;
+            }
+            &:before {
+                transform: rotate(45deg);
+            }
+            &:after {
+                transform: rotate(-45deg);
+            }
+        }
+
+        &:hover {
+            .on-delete {
+                visibility: visible;
+            }
+        }
+
+        &.active {
+            color: #fff;
+            cursor: default;
+            background-color: rgb(85 83 245);
+        }
     }
 
     &.phone {
-        .on-delete {
+        .item .on-delete {
             visibility: visible;
         }
     }

@@ -1,25 +1,26 @@
-import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Output } from '@angular/core';
 
-import { Priorities } from '../../../common/data';
-import { TTaskInput } from '../../../common/types';
+import { Priorities } from '@/app/common/data';
+import { TTaskInput } from '@/app/common/types';
+import { TaskService } from '@/app/services';
 
 @Component({
-    selector: 'app-input-task',
+    selector: 'app-newtask-form',
     standalone: true,
     imports: [CommonModule],
-    templateUrl: './input-task.component.html',
-    styleUrl: './input-task.component.scss',
+    templateUrl: './newtask-form.component.html',
+    styleUrl: './newtask-form.component.scss',
 })
-export class TaskInputComponent {
-    @Output() addTask = new EventEmitter<TTaskInput>();
+export class NewtaskFormComponent {
+    @Output() OnFinish = new EventEmitter<void>();
     priorities = Priorities();
     today = new Date().toISOString().split('T')[0];
 
+    constructor(private readonly taskService: TaskService) {}
     hadleSubmit(event: SubmitEvent) {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
-        const inputDescription = form.querySelector('input[name="description"]') as HTMLInputElement;
         const data = new FormData(form);
         const description = data.get('description') as string;
         const date = data.get('date') as string;
@@ -31,8 +32,7 @@ export class TaskInputComponent {
             date: new Date(date),
             priority: parseInt(priority.toString(), 10) as number,
         };
-
-        this.addTask.emit(newTask);
-        inputDescription.value = '';
+        this.taskService.addNewTask(newTask);
+        this.OnFinish.emit();
     }
 }

@@ -20,13 +20,11 @@ export class TaskService implements OnDestroy {
     constructor(private storeService: StoreService) {
         this.subscription.add(
             this.storeService.lists$.subscribe((lists) => {
-                console.log('TaskService:', lists);
                 this.lists = lists;
             }),
         );
         this.subscription.add(
             this.storeService.selectedList$.subscribe((list) => {
-                console.log('TaskService->selectedList:', list);
                 this.selectedList = list;
             }),
         );
@@ -57,7 +55,16 @@ export class TaskService implements OnDestroy {
         }
         this.storeService.updateLists(updatedLists);
     }
-
+    updateListName(id: string, newValue: string) {
+        const updatedLists = this.lists.map((list) => {
+            if (list.id === id) {
+                list.name = newValue;
+                this.storeService.updateSelectedList(list);
+            }
+            return list;
+        });
+        this.storeService.updateLists(updatedLists);
+    }
     addNewTask(newTask: TTaskInput) {
         const task: TTask = {
             id: UUID(),

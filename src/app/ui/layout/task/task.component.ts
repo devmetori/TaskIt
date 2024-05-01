@@ -9,14 +9,17 @@ import {
     ListItemComponent,
     TaskInputComponent,
     TaskItemComponent,
+    NewtaskFormComponent,
 } from '@/app/ui/components';
 import { IBreakpoint, TTask, TTaskInput, TTodoList } from '@/app/common/types';
-import { screenSize } from '@/app/common/data';
 import { CalendarService, TaskService } from '@/app/services';
+import { ModalService } from '@/app/ui/components/modal';
+import { screenSize } from '@/app/common/data';
 
 @Component({
     selector: 'app-task-list',
     standalone: true,
+    providers: [TaskService, CalendarService],
     imports: [
         CommonModule,
         CalendarComponent,
@@ -40,6 +43,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     constructor(
         private taskService: TaskService,
         private calendarService: CalendarService,
+        private modalService: ModalService,
     ) {}
 
     addList() {
@@ -51,6 +55,11 @@ export class TaskComponent implements OnInit, OnDestroy {
     }
     selectList(list: TTodoList) {
         this.taskService.selectList(list);
+    }
+    updateListName(newValue: string) {
+        if (this.selectedList.name !== newValue) {
+            this.taskService.updateListName(this.selectedList.id, newValue);
+        }
     }
     addNewTask(task: TTaskInput) {
         this.taskService.addNewTask(task);
@@ -79,8 +88,13 @@ export class TaskComponent implements OnInit, OnDestroy {
             }),
         );
     }
-    openModal($event: MouseEvent) {
-        console.log($event);
+    openModal() {
+        this.modalService.open(NewtaskFormComponent, {
+            size: {
+                width: '250px',
+                height: '300px',
+            },
+        });
     }
     ngOnDestroy(): void {
         this.Subscription.unsubscribe();

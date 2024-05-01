@@ -1,4 +1,4 @@
-<li class="item" [ngClass]="{ active: list.id == selected }" (click)="selectList(list)" [appScreenSize]="screenSizes">
-    <input [(ngModel)]="list.name" class="text" />
+<li class="item" [ngClass]="{ active: list.id == selected }" (click)="selectList(list)">
+    <input [value]="list.name" class="text" (blur)="onNameChange($event)" />
     <span class="on-delete" (click)="removeList(list.id)"></span>
 </li>

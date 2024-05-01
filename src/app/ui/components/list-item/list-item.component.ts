@@ -18,8 +18,13 @@ export class ListItemComponent {
     @Input() selected: string = '';
     @Output() select = new EventEmitter<TTodoList>();
     @Output() remove = new EventEmitter<string>();
+    @Output() newName = new EventEmitter<string>();
     screenSizes = screenSize;
 
+    onNameChange(event: FocusEvent) {
+        const target = event.target as HTMLInputElement;
+        this.newName.emit(target.value);
+    }
     selectList(list: TTodoList) {
         this.select.emit(list);
     }

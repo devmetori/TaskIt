@@ -23,7 +23,7 @@ export class StoreService {
 
     private getInitialValue(): TDefaultValue {
         const lists = this.getItem<TTodoList[]>('lists') as TTodoList[];
-        const selectedList = this.getItem<TTodoList>('selectedList');
+        const selectedList = this.getItem<TTodoList>('selectedList') as TTodoList;
         // Si no hay listas en el local storage, se crean las listas por defecto
         if (!Array.isArray(lists) && !lists) {
             this.setItem('lists', [defaultList]);

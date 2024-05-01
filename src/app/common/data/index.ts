@@ -2,11 +2,13 @@ import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { TKPI, TPriotyList, TTodoList, TRandomTodoList, IBreakpoint } from '../types';
 import { UUID, randomDate } from '../utils';
 
-export const Priorities: TPriotyList[] = [
-    { id: UUID(), level: 3, label: 'High', selected: false, color: 'red' },
-    { id: UUID(), level: 2, label: 'Medium', selected: false, color: 'orange' },
-    { id: UUID(), level: 1, label: 'Low', selected: true, color: 'green' },
-];
+export const Priorities = (): TPriotyList[] => {
+    return [
+        { id: UUID(), level: 3, label: 'High', selected: false, color: 'red' },
+        { id: UUID(), level: 2, label: 'Medium', selected: false, color: 'orange' },
+        { id: UUID(), level: 1, label: 'Low', selected: true, color: 'green' },
+    ];
+};
 export const defaultKpi: TKPI = {
     today: {
         total: 0,
@@ -105,13 +107,6 @@ export const generateRandomTodoLists = ({ month, numLists, year }: TRandomTodoLi
         } as TTodoList;
     });
 };
-
-/* const today = new Date();
-export const defaultLists = generateRandomTodoLists({
-    numLists: 20,
-    month: today.getMonth(),
-    year: today.getFullYear(),
-}); */
 
 export const BREAKPOINTS = {
     sm: '(max-width: 576px)',
