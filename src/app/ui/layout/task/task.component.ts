@@ -75,6 +75,18 @@ export class TaskComponent implements OnInit, OnDestroy {
             this.taskService.updateTaskDescription(description, task);
         }
     }
+    openModal() {
+        this.modalService.open(NewtaskFormComponent, {
+            size: {
+                width: '250px',
+                height: '300px',
+            },
+        });
+    }
+    isSelected(date: Date): boolean {
+        return this.calendarService.isSelected(date);
+    }
+
     ngOnInit(): void {
         this.Subscription.add(
             this.taskService.lists$.subscribe((lists) => {
@@ -91,14 +103,6 @@ export class TaskComponent implements OnInit, OnDestroy {
                 this.selectedDate = date;
             }),
         );
-    }
-    openModal() {
-        this.modalService.open(NewtaskFormComponent, {
-            size: {
-                width: '250px',
-                height: '300px',
-            },
-        });
     }
     ngOnDestroy(): void {
         this.Subscription.unsubscribe();
