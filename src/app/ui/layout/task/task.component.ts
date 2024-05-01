@@ -70,11 +70,15 @@ export class TaskComponent implements OnInit, OnDestroy {
     deleteTask(task: TTask) {
         this.taskService.deleteTask(task);
     }
+    updateTaskDescription(description: string, task: TTask) {
+        if (task.description !== description) {
+            this.taskService.updateTaskDescription(description, task);
+        }
+    }
     ngOnInit(): void {
         this.Subscription.add(
             this.taskService.lists$.subscribe((lists) => {
-                console.log('Task components:', lists);
-                this.lists.splice(0, this.lists.length, ...lists);
+                this.lists = lists;
             }),
         );
         this.Subscription.add(

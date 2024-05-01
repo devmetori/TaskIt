@@ -5,6 +5,11 @@
             <label [htmlFor]="task.id"></label>
         </div>
     </div>
-    <input [(ngModel)]="task.description" class="description" [readonly]="task.completed" />
+    <input
+        [value]="task.description"
+        class="description"
+        [readonly]="task.completed"
+        (blur)="onDescriptionChange($event)"
+    />
     <span class="on-delete" (click)="delete(task)"></span>
 </li>

@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { ModalService } from './modal.service';
 import { ModelOptions } from './types';
 

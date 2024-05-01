@@ -9,13 +9,13 @@
                 [list]="list"
                 [selected]="selectedList.id"
                 (remove)="removeList($event)"
-                (select)="selectList($event)"
+                (selectNewList)="selectList($event)"
                 (newName)="updateListName($event)"
                 [appScreenSize]="screenSizes"
             />
         </ul>
         <ul class="list empty" *ngIf="lists.length <= 0">
-            <span class="text">Create your first list...</span>
+            <span class="text">Crea tu primera lista de tareas...</span>
         </ul>
         <button class="add" (click)="addList()">+ Crear lista</button>
     </div>
@@ -32,6 +32,7 @@
                     (checkTask)="checkTask($event)"
                     (deleteTask)="deleteTask($event)"
                     [appScreenSize]="screenSizes"
+                    (newDescription)="updateTaskDescription($event, task)"
                 />
             </ng-container>
             <li *ngIf="selectedList.Tasks.length <= 0" class="item empty">Sin Tareas pendientes...</li>

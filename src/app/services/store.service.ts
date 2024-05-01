@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { defaultList } from '../common/data';
-import { TTodoList, TDefaultValue } from '../common/types';
+import { TTodoList, TDefaultValue } from '@app/common/types';
+import { defaultList } from '@app/common/data';
 
 @Injectable({
     providedIn: 'root',

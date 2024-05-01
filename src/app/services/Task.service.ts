@@ -1,11 +1,11 @@
 import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
-import { Subscription } from 'rxjs';
 import { Injectable, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { defaultList, defaultKpi } from '../common/data';
-import { TSort, TTask, TTaskInput, TTodoList } from '../common/types';
-import { UUID } from '../common/utils';
+import { TSort, TTask, TTaskInput, TTodoList } from '@app/common/types';
+import { defaultList, defaultKpi } from '@app/common/data';
 import { StoreService } from './store.service';
+import { UUID } from '@app/common/utils';
 
 @Injectable({
     providedIn: 'root',
@@ -59,6 +59,18 @@ export class TaskService implements OnDestroy {
         const updatedLists = this.lists.map((list) => {
             if (list.id === id) {
                 list.name = newValue;
+                this.storeService.updateSelectedList(list);
+            }
+            return list;
+        });
+        this.storeService.updateLists(updatedLists);
+    }
+    updateTaskDescription(description: string, task: TTask) {
+        const updatedLists = this.lists.map((list) => {
+            if (list.id === this.selectedList?.id) {
+                list.Tasks = list.Tasks.map((t) => {
+                    return t.id === task.id ? { ...t, description } : t;
+                });
                 this.storeService.updateSelectedList(list);
             }
             return list;
@@ -192,7 +204,6 @@ export class TaskService implements OnDestroy {
                             break;
                         case 'priority':
                             comparison = +a.priority - +a.priority;
-                            console.log(comparison);
                             break;
                     }
                     return asc ? comparison : -comparison;

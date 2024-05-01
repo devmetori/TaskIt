@@ -1,5 +1,5 @@
-import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { TKPI, TPriotyList, TTodoList, TRandomTodoList, IBreakpoint } from '../types';
+import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { UUID, randomDate } from '../utils';
 
 export const Priorities = (): TPriotyList[] => {

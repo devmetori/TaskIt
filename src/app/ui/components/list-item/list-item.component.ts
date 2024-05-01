@@ -16,7 +16,7 @@ import { TTodoList } from '@/app/common/types';
 export class ListItemComponent {
     @Input() list: TTodoList = {} as TTodoList;
     @Input() selected: string = '';
-    @Output() select = new EventEmitter<TTodoList>();
+    @Output() selectNewList = new EventEmitter<TTodoList>();
     @Output() remove = new EventEmitter<string>();
     @Output() newName = new EventEmitter<string>();
     screenSizes = screenSize;
@@ -26,7 +26,7 @@ export class ListItemComponent {
         this.newName.emit(target.value);
     }
     selectList(list: TTodoList) {
-        this.select.emit(list);
+        this.selectNewList.emit(list);
     }
     removeList(id: string) {
         this.remove.emit(id);
