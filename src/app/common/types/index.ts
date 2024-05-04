@@ -13,6 +13,7 @@ export type TPriotyList = {
 export type TTaskInput = {
     description: string;
     date: Date;
+    endDate?: Date;
     priority: number;
 };
 
@@ -27,7 +28,7 @@ export type TTask = {
     priorityColor: string;
 };
 
-export type TSort = 'description' | 'date' | 'priority' | 'none';
+export type TSort = 'description' | 'date' | 'priority' | 'status';
 
 export type TTodoList = {
     id: string;
@@ -51,9 +52,10 @@ export type TKPI = {
     week: TSimpleKpi;
     month: TSimpleKpi;
 };
+export type TKPIUpdateValue = { negative: boolean; task: TTask; list: TTodoList };
 
 export type TSortOption = {
-    value: string;
+    value: TSort;
     label: string;
     asc: boolean;
 };
@@ -73,3 +75,6 @@ export interface IBreakpoint {
     breakpoint: keyof typeof BREAKPOINTS;
     className: string;
 }
+
+export type TPrioritySelectorSize = 'sm' | 'md' | 'lg';
+export type TPrioritySelectorDirection = 'vr' | 'hr';

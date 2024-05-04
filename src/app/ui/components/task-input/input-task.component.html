@@ -1,16 +1,25 @@
 <form class="task-input" (submit)="hadleSubmit($event)" autocomplete="off">
-    <div class="priority-selector">
-        <ng-container *ngFor="let priority of priorities">
-            <input
-                type="radio"
-                name="priority"
-                value="{{ priority.level }}"
-                id="{{ priority.id }}"
-                [checked]="priority.selected"
-            />
-            <label for="{{ priority.id }}" [ngStyle]="{ 'background-color': priority.color }" class="priority"></label>
-        </ng-container>
-    </div>
-    <input type="text" placeholder="Add new task..." name="description" autofocus class="text" />
-    <input type="date" name="date" id="" [value]="today" class="date-picker" />
+    <app-priority-selector
+        [selected]="task.priority"
+        (onChange)="task.priority = $event"
+        [size]="'sm'"
+        [direction]="'vr'"
+    />
+    <input
+        type="text"
+        placeholder="Añade una nueva tarea..."
+        name="description"
+        autofocus
+        class="text"
+        [disabled]="isDisabled"
+        [(ngModel)]="task.description"
+    />
+    <input
+        type="date"
+        name="date"
+        class="date-picker"
+        [disabled]="isDisabled"
+        [ngModel]="task.date | date: 'yyyy-MM-dd'"
+        (ngModelChange)="task.date = $event"
+    />
 </form>

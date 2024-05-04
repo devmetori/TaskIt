@@ -2,7 +2,7 @@ import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { TSort, TTask, TTaskInput, TTodoList } from '@app/common/types';
+import { TTask, TTodoList } from '@app/common/types';
 import { defaultList, defaultKpi } from '@app/common/data';
 import { StoreService } from './store.service';
 import { UUID } from '@app/common/utils';
@@ -39,9 +39,9 @@ export class TaskService implements OnDestroy {
     }
 
     addList() {
-        const newList = [{ ...defaultList, id: UUID() }, ...this.lists];
-        this.storeService.updateSelectedList(newList[0]);
-        this.storeService.updateLists(newList);
+        const newList = { ...defaultList, id: UUID() };
+        this.storeService.updateSelectedList(newList);
+        this.storeService.updateLists([newList, ...this.lists]);
     }
 
     selectList(list: TTodoList) {
@@ -65,50 +65,25 @@ export class TaskService implements OnDestroy {
         });
         this.storeService.updateLists(updatedLists);
     }
-    updateTaskDescription(description: string, task: TTask) {
-        const updatedLists = this.lists.map((list) => {
-            if (list.id === this.selectedList?.id) {
-                list.Tasks = list.Tasks.map((t) => {
-                    return t.id === task.id ? { ...t, description } : t;
-                });
-                this.storeService.updateSelectedList(list);
-            }
-            return list;
-        });
-        this.storeService.updateLists(updatedLists);
-    }
-    addNewTask(newTask: TTaskInput) {
-        const task: TTask = {
-            id: UUID(),
-            description: newTask.description,
-            dateStart: newTask.date,
-            dateEnd: new Date(),
-            tags: [],
-            completed: false,
-            priority: newTask.priority,
-            priorityColor: newTask.priority === 1 ? 'green' : newTask.priority === 2 ? 'orange' : 'red',
-        };
 
+    addNewTask(task: TTask) {
         const newState = this.lists.map((list) => {
             if (list.id === this.selectedList?.id) {
-                list.Tasks = [...list.Tasks, task];
-                if (isSameMonth(task.dateStart, this.today)) {
+                console.log('task', list);
+                list.Tasks = [task, ...list.Tasks];
+                const { isThisMonth, isThisWeek, isToday } = this.isThisDay(task.dateStart);
+                if (isThisMonth) {
                     list.KPI.month.total += 1;
-                    if (task.completed) {
-                        list.KPI.month.completed += 1;
-                    }
+                    list.KPI.month.completed += task.completed ? 1 : 0;
                 }
-                if (isSameWeek(task.dateStart, this.today)) {
+                if (isThisWeek) {
                     list.KPI.week.total += 1;
-                    if (task.completed) {
-                        list.KPI.week.completed += 1;
-                    }
+                    list.KPI.week.completed += task.completed ? 1 : 0;
                 }
-                if (isSameDay(task.dateStart, this.today)) {
+
+                if (isToday) {
                     list.KPI.today.total += 1;
-                    if (task.completed) {
-                        list.KPI.today.completed += 1;
-                    }
+                    list.KPI.today.completed += task.completed ? 1 : 0;
                 }
                 this.storeService.updateSelectedList(list);
             }
@@ -117,44 +92,65 @@ export class TaskService implements OnDestroy {
 
         this.storeService.updateLists(newState);
     }
-
-    checkTask(id: string): void {
+    updateTask(newTask: TTask) {
         const updatedLists = this.lists.map((list) => {
             if (list.id === this.selectedList?.id) {
-                list.Tasks = list.Tasks.map((task) => {
-                    return task.id === id ? { ...task, completed: !task.completed } : task;
+                list.Tasks = list.Tasks.map((t) => {
+                    return t.id === newTask.id ? { ...newTask } : t;
                 });
+                this.storeService.updateSelectedList(list);
+            }
+            return list;
+        });
+        this.storeService.updateLists(updatedLists);
+    }
 
-                list.KPI = list.Tasks.reduce((acc, task) => {
-                    const isToday = isSameDay(task.dateStart, this.today);
-                    const isThisWeek = isSameWeek(task.dateStart, this.today);
-                    const isThisMonth = isSameMonth(task.dateStart, this.today);
-                    const data = {
-                        today: {
-                            total: acc.today.total + 1,
-                            completed: acc.today.completed + (task.completed ? 1 : 0),
-                        },
-                        month: {
-                            total: acc.month.total + 1,
-                            completed: acc.month.completed + (task.completed ? 1 : 0),
-                        },
-                        week: {
-                            total: acc.week.total + 1,
-                            completed: acc.week.completed + (task.completed ? 1 : 0),
-                        },
-                    };
+    checkTask(task: TTask): void {
+        const updatedLists = this.lists.map((list) => {
+            if (list.id === this.selectedList?.id) {
+                const data = list.Tasks.reduce(
+                    (acc, t) => {
+                        const { isThisMonth, isThisWeek, isToday } = this.isThisDay(t.dateStart);
+                        if (t.id === task.id) {
+                            t.completed = !t.completed;
+                        }
 
-                    if (isToday) {
-                        acc = { today: data.today, month: data.month, week: data.week };
-                    }
-                    if (isThisWeek) {
-                        acc = { ...acc, month: data.month, week: data.week };
-                    }
-                    if (isThisMonth) {
-                        acc = { ...acc, month: data.month };
-                    }
-                    return acc;
-                }, defaultKpi);
+                        acc.tasks.push(t);
+
+                        const data = {
+                            today: {
+                                total: acc.KPI.today.total + 1,
+                                completed: acc.KPI.today.completed + (t.completed ? 1 : 0),
+                            },
+                            month: {
+                                total: acc.KPI.month.total + 1,
+                                completed: acc.KPI.month.completed + (t.completed ? 1 : 0),
+                            },
+                            week: {
+                                total: acc.KPI.week.total + 1,
+                                completed: acc.KPI.week.completed + (t.completed ? 1 : 0),
+                            },
+                        };
+
+                        if (isToday) {
+                            acc.KPI = { today: data.today, month: data.month, week: data.week };
+                        }
+                        if (isThisWeek) {
+                            acc.KPI = { ...acc.KPI, month: data.month, week: data.week };
+                        }
+                        if (isThisMonth) {
+                            acc.KPI = { ...acc.KPI, month: data.month };
+                        }
+                        return acc;
+                    },
+                    {
+                        tasks: [] as TTask[],
+                        KPI: defaultKpi,
+                    },
+                );
+
+                list.Tasks = data.tasks;
+                list.KPI = data.KPI;
                 this.storeService.updateSelectedList(list);
             }
             return list;
@@ -166,23 +162,18 @@ export class TaskService implements OnDestroy {
         const updatedLists = this.lists.map((list) => {
             if (list.id === this.selectedList?.id) {
                 list.Tasks = list.Tasks.filter((t) => t.id !== task.id);
-                if (isSameMonth(task.dateStart, this.today)) {
+                const { isThisMonth, isThisWeek, isToday } = this.isThisDay(task.dateStart);
+                if (isThisMonth) {
                     list.KPI.month.total -= 1;
-                    if (task.completed) {
-                        list.KPI.month.completed -= 1;
-                    }
+                    list.KPI.month.completed -= task.completed ? 1 : 0;
                 }
-                if (isSameWeek(task.dateStart, this.today)) {
+                if (isThisWeek) {
                     list.KPI.week.total -= 1;
-                    if (task.completed) {
-                        list.KPI.week.completed -= 1;
-                    }
+                    list.KPI.week.completed -= task.completed ? 1 : 0;
                 }
-                if (isSameDay(task.dateStart, this.today)) {
+                if (isToday) {
                     list.KPI.today.total -= 1;
-                    if (task.completed) {
-                        list.KPI.today.completed -= 1;
-                    }
+                    list.KPI.today.completed -= task.completed ? 1 : 0;
                 }
                 this.storeService.updateSelectedList(list);
             }
@@ -190,44 +181,13 @@ export class TaskService implements OnDestroy {
         });
         this.storeService.updateLists(updatedLists);
     }
-    sortTasks(sortKey: TSort, asc: boolean) {
-        const updatedLists = this.lists.map((list) => {
-            if (list.id === this.selectedList?.id) {
-                list.Tasks.sort((a, b) => {
-                    let comparison = 0;
-                    switch (sortKey) {
-                        case 'description':
-                            comparison = a.description.localeCompare(b.description);
-                            break;
-                        case 'date':
-                            comparison = +a.dateStart - +b.dateStart;
-                            break;
-                        case 'priority':
-                            comparison = +a.priority - +a.priority;
-                            break;
-                    }
-                    return asc ? comparison : -comparison;
-                });
-                list.sort = {
-                    by: sortKey,
-                    asc,
-                };
 
-                this.storeService.updateSelectedList(list);
-            }
-            return list;
-        });
-        this.storeService.updateLists(updatedLists);
-    }
-
-    toggleSortOrder() {
-        const updatedLists = this.lists.map((list) => {
-            if (list.id === this.selectedList?.id) {
-                this.sortTasks(list.sort.by, !list.sort.asc);
-            }
-            return list;
-        });
-        this.storeService.updateLists(updatedLists);
+    isThisDay(date: Date) {
+        return {
+            isToday: isSameDay(date, this.today),
+            isThisWeek: isSameWeek(date, this.today),
+            isThisMonth: isSameMonth(date, this.today),
+        };
     }
 
     ngOnDestroy(): void {

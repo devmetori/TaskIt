@@ -10,6 +10,7 @@ export interface ModelOptions {
         maxHeight?: string;
     };
     mQueries?: string[];
+    props?: { key: string; value: unknown };
 }
 
 export type TOnFinish = {

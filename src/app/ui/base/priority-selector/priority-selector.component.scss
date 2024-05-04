@@ -1,0 +1,41 @@
+.priorities {
+    display: flex;
+    gap: 5px;
+
+    &.vr {
+        flex-direction: column-reverse;
+    }
+    &.hr {
+        flex-direction: row;
+    }
+    &.sm {
+        label {
+            height: 15px;
+            width: 15px;
+        }
+    }
+    &.md {
+        label {
+            height: 20px;
+            width: 20px;
+        }
+    }
+    &.lg {
+        label {
+            height: 25px;
+            width: 25px;
+        }
+    }
+
+    input[type='radio'] {
+        display: none;
+    }
+    label {
+        border: 2px solid transparent;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    input[type='radio']:checked + label {
+        border-color: white;
+    }
+}

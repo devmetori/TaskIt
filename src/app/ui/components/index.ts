@@ -6,3 +6,4 @@ export * from './task-item/task-item.component';
 export * from './calendar/calendar.component';
 export * from '../base/kpi/kpi.component';
 export * from './modal';
+export * from './edit-task-form';

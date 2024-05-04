@@ -1,12 +1,12 @@
-import { TKPI, TPriotyList, TTodoList, TRandomTodoList, IBreakpoint } from '../types';
+import { TKPI, TPriotyList, TTodoList, TRandomTodoList, IBreakpoint, TTask } from '../types';
 import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { UUID, randomDate } from '../utils';
 
 export const Priorities = (): TPriotyList[] => {
     return [
-        { id: UUID(), level: 3, label: 'High', selected: false, color: 'red' },
-        { id: UUID(), level: 2, label: 'Medium', selected: false, color: 'orange' },
         { id: UUID(), level: 1, label: 'Low', selected: true, color: 'green' },
+        { id: UUID(), level: 2, label: 'Medium', selected: false, color: 'orange' },
+        { id: UUID(), level: 3, label: 'High', selected: false, color: 'red' },
     ];
 };
 export const defaultKpi: TKPI = {
@@ -59,11 +59,12 @@ export const generateRandomTodoLists = ({ month, numLists, year }: TRandomTodoLi
                 description,
                 dateStart: startDate,
                 dateEnd: endDate,
+                selected: false,
                 tags: [],
                 completed: Math.random() > 0.5,
                 priority,
                 priorityColor: priority === 1 ? 'green' : priority === 2 ? 'orange' : 'red',
-            };
+            } as TTask;
         });
 
         const kpi = tasks.reduce((acc, task) => {

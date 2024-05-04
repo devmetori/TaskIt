@@ -1,4 +1,11 @@
 <li class="item" [ngClass]="{ active: list.id == selected }" (click)="selectList(list)">
-    <input [value]="list.name" class="text" (blur)="onNameChange($event)" />
+    <input
+        [value]="list.name"
+        class="text"
+        [name]="list.name"
+        [alt]="'lista de tareas ' + list.name"
+        (blur)="onNameChange($event)"
+        [id]="list.id"
+    />
     <span class="on-delete" (click)="removeList(list.id)"></span>
 </li>

@@ -1,0 +1,63 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    .edit-form {
+        width: 100%;
+        height: 100%;
+        color: whitesmoke;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 2rem;
+        background-color: #1e1f25;
+        border: solid 2px #282932;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        .fields {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            .title {
+                color: white;
+                font-weight: bold;
+                border-bottom: solid 2px #282932;
+            }
+            textarea {
+                resize: vertical;
+                min-height: 50px;
+                color: white;
+                background-color: #282932;
+                border: none;
+                outline: none;
+                padding: 5px;
+                border-radius: 5px;
+                height: 65px;
+                max-height: 75px;
+                border: solid 1px rgba(245, 245, 245, 0.2);
+            }
+            input[type='date'] {
+                color: white;
+                background-color: #282932;
+                border: none;
+                outline: none;
+                padding: 5px;
+                border-radius: 5px;
+                border: solid 1px rgba(245, 245, 245, 0.2);
+            }
+        }
+
+        .form-actions {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

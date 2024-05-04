@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { TTask } from '@app/common/types';
+import { UUID } from '@/app/common/utils';
 
 @Component({
     selector: 'app-task-item',
@@ -13,18 +14,18 @@ import { TTask } from '@app/common/types';
 })
 export class TaskItemComponent {
     @Input() task: TTask = {} as TTask;
-    @Output() checkTask = new EventEmitter<string>();
-    @Output() deleteTask = new EventEmitter<TTask>();
-    @Output() newDescription = new EventEmitter<string>();
+    @Input() isReadonly: boolean = false;
+    @Output() checkTask = new EventEmitter<TTask>();
+    @Output() editTask = new EventEmitter<TTask>();
+    InstanceId = UUID(4);
 
-    check(id: string) {
-        this.checkTask.emit(id);
+    check(task: TTask) {
+        this.checkTask.emit(task);
     }
-    delete(task: TTask) {
-        this.deleteTask.emit(task);
+    OpenModalEditTask(task: TTask) {
+        this.editTask.emit(task);
     }
-    onDescriptionChange(event: FocusEvent) {
-        const target = event.target as HTMLInputElement;
-        this.newDescription.emit(target.value);
+    getId(id: string) {
+        return `${id}-${this.InstanceId}`;
     }
 }

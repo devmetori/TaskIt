@@ -1,5 +1,5 @@
 .item {
-    height: 70px;
+    height: 75px;
     width: 100%;
     background: #282932;
     display: flex;
@@ -13,57 +13,22 @@
     .description {
         background-color: transparent;
         width: 100%;
-        height: 100%;
-        text-overflow: ellipsis;
-        text-wrap: nowrap;
         max-width: 100%;
         overflow: hidden;
-        outline: none;
-        border: none;
+        text-overflow: ellipsis;
         color: #ffffff;
-        border-radius: 5px;
-        padding-left: 1rem;
-        &:not(:read-only):focus {
-            background-color: #1e1f25;
-        }
+        text-wrap: nowrap;
     }
-
-    .on-delete {
-        background-color: transparent;
-        padding: 5px;
-        border-radius: 5px;
-        height: 25px;
-        width: 25px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .on-edit {
+        color: #5553f5;
+        font-size: 24px;
         cursor: pointer;
-        position: relative;
-        transition: all 0.5s ease;
-
+        transition: color 0.5s ease;
         &:hover {
-            &:before,
-            &:after {
-                background-color: #ffffff;
-            }
-        }
-
-        &:before,
-        &:after {
-            position: absolute;
-            content: ' ';
-            height: 20px;
-            width: 2px;
-            background-color: #5553f5;
-            transition: background-color 0.5s ease;
-        }
-        &:before {
-            transform: rotate(45deg);
-        }
-        &:after {
-            transform: rotate(-45deg);
+            color: #ffffff;
         }
     }
+
     .checkbox .round {
         position: relative;
         input[type='checkbox'] {
@@ -112,7 +77,6 @@
     &:has(.round input:checked) .description {
         text-decoration: line-through;
         color: #ffffff7e;
-        cursor: not-allowed;
     }
 }
 :host {
@@ -122,5 +86,23 @@
         border: solid #282932 2px;
         background: transparent;
         color: white;
+    }
+}
+
+.actions {
+    display: flex;
+    max-width: 60px;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    position: relative;
+    .date {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 11px;
+        text-wrap: nowrap;
+        position: absolute;
+        bottom: 0;
+        right: 40px;
+        font-style: italic;
     }
 }

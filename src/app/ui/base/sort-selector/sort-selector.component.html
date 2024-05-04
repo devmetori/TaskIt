@@ -1,0 +1,13 @@
+<div class="sort-wrapper">
+    <select class="sort" (change)="selectOption($event)">
+        <ng-container *ngFor="let option of sortOptions">
+            <option [value]="option.value" [selected]="selectedOption.value == option.value">
+                {{ option.label }}
+            </option>
+        </ng-container>
+    </select>
+    <span class="order" (click)="onStateValue()">
+        <span class="indicator desc" [class.active]="!selectedOption.asc"></span>
+        <span class="indicator asc" [class.active]="selectedOption.asc"></span>
+    </span>
+</div>

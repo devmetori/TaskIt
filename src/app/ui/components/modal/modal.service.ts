@@ -39,6 +39,11 @@ export class ModalService implements OnDestroy {
             environmentInjector: this.injector,
         });
 
+        if (this.options.props) {
+            const { key, value } = this.options.props;
+            newComponent.setInput(key, value);
+        }
+
         newComponent.instance.OnFinish.subscribe(() => {
             this.close();
         });
@@ -48,13 +53,11 @@ export class ModalService implements OnDestroy {
             projectableNodes: [[newComponent.location.nativeElement]],
         });
 
-        this.newModalComponent.instance;
-
         document.body.appendChild(this.newModalComponent.location.nativeElement);
 
         this.appRef.attachView(newComponent.hostView);
         this.appRef.attachView(this.newModalComponent.hostView);
-        this.setupVisibility(options?.mQueries || ['(max-width: 576px)']);
+        this.setupVisibility(options?.mQueries || ['(min-width: 0)']);
     }
 
     close() {

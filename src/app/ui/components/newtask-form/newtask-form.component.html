@@ -6,6 +6,7 @@
                 type="text"
                 placeholder="Add new task..."
                 name="description"
+                [(ngModel)]="task.description"
                 id="description"
                 autofocus
                 class="text"
@@ -13,28 +14,25 @@
         </label>
         <label for="date-picker" class="field">
             <span> Fecha </span>
-            <input type="date" name="date" id="date-picker" class="date-picker" [value]="today" />
+            <input
+                type="date"
+                name="date"
+                id="date-picker"
+                class="date-picker"
+                [ngModel]="task.date | date: 'yyyy-MM-dd'"
+                (ngModelChange)="task.date = $event"
+            />
         </label>
 
-        <div class="selector">
+        <label class="field">
             <span> Prioridad </span>
-            <div class="priorities">
-                <ng-container *ngFor="let priority of priorities">
-                    <input
-                        type="radio"
-                        name="priority"
-                        value="{{ priority.level }}"
-                        id="{{ priority.id }}"
-                        [checked]="priority.selected"
-                    />
-                    <label
-                        for="{{ priority.id }}"
-                        [ngStyle]="{ 'background-color': priority.color }"
-                        class="priority"
-                    ></label>
-                </ng-container>
-            </div>
-        </div>
+            <app-priority-selector
+                [selected]="task.priority"
+                (onChange)="task.priority = $event"
+                [size]="'sm'"
+                [direction]="'hr'"
+            />
+        </label>
     </div>
     <button type="submit" class="btn">crear</button>
 </form>

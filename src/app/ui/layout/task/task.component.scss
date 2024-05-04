@@ -27,7 +27,7 @@
             height: 15%;
             width: 100%;
 
-            .avatar {
+            .logo {
                 border-radius: 50%;
                 background-position: center;
                 background-size: cover;
@@ -80,11 +80,13 @@
         flex-direction: column;
         gap: 2rem;
         padding: 0 0.5rem;
+        position: relative;
         .header {
             height: 15%;
             display: flex;
             align-items: center;
             border-bottom: solid 1px #282932;
+            position: relative;
         }
 
         .content {
@@ -92,30 +94,24 @@
             height: 85%;
             display: flex;
             justify-content: center;
+            position: relative;
             .list {
-                width: 60%;
+                width: 70%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 overflow: auto;
                 gap: 0.5rem;
                 max-height: 95%;
-                .item.empty {
-                    color: white;
-                    cursor: default;
-                    font-size: 24px;
-                }
+                padding: 0 0.5rem;
             }
             .add-new {
                 position: absolute;
                 top: -10px;
                 right: -10px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
                 width: 30px;
                 height: 30px;
-                background-color: slategrey;
+                background-color: #1e1f25;
                 border-radius: 50%;
                 text-align: center;
                 color: white;
@@ -125,6 +121,10 @@
                 border: none;
                 transition: background-color 0.5s ease;
                 display: none;
+                border: solid 1px #5553f5;
+                &:hover {
+                    background-color: #5553f5;
+                }
             }
         }
     }
@@ -261,4 +261,12 @@
             }
         }
     }
+}
+
+// shared styles
+
+.list .empty {
+    color: white;
+    cursor: default;
+    font-size: 14px;
 }

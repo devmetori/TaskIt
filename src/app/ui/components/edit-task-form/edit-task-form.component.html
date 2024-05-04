@@ -1,0 +1,42 @@
+<form action="" (submit)="hadleSubmit($event)" class="edit-form">
+    <div class="fields">
+        <label for="description" class="field">
+            <span class="title">Descripción</span>
+            <textarea class="description" id="description" name="description" [(ngModel)]="task.description"></textarea>
+        </label>
+        <label for="priority" class="field">
+            <span class="title">Prioridad</span>
+            <app-priority-selector
+                [selected]="task.priority"
+                (onChange)="task.priority = $event"
+                [size]="'sm'"
+                [direction]="'hr'"
+            />
+        </label>
+
+        <label class="field">
+            <span class="title">Días</span>
+            <span class="form-group">
+                <input
+                    type="date"
+                    id="dueDate"
+                    name="dueDate"
+                    [ngModel]="task.dateStart | date: 'yyyy-MM-dd'"
+                    (ngModelChange)="task.dateStart = $event"
+                />
+                -
+                <input
+                    type="date"
+                    id="dueDate"
+                    name="endDueDate"
+                    [ngModel]="task.dateStart | date: 'yyyy-MM-dd'"
+                    (ngModelChange)="task.dateEnd = $event"
+                />
+            </span>
+        </label>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn--success">Guardar</button>
+        <button type="button" class="btn btn--danger" (click)="deteleTask(task)">Eliminar</button>
+    </div>
+</form>
