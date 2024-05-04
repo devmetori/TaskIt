@@ -8,6 +8,7 @@
                 name="description"
                 [(ngModel)]="task.description"
                 id="description"
+                aria-label="descripción de la tarea"
                 autofocus
                 class="text"
             />
@@ -18,6 +19,7 @@
                 type="date"
                 name="date"
                 id="date-picker"
+                aria-label="fecha de la tarea"
                 class="date-picker"
                 [ngModel]="task.date | date: 'yyyy-MM-dd'"
                 (ngModelChange)="task.date = $event"

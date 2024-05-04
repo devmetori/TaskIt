@@ -2,7 +2,13 @@
     <div class="fields">
         <label for="description" class="field">
             <span class="title">Descripción</span>
-            <textarea class="description" id="description" name="description" [(ngModel)]="task.description"></textarea>
+            <textarea
+                class="description"
+                id="description"
+                name="description"
+                [(ngModel)]="task.description"
+                aria-label="descripción de la tarea"
+            ></textarea>
         </label>
         <label for="priority" class="field">
             <span class="title">Prioridad</span>
@@ -21,6 +27,7 @@
                     type="date"
                     id="dueDate"
                     name="dueDate"
+                    aria-label="fecha de inicio de la tarea"
                     [ngModel]="task.dateStart | date: 'yyyy-MM-dd'"
                     (ngModelChange)="task.dateStart = $event"
                 />
@@ -28,6 +35,7 @@
                 <input
                     type="date"
                     id="dueDate"
+                    aria-label="fecha de fin de la tarea"
                     name="endDueDate"
                     [ngModel]="task.dateStart | date: 'yyyy-MM-dd'"
                     (ngModelChange)="task.dateEnd = $event"
@@ -36,7 +44,7 @@
         </label>
     </div>
     <div class="form-actions">
-        <button type="submit" class="btn btn--success">Guardar</button>
-        <button type="button" class="btn btn--danger" (click)="deteleTask(task)">Eliminar</button>
+        <button type="submit" class="btn btn--success" role="button">Guardar</button>
+        <button type="button" class="btn btn--danger" (click)="deteleTask(task)" role="button">Eliminar</button>
     </div>
 </form>

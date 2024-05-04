@@ -5,6 +5,7 @@
         [name]="list.name"
         [alt]="'lista de tareas ' + list.name"
         (blur)="onNameChange($event)"
+        aria-label="Nombre de la lista de tareas"
         [id]="list.id"
     />
     <span class="on-delete" (click)="removeList(list.id)"></span>
