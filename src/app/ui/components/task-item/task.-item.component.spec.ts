@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KpiComponent } from './kpi.component';
+import { TaskItemComponent } from './task-item.component';
 
-describe('KpiComponent', () => {
-    let component: KpiComponent;
-    let fixture: ComponentFixture<KpiComponent>;
+describe('TaskItemComponent', () => {
+    let component: TaskItemComponent;
+    let fixture: ComponentFixture<TaskItemComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [KpiComponent],
+            imports: [TaskItemComponent],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(KpiComponent);
+        fixture = TestBed.createComponent(TaskItemComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

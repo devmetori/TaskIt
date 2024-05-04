@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KpiComponent } from './kpi.component';
+import { NewtaskFormComponent } from './newtask-form.component';
 
-describe('KpiComponent', () => {
-    let component: KpiComponent;
-    let fixture: ComponentFixture<KpiComponent>;
+describe('NewtaskFormComponent', () => {
+    let component: NewtaskFormComponent;
+    let fixture: ComponentFixture<NewtaskFormComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [KpiComponent],
+            imports: [NewtaskFormComponent],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(KpiComponent);
+        fixture = TestBed.createComponent(NewtaskFormComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

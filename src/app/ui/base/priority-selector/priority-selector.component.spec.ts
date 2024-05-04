@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KpiComponent } from './kpi.component';
+import { PrioritySelectorComponent } from './priority-selector.component';
 
-describe('KpiComponent', () => {
-    let component: KpiComponent;
-    let fixture: ComponentFixture<KpiComponent>;
+describe('PrioritySelectorComponent', () => {
+    let component: PrioritySelectorComponent;
+    let fixture: ComponentFixture<PrioritySelectorComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [KpiComponent],
+            imports: [PrioritySelectorComponent],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(KpiComponent);
+        fixture = TestBed.createComponent(PrioritySelectorComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

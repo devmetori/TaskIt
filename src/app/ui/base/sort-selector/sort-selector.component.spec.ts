@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KpiComponent } from './kpi.component';
+import { SortSelectorComponent } from './sort-selector.component';
 
-describe('KpiComponent', () => {
-    let component: KpiComponent;
-    let fixture: ComponentFixture<KpiComponent>;
+describe('SortSelectorComponent', () => {
+    let component: SortSelectorComponent;
+    let fixture: ComponentFixture<SortSelectorComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [KpiComponent],
+            imports: [SortSelectorComponent],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(KpiComponent);
+        fixture = TestBed.createComponent(SortSelectorComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
