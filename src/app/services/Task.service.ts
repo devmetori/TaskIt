@@ -2,8 +2,8 @@ import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { TTask, TTodoList } from '@app/common/types';
-import { defaultList, defaultKpi } from '@app/common/data';
+import { TKPIUpdateValue, TTask, TTodoList } from '@app/common/types';
+import { defaultKpi } from '@app/common/data';
 import { StoreService } from './store.service';
 import { UUID } from '@app/common/utils';
 
@@ -39,8 +39,8 @@ export class TaskService implements OnDestroy {
     }
 
     addList() {
-        const newList = { ...defaultList, id: UUID() };
-        this.storeService.updateSelectedList(newList);
+        const newList = { id: UUID(), KPI: defaultKpi, name: 'New List', Tasks: [] } as TTodoList;
+        this.storeService.updateSelectedList({ ...newList });
         this.storeService.updateLists([newList, ...this.lists]);
     }
 
@@ -69,21 +69,33 @@ export class TaskService implements OnDestroy {
     addNewTask(task: TTask) {
         const newState = this.lists.map((list) => {
             if (list.id === this.selectedList?.id) {
-                console.log('task', list);
                 list.Tasks = [task, ...list.Tasks];
                 const { isThisMonth, isThisWeek, isToday } = this.isThisDay(task.dateStart);
+
+                const data = {
+                    today: {
+                        total: list.KPI.today.total + 1,
+                        completed: list.KPI.today.completed + (task.completed ? 1 : 0),
+                    },
+                    month: {
+                        total: list.KPI.month.total + 1,
+                        completed: list.KPI.month.completed + (task.completed ? 1 : 0),
+                    },
+                    week: {
+                        total: list.KPI.week.total + 1,
+                        completed: list.KPI.week.completed + (task.completed ? 1 : 0),
+                    },
+                };
+
                 if (isThisMonth) {
-                    list.KPI.month.total += 1;
-                    list.KPI.month.completed += task.completed ? 1 : 0;
+                    list = { ...list, KPI: { ...list.KPI, month: data.month } };
                 }
                 if (isThisWeek) {
-                    list.KPI.week.total += 1;
-                    list.KPI.week.completed += task.completed ? 1 : 0;
+                    list = { ...list, KPI: { ...list.KPI, week: data.week, month: data.month } };
                 }
 
                 if (isToday) {
-                    list.KPI.today.total += 1;
-                    list.KPI.today.completed += task.completed ? 1 : 0;
+                    list = { ...list, KPI: { ...list.KPI, today: data.today, month: data.month, week: data.week } };
                 }
                 this.storeService.updateSelectedList(list);
             }
@@ -163,17 +175,30 @@ export class TaskService implements OnDestroy {
             if (list.id === this.selectedList?.id) {
                 list.Tasks = list.Tasks.filter((t) => t.id !== task.id);
                 const { isThisMonth, isThisWeek, isToday } = this.isThisDay(task.dateStart);
+
+                const data = {
+                    today: {
+                        total: list.KPI.today.total - 1,
+                        completed: list.KPI.today.completed - (task.completed ? 1 : 0),
+                    },
+                    month: {
+                        total: list.KPI.month.total - 1,
+                        completed: list.KPI.month.completed - (task.completed ? 1 : 0),
+                    },
+                    week: {
+                        total: list.KPI.week.total - 1,
+                        completed: list.KPI.week.completed - (task.completed ? 1 : 0),
+                    },
+                };
+
                 if (isThisMonth) {
-                    list.KPI.month.total -= 1;
-                    list.KPI.month.completed -= task.completed ? 1 : 0;
+                    list = { ...list, KPI: { ...list.KPI, month: data.month } };
                 }
                 if (isThisWeek) {
-                    list.KPI.week.total -= 1;
-                    list.KPI.week.completed -= task.completed ? 1 : 0;
+                    list = { ...list, KPI: { ...list.KPI, week: data.week, month: data.month } };
                 }
                 if (isToday) {
-                    list.KPI.today.total -= 1;
-                    list.KPI.today.completed -= task.completed ? 1 : 0;
+                    list = { ...list, KPI: { ...list.KPI, today: data.today, month: data.month, week: data.week } };
                 }
                 this.storeService.updateSelectedList(list);
             }
@@ -190,6 +215,7 @@ export class TaskService implements OnDestroy {
         };
     }
 
+    calculateKpi({}: TKPIUpdateValue) {}
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }

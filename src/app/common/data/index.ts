@@ -28,11 +28,6 @@ export const defaultList: TTodoList = {
     id: UUID(),
     name: 'New List',
     Tasks: [],
-    SelectedDate: new Date(),
-    sort: {
-        by: 'date',
-        asc: true,
-    },
     KPI: defaultKpi,
 };
 
@@ -101,9 +96,7 @@ export const generateRandomTodoLists = ({ month, numLists, year }: TRandomTodoLi
         return {
             id: UUID(),
             name: ['Trabajo', 'Medico', 'Compras', 'Hogar', 'Estudios'][listIndex % 5],
-            SelectedDate: today,
             Tasks: tasks,
-            sort: { by: 'date', asc: Math.random() > 0.5 },
             KPI: kpi,
         } as TTodoList;
     });

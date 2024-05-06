@@ -33,12 +33,7 @@ export type TSort = 'description' | 'date' | 'priority' | 'status';
 export type TTodoList = {
     id: string;
     name: string;
-    SelectedDate: Date;
     Tasks: TTask[];
-    sort: {
-        by: TSort;
-        asc: boolean;
-    };
     KPI: TKPI;
 };
 
