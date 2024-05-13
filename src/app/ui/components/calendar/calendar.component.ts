@@ -8,12 +8,13 @@ import {
     endOfWeek,
     isSameDay,
     getDay,
+    eachMonthOfInterval,
 } from 'date-fns';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
-import { CalendarService } from '@app/services/calendar.service';
+import { CalendarService } from './calendar.service';
 import { TTask } from '@app/common/types';
 
 @Component({
@@ -80,7 +81,7 @@ export class CalendarComponent implements OnDestroy {
     }
     isWeekend(date: Date): boolean {
         const day = getDay(date);
-        return day === 0 || day === 6; // 0 = Domingo, 6 = Sábado
+        return day === 0 || day === 6;
     }
 
     isToday(date: Date): boolean {

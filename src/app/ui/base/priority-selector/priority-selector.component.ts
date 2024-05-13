@@ -18,6 +18,7 @@ export class PrioritySelectorComponent {
     @Input() direction: TPrioritySelectorDirection = 'hr';
     @Output() onChange = new EventEmitter<number>();
     onChangePriority(level: number) {
+        this.selected = level;
         this.onChange.emit(level);
     }
 

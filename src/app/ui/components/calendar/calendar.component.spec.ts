@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CalendarComponent } from './calendar.component';
+import { By } from '@angular/platform-browser';
 
 describe('CalendarComponent', () => {
     let component: CalendarComponent;
@@ -15,7 +16,12 @@ describe('CalendarComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('Debería crearse el compenent', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('Debería tener un calendario', () => {
+        const calendar = fixture.debugElement.query(By.css('.calendar'));
+        expect(calendar).toBeTruthy();
     });
 });

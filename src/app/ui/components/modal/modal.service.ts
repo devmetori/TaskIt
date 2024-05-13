@@ -22,6 +22,7 @@ export class ModalService implements OnDestroy {
         private appRef: ApplicationRef,
         private injector: EnvironmentInjector,
     ) {}
+
     ngOnDestroy(): void {
         if (this.newModalComponent) {
             this.newModalComponent.destroy();

@@ -11,8 +11,8 @@ import { TSortOption } from '@/app/common/types';
     styleUrl: './sort-selector.component.scss',
 })
 export class SortSelectorComponent {
-    selectOption($event: Event) {
-        const target = $event.target as HTMLSelectElement;
+    selectOption(event: Event) {
+        const target = event.target as HTMLSelectElement;
         const value = target.value as TSortOption['value'];
         this.selectedOption = this.sortOptions.find((option) => option.value === value) || this.sortOptions[0];
         this.onChange.emit(this.selectedOption);

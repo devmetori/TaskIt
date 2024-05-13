@@ -3,7 +3,7 @@ import { TTask, TSort } from '@/app/common/types';
 
 @Pipe({
     name: 'sortTasks',
-    pure: true,
+    pure: false,
     standalone: true,
 })
 export class SortTasksPipe implements PipeTransform {
@@ -56,7 +56,7 @@ export class SortTasksPipe implements PipeTransform {
                     comparison = +a.completed - +b.completed;
                     break;
                 default:
-                    throw new Error('Unrecognized sort key');
+                    throw new Error('Este tipo de ordenamiento no está soportado');
             }
             return asc ? comparison : -comparison;
         };

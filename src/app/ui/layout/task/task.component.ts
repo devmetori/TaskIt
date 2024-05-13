@@ -13,7 +13,8 @@ import {
     EditTaskFormComponent,
 } from '@/app/ui/components';
 import { IBreakpoint, TSortOption, TTask, TTaskInput, TTodoList } from '@/app/common/types';
-import { CalendarService, TaskService } from '@/app/services';
+import { CalendarService } from '@/app/ui/components/calendar';
+import { TaskService } from '@/app/services';
 import { ModalService } from '@/app/ui/components/modal';
 import { screenSize } from '@/app/common/data';
 import { SortTasksPipe } from '@/app/common/pipes';

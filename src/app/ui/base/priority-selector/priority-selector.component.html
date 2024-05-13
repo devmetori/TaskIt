@@ -5,7 +5,6 @@
             name="priority"
             value="{{ priority.level }}"
             id="{{ priority.id }}"
-            [checked]="priority.level === selected"
             (change)="onChangePriority(priority.level)"
         />
         <label for="{{ priority.id }}" [ngStyle]="{ 'background-color': priority.color }" class="priority"></label>
