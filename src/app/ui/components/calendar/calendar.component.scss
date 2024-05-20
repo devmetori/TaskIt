@@ -96,16 +96,7 @@
     }
 }
 
-.indicators {
-    visibility: hidden;
-    opacity: 0;
-    transition:
-        opacity 0.5s ease-in-out,
-        visibility 0.5s ease-in-out;
-    &.isVisible {
-        visibility: visible;
-        opacity: 1;
-    }
+.event {
     .event-indicator {
         height: 5px;
         width: 5px;

@@ -8,7 +8,6 @@ import {
     endOfWeek,
     isSameDay,
     getDay,
-    eachMonthOfInterval,
 } from 'date-fns';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';

@@ -2,6 +2,10 @@ import { TKPI, TPriotyList, TTodoList, TRandomTodoList, IBreakpoint, TTask } fro
 import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { UUID, randomDate } from '../utils';
 
+/**
+ *  Generate a list of priorities
+ * @returns {TPriotyList[]} - List of priorities
+ */
 export const Priorities = (): TPriotyList[] => {
     return [
         { id: UUID(), level: 1, label: 'Low', selected: true, color: 'green' },
@@ -9,6 +13,11 @@ export const Priorities = (): TPriotyList[] => {
         { id: UUID(), level: 3, label: 'High', selected: false, color: 'red' },
     ];
 };
+
+/**
+ *  Default KPI
+ * @returns {TKPI} - Default KPI
+ */
 export const defaultKpi: TKPI = {
     today: {
         total: 0,
@@ -24,6 +33,10 @@ export const defaultKpi: TKPI = {
     },
 };
 
+/**
+ *  Default List
+ * @returns {TTodoList} - Default List
+ */
 export const defaultList: TTodoList = {
     id: UUID(),
     name: 'New List',
@@ -31,36 +44,61 @@ export const defaultList: TTodoList = {
     KPI: defaultKpi,
 };
 
+/**
+ *  Generate random tasks
+ * @param {number} month - Month
+ * @param {number} numTasks - Number of tasks
+ * @param {number} year - Year
+ * @returns {TTask[]} - List of tasks
+ */
+export const GenerateRandomTasks = ({
+    month,
+    numTasks,
+    year,
+}: {
+    numTasks: number;
+    year: number;
+    month: number;
+}): TTask[] => {
+    return Array.from({ length: numTasks }, () => {
+        const startDate = randomDate(year, month);
+        const endDate = new Date(startDate.getTime() + Math.random() * (1000 * 60 * 60 * 24 * 7));
+        const priority = Math.floor(Math.random() * 4);
+        const description =
+            'Tarea por el dia: ' +
+            ' ' +
+            startDate.getDate() +
+            ' ' +
+            startDate.toLocaleString('default', { month: 'long' }) +
+            ' del ' +
+            startDate.getFullYear();
+
+        return {
+            id: UUID(),
+            description,
+            dateStart: startDate,
+            dateEnd: endDate,
+            tags: [],
+            completed: Math.random() > 0.5,
+            priority,
+            priorityColor: priority === 1 ? 'green' : priority === 2 ? 'orange' : 'red',
+        } as TTask;
+    });
+};
+
+/**
+ *  Generate random todo lists
+ * @param {number} month - Month
+ * @param {number} numLists - Number of lists
+ * @param {number} year - Year
+ * @returns {TTodoList[]} - List of todo lists
+ */
 export const generateRandomTodoLists = ({ month, numLists, year }: TRandomTodoList): TTodoList[] => {
     const today = new Date();
 
     return Array.from({ length: numLists }, (_, listIndex) => {
         const numTasks = Math.floor(Math.random() * 10);
-        const tasks = Array.from({ length: numTasks }, () => {
-            const startDate = randomDate(year, month);
-            const endDate = new Date(startDate.getTime() + Math.random() * (1000 * 60 * 60 * 24 * 7));
-            const priority = Math.floor(Math.random() * 4);
-            const description =
-                'Tarea por el dia: ' +
-                ' ' +
-                startDate.getDate() +
-                ' ' +
-                startDate.toLocaleString('default', { month: 'long' }) +
-                ' del ' +
-                startDate.getFullYear();
-
-            return {
-                id: UUID(),
-                description,
-                dateStart: startDate,
-                dateEnd: endDate,
-                selected: false,
-                tags: [],
-                completed: Math.random() > 0.5,
-                priority,
-                priorityColor: priority === 1 ? 'green' : priority === 2 ? 'orange' : 'red',
-            } as TTask;
-        });
+        const tasks = GenerateRandomTasks({ numTasks, year, month });
 
         const kpi = tasks.reduce((acc, task) => {
             const isToday = isSameDay(task.dateStart, today);
@@ -102,6 +140,13 @@ export const generateRandomTodoLists = ({ month, numLists, year }: TRandomTodoLi
     });
 };
 
+/**
+ * lista de los breakpoints disponibles
+ * @type {IBreakpoint[]}
+ * @returns {IBreakpoint[]} - Lista de breakpoints
+ *
+ * @example
+ */
 export const BREAKPOINTS = {
     sm: '(max-width: 576px)',
     md: '(min-width: 577px) and (max-width: 1024px)',
@@ -109,6 +154,11 @@ export const BREAKPOINTS = {
     xl: '(min-width: 1401px)',
 };
 
+/**
+ *  Lista de tamaños de pantalla
+ * @type {IBreakpoint[]}
+ * @returns {IBreakpoint[]} - Lista de tamaños de pantalla
+ */
 export const screenSize: IBreakpoint[] = [
     { breakpoint: 'sm', className: 'phone' },
     { breakpoint: 'md', className: 'tablet' },

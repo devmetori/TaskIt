@@ -24,7 +24,7 @@
                     class="day col"
                 >
                     {{ day.getDate() }}
-                    <div [class.isVisible]="hasEvents(day)" class="indicators">
+                    <div class="event" *ngIf="hasEvents(day)">
                         <span class="event-indicator"></span>
                     </div>
                 </td>
