@@ -13,7 +13,6 @@ Con TaskIt, los usuarios pueden crear nuevas tareas rápidamente mediante un for
 # Diseño
 
 ![Logo](./src/assets/desktop-view.png)
-![Logo](./src/assets/phone-view.png)
 
 ## Ejecución en local
 

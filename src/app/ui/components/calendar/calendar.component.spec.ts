@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CalendarComponent } from './calendar.component';
 import { By } from '@angular/platform-browser';
+
+import { CalendarComponent } from './calendar.component';
 import { UUID } from '@/app/common';
+import { globalProviders } from '@/app/test/setup.spect';
 const data = [
     {
         id: UUID(),
@@ -91,6 +93,7 @@ const data = [
         tags: [],
     },
 ];
+
 describe('CalendarComponent', () => {
     let component: CalendarComponent;
     let fixture: ComponentFixture<CalendarComponent>;
@@ -98,6 +101,7 @@ describe('CalendarComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [CalendarComponent],
+            providers: globalProviders,
         }).compileComponents();
 
         fixture = TestBed.createComponent(CalendarComponent);
@@ -141,7 +145,7 @@ describe('CalendarComponent', () => {
         jest.spyOn(component, 'selectDay');
         fixture.detectChanges();
 
-        const dayElement = fixture.debugElement.query(By.css('.day'));
+        const dayElement = fixture.debugElement.query(By.css('.cell'));
         dayElement.triggerEventHandler('click', null);
 
         expect(component.selectDay).toHaveBeenCalled();

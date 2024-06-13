@@ -7,8 +7,11 @@ import {
     startOfWeek,
     endOfWeek,
     isSameDay,
-    getDay,
+    isToday,
+    isWeekend,
+    isSameMonth,
 } from 'date-fns';
+
 import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -26,10 +29,10 @@ import { TTask } from '@app/common/types';
 export class CalendarComponent implements OnDestroy {
     @Input() CalendarEvents: TTask[] = [];
     today: Date = new Date();
+    days: Date[] = [];
     currentMonth: Date = new Date();
     selectedDate: Date = new Date();
     weekDays: string[] = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-    days: Date[] = [];
     private subscriptions = new Subscription();
 
     constructor(private calendarService: CalendarService) {
@@ -46,23 +49,7 @@ export class CalendarComponent implements OnDestroy {
         const endDay = endOfMonth(this.currentMonth);
         const firstDayOfWeek = startOfWeek(startDay, { weekStartsOn: 1 });
         const lastDayOfWeek = endOfWeek(endDay, { weekStartsOn: 1 });
-
         this.days = eachDayOfInterval({ start: firstDayOfWeek, end: lastDayOfWeek });
-    }
-
-    getWeeks(): Date[][] {
-        const weeks: Date[][] = [];
-        let week: Date[] = [];
-
-        this.days.forEach((day, index) => {
-            week.push(day);
-            if ((index + 1) % 7 === 0 || index === this.days.length - 1) {
-                weeks.push(week);
-                week = [];
-            }
-        });
-
-        return weeks;
     }
 
     nextMonth(): void {
@@ -79,16 +66,18 @@ export class CalendarComponent implements OnDestroy {
         this.calendarService.selectDate(day);
     }
     isWeekend(date: Date): boolean {
-        const day = getDay(date);
-        return day === 0 || day === 6;
+        return isWeekend(date);
     }
 
     isToday(date: Date): boolean {
-        return isSameDay(date, this.today);
+        return isToday(date);
     }
 
     isSelected(date: Date): boolean {
         return isSameDay(date, this.selectedDate);
+    }
+    isCurrentMonth(date: Date): boolean {
+        return !isSameMonth(date, this.currentMonth);
     }
 
     hasEvents(date: Date): boolean {

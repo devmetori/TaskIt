@@ -3,8 +3,9 @@
         <input
             type="radio"
             name="priority"
-            value="{{ priority.level }}"
+            [value]="priority.level"
             id="{{ priority.id }}"
+            [checked]="selected === priority.level"
             (change)="onChangePriority(priority.level)"
         />
         <label for="{{ priority.id }}" [ngStyle]="{ 'background-color': priority.color }" class="priority"></label>

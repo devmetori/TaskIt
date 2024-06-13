@@ -1,5 +1,6 @@
 :host {
     width: 100%;
+    height: 100%;
 }
 
 .calendar {
@@ -8,11 +9,77 @@
     align-items: center;
     gap: 1rem;
     width: 100%;
-    max-width: 100%;
+    height: 100%;
     color: #fff;
     border-radius: 8px;
     padding: 1rem;
     border: solid #282932 2px;
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: 30px repeat(5, 1fr);
+        width: 100%;
+        height: 100%;
+        .head-cell {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        .cell {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            &:hover {
+                background-color: #5553f51c;
+            }
+
+            &.today {
+                background-color: #282932;
+                border-radius: 6px;
+                font-weight: bold;
+                color: #fff;
+                &:hover,
+                &:focus {
+                    background: rgba(242, 199, 107, 0.2);
+                    border-radius: 6px;
+                    font-weight: bold;
+                }
+            }
+            &.not-current-month {
+                color: #ccc;
+            }
+            &.weekend {
+                color: #5553f5;
+            }
+            &.selected {
+                background-color: #5553f5;
+                color: #fff;
+                .event {
+                    background-color: #fff;
+                }
+            }
+            &.today.selected {
+                background-color: #5051f924;
+                color: #fff;
+            }
+
+            .event {
+                height: 5px;
+                width: 5px;
+                border-radius: 50%;
+                margin: 1px;
+                display: inline-block;
+                background-color: #5051f9;
+            }
+        }
+    }
 }
 .controls {
     display: flex;
@@ -23,6 +90,7 @@
     .text {
         font-size: 1.2rem;
         font-weight: bold;
+        text-transform: capitalize;
     }
     .arrow {
         display: block;
@@ -41,68 +109,5 @@
 
     .arrow.left {
         transform: rotate(-45deg);
-    }
-}
-
-.calendar table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.calendar th,
-.calendar td {
-    border-radius: 5px;
-    padding: 10px 6.6667px;
-    line-height: 16px;
-    text-align: center;
-}
-.calendar td.day {
-    cursor: pointer;
-}
-
-.not-current-month {
-    color: #ccc;
-}
-
-.calendar td:hover {
-    background-color: #5553f51c;
-}
-
-.weekend {
-    color: #5553f5;
-}
-
-.selected {
-    background-color: #5553f5;
-    color: #fff;
-    .indicators .event-indicator {
-        background-color: #fff;
-    }
-}
-.today.selected {
-    background-color: #5051f924;
-    color: #fff;
-}
-.today {
-    background-color: #282932;
-    border-radius: 6px;
-    font-weight: bold;
-    color: #fff;
-    &:hover,
-    &:focus {
-        background: rgba(242, 199, 107, 0.2);
-        border-radius: 6px;
-        font-weight: bold;
-    }
-}
-
-.event {
-    .event-indicator {
-        height: 5px;
-        width: 5px;
-        border-radius: 50%;
-        margin: 1px;
-        display: inline-block;
-        background-color: #5051f9;
     }
 }
