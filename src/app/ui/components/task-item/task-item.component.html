@@ -1,14 +1,14 @@
 <li class="item" [ngStyle]="{ 'border-left-color': task.priorityColor }">
-    <div class="checkbox">
-        <div class="round">
-            <input type="checkbox" [id]="getId(task.id)" (change)="check(task)" [checked]="task.completed" />
-            <label [htmlFor]="getId(task.id)"></label>
-        </div>
-    </div>
-    <span class="description">{{ task.description }}</span>
-
-    <div class="actions">
-        <span class="on-edit" *ngIf="!isReadonly" (click)="OpenModalEditTask(task)">
+    <app-checkbox
+        [type]="'checkbox'"
+        [Id]="getId(task.id)"
+        (OnChange)="check(task)"
+        [IsChecked]="task.completed"
+        [ShowLabel]="true"
+    />
+    <span class="description" [ngClass]="{ completed: task.completed }">{{ task.description }}</span>
+    <div class="actions" *ngIf="!isReadonly">
+        <span class="on-edit" (click)="OpenModalEditTask(task)">
             <svg
                 stroke="currentColor"
                 fill="currentColor"
@@ -23,6 +23,6 @@
                 ></path>
             </svg>
         </span>
-        <span class="date" *ngIf="!isReadonly">{{ task.dateStart | date: 'dd-MM-yyyy' }}</span>
+        <span class="date">{{ task.dateStart | date: 'dd-MM-yyyy' }}</span>
     </div>
 </li>

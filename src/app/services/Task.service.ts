@@ -2,7 +2,7 @@ import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { TKPIUpdateValue, TTask, TTodoList } from '@app/common/types';
+import { TTask, TTodoList } from '@app/common/types';
 import { defaultKpi } from '@app/common/data';
 import { StoreService } from './store.service';
 import { UUID } from '@app/common/utils';
@@ -39,7 +39,12 @@ export class TaskService implements OnDestroy {
     }
 
     addList() {
-        const newList = { id: UUID(), KPI: defaultKpi, name: 'New List', Tasks: [] } as TTodoList;
+        const newList = {
+            id: UUID(),
+            KPI: defaultKpi,
+            name: `Nueva lista ${this.lists.length + 1} `,
+            Tasks: [],
+        } as TTodoList;
         this.storeService.updateSelectedList({ ...newList });
         this.storeService.updateLists([newList, ...this.lists]);
     }
@@ -47,7 +52,6 @@ export class TaskService implements OnDestroy {
     selectList(list: TTodoList) {
         this.storeService.updateSelectedList(list);
     }
-
     removeList(id: string) {
         const updatedLists = this.lists.filter((l) => l.id !== id);
         if (this.selectedList.id === id) {
@@ -65,7 +69,6 @@ export class TaskService implements OnDestroy {
         });
         this.storeService.updateLists(updatedLists);
     }
-
     addNewTask(task: TTask) {
         const newState = this.lists.map((list) => {
             if (list.id === this.selectedList?.id) {
@@ -215,7 +218,6 @@ export class TaskService implements OnDestroy {
         };
     }
 
-    calculateKpi({}: TKPIUpdateValue) {}
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }

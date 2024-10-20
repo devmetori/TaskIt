@@ -1,13 +1,6 @@
 <div class="calendar">
-    <div class="controls">
-        <span (click)="previousMonth()" class="arrow left"></span>
-        <span class="text">
-            {{ currentMonth | date: 'MMMM yyyy' : '' : 'es-ES' }}
-        </span>
-        <span (click)="nextMonth()" class="arrow right"></span>
-    </div>
-
-    <div class="calendar__grid">
+    <app-calendar-controls />
+    <div class="calendar__body">
         <div *ngFor="let day of weekDays" class="head-cell">{{ day }}</div>
         <ng-container *ngFor="let day of days">
             <div

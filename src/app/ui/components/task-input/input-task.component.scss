@@ -2,19 +2,26 @@
     width: 100%;
     display: flex;
     justify-content: center;
-
-    .task-input {
+    .new-task {
         width: 100%;
         max-width: 550px;
         padding: 0.5rem 1rem;
+        height: 75px;
         border: none;
         border-radius: 5px;
-        height: 70px;
         background-color: #282932;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+        gap: 0.75rem;
+
+        .fields-set {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            border-left: solid 1px #8080804d;
+        }
 
         span:first-child {
             height: 20px;
@@ -36,69 +43,14 @@
             padding-left: 0.5rem;
         }
         input[type='text'] {
-            width: 100%;
+            width: 75%;
         }
         input[type='date'] {
-            width: 40%;
-        }
-    }
-
-    .priority-selector {
-        width: 60px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: relative;
-        &::after {
-            position: absolute;
-            top: 15%;
-            right: 0;
-            content: '';
-            width: 2px;
-            height: 80%;
-            background-color: rgba(128, 128, 128, 0.3);
-        }
-        input[type='radio'] {
-            display: none;
-        }
-        label {
-            height: 15px;
-            width: 15px;
-            border: 2px solid transparent;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        input[type='radio']:checked + label {
-            border-color: white;
+            width: 25%;
         }
     }
 
     &.phone {
         display: none;
-        /*     .task-input {
-            height: 50px;
-            gap: 5px;
-            padding: 0.5rem;
-
-            input {
-                font-size: 12px;
-            }
-            .date-picker {
-                width: 40%;
-                padding: 0;
-            }
-            .text {
-                width: 60%;
-            }
-            .priority-selector {
-                width: 30px;
-                .priority {
-                    height: 8px;
-                    width: 8px;
-                    border-width: 1px;
-                }
-            }
-        } */
     }
 }

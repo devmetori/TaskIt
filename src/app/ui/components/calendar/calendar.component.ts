@@ -1,28 +1,16 @@
-import {
-    eachDayOfInterval,
-    startOfMonth,
-    endOfMonth,
-    addMonths,
-    subMonths,
-    startOfWeek,
-    endOfWeek,
-    isSameDay,
-    isToday,
-    isWeekend,
-    isSameMonth,
-} from 'date-fns';
-
 import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { isSameDay } from 'date-fns';
 import { Subscription } from 'rxjs';
 
-import { CalendarService } from './calendar.service';
+import { CalendarService } from '@app/services';
+import { CalendarControlsComponent } from '@app/ui/base';
 import { TTask } from '@app/common/types';
 
 @Component({
     selector: 'app-calendar',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, CalendarControlsComponent],
     templateUrl: './calendar.component.html',
     styleUrl: './calendar.component.scss',
 })
@@ -31,57 +19,46 @@ export class CalendarComponent implements OnDestroy {
     today: Date = new Date();
     days: Date[] = [];
     currentMonth: Date = new Date();
-    selectedDate: Date = new Date();
+    selectedDay: Date = new Date();
     weekDays: string[] = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
     private subscriptions = new Subscription();
 
     constructor(private calendarService: CalendarService) {
         this.subscriptions.add(
             this.calendarService.selectedDate$.subscribe((date) => {
-                this.selectedDate = date;
+                this.selectedDay = date;
             }),
         );
-        this.generateCalendar();
-    }
-
-    generateCalendar(): void {
-        const startDay = startOfMonth(this.currentMonth);
-        const endDay = endOfMonth(this.currentMonth);
-        const firstDayOfWeek = startOfWeek(startDay, { weekStartsOn: 1 });
-        const lastDayOfWeek = endOfWeek(endDay, { weekStartsOn: 1 });
-        this.days = eachDayOfInterval({ start: firstDayOfWeek, end: lastDayOfWeek });
-    }
-
-    nextMonth(): void {
-        this.currentMonth = addMonths(this.currentMonth, 1);
-        this.generateCalendar();
-    }
-
-    previousMonth(): void {
-        this.currentMonth = subMonths(this.currentMonth, 1);
-        this.generateCalendar();
+        this.subscriptions.add(
+            this.calendarService.Days$.subscribe((date) => {
+                this.days = date;
+            }),
+        );
     }
 
     selectDay(day: Date): void {
-        this.calendarService.selectDate(day);
+        this.calendarService.selectDay(day);
     }
     isWeekend(date: Date): boolean {
-        return isWeekend(date);
+        return this.calendarService.isWeekend(date);
     }
 
     isToday(date: Date): boolean {
-        return isToday(date);
+        return this.calendarService.isToday(date);
     }
 
     isSelected(date: Date): boolean {
-        return isSameDay(date, this.selectedDate);
+        return this.calendarService.isSelected(date);
     }
     isCurrentMonth(date: Date): boolean {
-        return !isSameMonth(date, this.currentMonth);
+        return this.calendarService.isCurrentMonth(date);
     }
 
     hasEvents(date: Date): boolean {
         return this.CalendarEvents.some((task) => isSameDay(task.dateStart, date));
+    }
+    SelectToday(): void {
+        this.calendarService.SelectToday();
     }
     ngOnDestroy() {
         this.subscriptions.unsubscribe();

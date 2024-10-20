@@ -11,15 +11,16 @@
     width: 100%;
     height: 100%;
     color: #fff;
-    border-radius: 8px;
     padding: 1rem;
-    border: solid #282932 2px;
-    &__grid {
+
+    &__body {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         grid-template-rows: 30px repeat(5, 1fr);
         width: 100%;
         height: 100%;
+        border: solid #282932 2px;
+        border-radius: 8px;
         .head-cell {
             width: 100%;
             height: 100%;
@@ -27,6 +28,8 @@
             justify-content: center;
             align-items: center;
             font-weight: bold;
+            border-bottom: solid #282932 2px;
+            padding: 1rem 0;
         }
         .cell {
             display: flex;
@@ -47,7 +50,7 @@
                 color: #fff;
                 &:hover,
                 &:focus {
-                    background: rgba(242, 199, 107, 0.2);
+                    background: #f2c76b33;
                     border-radius: 6px;
                     font-weight: bold;
                 }
@@ -79,35 +82,5 @@
                 background-color: #5051f9;
             }
         }
-    }
-}
-.controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 0 1rem;
-    .text {
-        font-size: 1.2rem;
-        font-weight: bold;
-        text-transform: capitalize;
-    }
-    .arrow {
-        display: block;
-        width: 15px;
-        height: 15px;
-        border-top: 2px solid #5051f9;
-        border-left: 2px solid #5051f9;
-        cursor: pointer;
-        &:hover {
-            border-color: #3d3dc5;
-        }
-    }
-    .arrow.right {
-        transform: rotate(135deg);
-    }
-
-    .arrow.left {
-        transform: rotate(-45deg);
     }
 }

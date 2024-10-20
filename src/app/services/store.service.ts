@@ -22,25 +22,11 @@ export class StoreService {
         const lists = this.getItem<TTodoList[]>('lists') as TTodoList[];
         const selectedList = this.getItem<TTodoList>('selectedList') as TTodoList;
 
-        if (!Array.isArray(lists) && !lists) {
-            this.setItem('lists', [defaultList]);
-            this.setItem('selectedList', defaultList);
-            return { lists: [defaultList], selectedList: defaultList };
-        }
+        if (Array.isArray(lists) && lists.length > 0) return { lists: lists, selectedList: selectedList ?? lists[0] };
 
-        if (!selectedList && Array.isArray(lists) && lists?.length > 0) {
-            this.setItem('selectedList', lists[0]);
-            return { lists, selectedList: lists[0] };
-        }
-
-        if (Array.isArray(lists) && lists.length <= 0) {
-            const newList = [defaultList] as TTodoList[];
-            this.setItem('selectedList', newList[0]);
-            this.setItem('lists', newList);
-            return { lists: newList, selectedList: newList[0] };
-        }
-
-        return { lists: lists, selectedList: selectedList as TTodoList };
+        this.setItem('lists', [defaultList]);
+        this.setItem('selectedList', defaultList);
+        return { lists: [defaultList], selectedList: defaultList };
     }
 
     public updateLists(lists: TTodoList[]): void {

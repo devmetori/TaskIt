@@ -15,7 +15,7 @@
                 (newName)="updateListName($event)"
                 [appScreenSize]="screenSizes"
             />
-            <li *ngIf="lists.length <= 0" class="item empty">Crea tu primera lista de tareas...</li>
+            <span *ngIf="lists.length <= 0" class="empty">Añade una nueva lista para empezar</span>
         </ul>
 
         <button class="add" (click)="addList()">+ Crear lista</button>
@@ -37,7 +37,7 @@
                         (editTask)="editTask($event)"
                     />
                 </ng-container>
-                <li *ngIf="selectedList.Tasks.length <= 0" class="item empty">Sin Tareas pendientes...</li>
+                <span *ngIf="selectedList.Tasks.length <= 0" class="empty">Añade una nueva tarea para empezar</span>
             </ul>
             <button class="add-new" (click)="createNewTask()">+</button>
         </ng-container>
@@ -69,7 +69,7 @@
                         *ngIf="isSelected(task.dateStart)"
                     />
                 </ng-container>
-                <li *ngIf="selectedList.Tasks.length <= 0" class="item empty">No hay tareas para este día...</li>
+                <span *ngIf="selectedList.Tasks.length <= 0" class="empty">No hay tareas para este día...</span>
             </ul>
         </div>
     </ng-container>

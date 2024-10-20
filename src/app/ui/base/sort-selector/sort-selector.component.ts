@@ -23,7 +23,7 @@ export class SortSelectorComponent {
     }
     @Output() onChange = new EventEmitter<TSortOption>();
     sortOptions: TSortOption[] = [
-        { value: 'description', label: 'Descripcion', asc: true },
+        { value: 'description', label: 'Descripción', asc: true },
         { value: 'date', label: 'Fecha', asc: true },
         { value: 'priority', label: 'Prioridad', asc: true },
         { value: 'status', label: 'Estado', asc: true },

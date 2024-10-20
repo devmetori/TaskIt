@@ -7,6 +7,7 @@ const task = { description: 'Tarea por hacer', date: new Date(), priority: 1, en
 describe('Componente NewtaskForm', () => {
     let component: NewtaskFormComponent;
     let fixture: ComponentFixture<NewtaskFormComponent>;
+    let formTag: HTMLFormElement;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -15,6 +16,7 @@ describe('Componente NewtaskForm', () => {
 
         fixture = TestBed.createComponent(NewtaskFormComponent);
         component = fixture.componentInstance;
+        formTag = fixture.debugElement.query(By.css('.task-form')).nativeElement;
         fixture.detectChanges();
     });
 
@@ -29,7 +31,6 @@ describe('Componente NewtaskForm', () => {
 
     it('Debería emitir el evento de agregar una tarea con una descripción', () => {
         jest.spyOn(component.OnFinish, 'emit');
-        const formTag = fixture.debugElement.query(By.css('.task-form')).nativeElement;
         component.task = task;
         fixture.detectChanges();
         formTag.dispatchEvent(new Event('submit'));
@@ -37,7 +38,6 @@ describe('Componente NewtaskForm', () => {
     });
 
     it('Debería asignar una fecha a la tarea', () => {
-        const formTag = fixture.debugElement.query(By.css('.task-form')).nativeElement;
         const date = new Date();
         component.task = { ...task, date };
         fixture.detectChanges();
@@ -47,7 +47,6 @@ describe('Componente NewtaskForm', () => {
     });
 
     it('Debería asignar una prioridad a la tarea', () => {
-        const formTag = fixture.debugElement.query(By.css('.task-form')).nativeElement;
         const priority = 1;
         component.task = { ...task, priority: 1 };
         fixture.detectChanges();
@@ -57,7 +56,6 @@ describe('Componente NewtaskForm', () => {
     });
 
     it('Debería asignar una fecha de finalización a la tarea', () => {
-        const formTag = fixture.debugElement.query(By.css('.task-form')).nativeElement;
         const endDate = new Date();
         component.task = { ...task, endDate };
         fixture.detectChanges();

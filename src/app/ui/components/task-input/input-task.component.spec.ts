@@ -23,7 +23,7 @@ describe('TaskInputComponent', () => {
 
     it('Debería emitir el evento de agregar una tarea con una descripción', () => {
         jest.spyOn(component.addTask, 'emit');
-        const formTag = fixture.debugElement.query(By.css('.task-input')).nativeElement;
+        const formTag = fixture.debugElement.query(By.css('.new-task')).nativeElement;
         component.task = { description: 'Tarea por hacer', date: new Date(), priority: 1, endDate: new Date() };
         fixture.detectChanges();
         formTag.dispatchEvent(new Event('submit'));

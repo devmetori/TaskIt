@@ -39,7 +39,7 @@ export const defaultKpi: TKPI = {
  */
 export const defaultList: TTodoList = {
     id: UUID(),
-    name: 'New List',
+    name: 'Nueva Lista',
     Tasks: [],
     KPI: defaultKpi,
 };

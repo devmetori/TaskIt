@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TrackByFunction } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -14,12 +14,12 @@ import {
 } from '@/app/ui/components';
 import { IBreakpoint, TSortOption, TTask, TTaskInput, TTodoList } from '@/app/common/types';
 import { CalendarService } from '@/app/ui/components/calendar';
-import { TaskService } from '@/app/services';
 import { ModalService } from '@/app/ui/components/modal';
-import { screenSize } from '@/app/common/data';
+import { SortSelectorComponent } from '@/app/ui/base';
 import { SortTasksPipe } from '@/app/common/pipes';
+import { screenSize } from '@/app/common/data';
+import { TaskService } from '@/app/services';
 import { UUID } from '@/app/common/utils';
-import { SortSelectorComponent } from '../../base';
 
 @Component({
     selector: 'app-task-list',
@@ -45,7 +45,6 @@ export class TaskComponent implements OnInit, OnDestroy {
     lists: TTodoList[] = [];
     selectedList: TTodoList = {} as TTodoList;
     selectedDate: Date = new Date();
-
     private Subscription: Subscription = new Subscription();
 
     constructor(
@@ -65,9 +64,8 @@ export class TaskComponent implements OnInit, OnDestroy {
         this.taskService.selectList(list);
     }
     updateListName(newValue: string) {
-        if (this.selectedList.name !== newValue) {
-            this.taskService.updateListName(this.selectedList.id, newValue);
-        }
+        if (!newValue && this.selectedList.name === newValue) return;
+        this.taskService.updateListName(this.selectedList.id, newValue);
     }
     addNewTask(task: TTaskInput) {
         const Newtask: TTask = {
@@ -109,12 +107,6 @@ export class TaskComponent implements OnInit, OnDestroy {
     }
     isSelected(date: Date): boolean {
         return this.calendarService.isSelected(date);
-    }
-    trackTaskById(index: number, task: TTask) {
-        return task.id;
-    }
-    trackListById(index: number, list: TTodoList) {
-        return list.id;
     }
 
     ngOnInit(): void {

@@ -20,7 +20,7 @@ describe('CalendarService', () => {
 
     it('Debería actualizar la fecha seleccionada', () => {
         const newDate = new Date(2022, 0, 1);
-        service.selectDate(newDate);
+        service.selectDay(newDate);
         service.selectedDate$.subscribe((date) => {
             expect(date).toEqual(newDate);
         });
@@ -28,7 +28,7 @@ describe('CalendarService', () => {
 
     it('Debería verificar si una fecha está seleccionada', () => {
         const selectedDate = new Date(2022, 0, 1);
-        service.selectDate(selectedDate);
+        service.selectDay(selectedDate);
         expect(service.isSelected(selectedDate)).toBe(true);
 
         const otherDate = new Date(2022, 0, 2);

@@ -2,97 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { CalendarComponent } from './calendar.component';
-import { UUID } from '@/app/common';
-import { globalProviders } from '@/app/test/setup.spect';
-const data = [
-    {
-        id: UUID(),
-        dateEnd: new Date('2024-04-01'),
-        dateStart: new Date('2024-04-01'),
-        description: 'Evento 1',
-        completed: false,
-        priority: 1,
-        priorityColor: 'red',
-        tags: [],
-    },
-
-    {
-        id: UUID(),
-        dateEnd: new Date('2024-04-02'),
-        dateStart: new Date('2024-04-02'),
-        description: 'Evento 2',
-        completed: false,
-        priority: 1,
-        priorityColor: 'red',
-        tags: [],
-    },
-
-    {
-        id: UUID(),
-        dateEnd: new Date('2024-04-03'),
-        dateStart: new Date('2024-04-03'),
-        description: 'Evento 3',
-        completed: false,
-        priority: 1,
-        priorityColor: 'red',
-        tags: [],
-    },
-
-    {
-        id: UUID(),
-        dateEnd: new Date('2024-04-04'),
-        dateStart: new Date('2024-04-04'),
-        description: 'Evento 4',
-        completed: false,
-        priority: 1,
-        priorityColor: 'red',
-        tags: [],
-    },
-
-    {
-        id: UUID(),
-        dateEnd: new Date('2024-04-05'),
-        dateStart: new Date('2024-04-05'),
-        description: 'Evento 5',
-        completed: false,
-        priority: 1,
-        priorityColor: 'red',
-        tags: [],
-    },
-
-    {
-        id: UUID(),
-        dateEnd: new Date('2024-04-06'),
-        dateStart: new Date('2024-04-06'),
-        description: 'Evento 6',
-        completed: false,
-        priority: 1,
-        priorityColor: 'red',
-        tags: [],
-    },
-
-    {
-        id: UUID(),
-        dateEnd: new Date('2024-04-07'),
-        dateStart: new Date('2024-04-07'),
-        description: 'Evento 7',
-        completed: false,
-        priority: 1,
-        priorityColor: 'red',
-        tags: [],
-    },
-
-    {
-        id: UUID(),
-        dateEnd: new Date('2024-04-08'),
-        dateStart: new Date('2024-04-08'),
-        description: 'Evento 8',
-        completed: false,
-        priority: 1,
-        priorityColor: 'red',
-        tags: [],
-    },
-];
+import { globalProviders, Todos } from '@/app/test';
 
 describe('CalendarComponent', () => {
     let component: CalendarComponent;
@@ -120,25 +30,6 @@ describe('CalendarComponent', () => {
 
     it('Debería tener el mes actual seleccionado por defecto', () => {
         expect(component.currentMonth.getMonth()).toBe(new Date().getMonth());
-    });
-
-    it('Debería generar el calendario al inicializarse', () => {
-        component.generateCalendar();
-        expect(component.days.length).toBeGreaterThan(0);
-    });
-
-    it('Debería avanzar al siguiente mes al llamar a nextMonth()', () => {
-        const previousMonth = component.currentMonth.getMonth();
-        component.nextMonth();
-        const currentMonth = component.currentMonth.getMonth();
-        expect(currentMonth).toBe(previousMonth + 1);
-    });
-
-    it('Debería retroceder al mes anterior al llamar a previousMonth()', () => {
-        const nextMonth = component.currentMonth.getMonth();
-        component.previousMonth();
-        const currentMonth = component.currentMonth.getMonth();
-        expect(currentMonth).toBe(nextMonth - 1);
     });
 
     it('Debería llamar a selectDay() al hacer clic en un día', () => {
@@ -182,7 +73,7 @@ describe('CalendarComponent', () => {
     });
     it('Debería devolver true si el día tiene eventos', () => {
         const dateWithEvents = new Date('2024-04-01');
-        component.CalendarEvents = data;
+        component.CalendarEvents = Todos;
         fixture.detectChanges();
 
         expect(component.hasEvents(dateWithEvents)).toBe(true);
@@ -194,23 +85,6 @@ describe('CalendarComponent', () => {
         fixture.detectChanges();
 
         expect(component.hasEvents(dateWithoutEvents)).toBe(false);
-    });
-
-    it('Debería devolver true si el día es el mismo que el seleccionado', () => {
-        const selectedDate = new Date('2024-04-01');
-        component.selectedDate = selectedDate;
-        fixture.detectChanges();
-
-        expect(component.isSelected(selectedDate)).toBe(true);
-    });
-
-    it('Debería devolver false si el día no es el mismo que el seleccionado', () => {
-        const selectedDate = new Date('2024-04-01');
-        const otherDate = new Date('2024-04-02');
-        component.selectedDate = selectedDate;
-        fixture.detectChanges();
-
-        expect(component.isSelected(otherDate)).toBe(false);
     });
 
     it('Debería devolver true si el día es fin de semana', () => {

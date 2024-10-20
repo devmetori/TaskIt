@@ -1,0 +1,8 @@
+<div class="controls">
+    <span (click)="previousMonth()" class="arrow left"></span>
+    <span (click)="nextMonth()" class="arrow right"></span>
+</div>
+<span class="text">
+    {{ currentMonth | date: 'MMMM yyyy' : '' : 'es-ES' }}
+</span>
+<span (click)="SelectCurrentDate()" class="btn-todoy">Hoy</span>

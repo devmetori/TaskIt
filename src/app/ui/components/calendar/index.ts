@@ -1,2 +1,2 @@
 export { CalendarComponent } from './calendar.component';
-export { CalendarService } from './calendar.service';
+export { CalendarService } from '../../../services/calendar.service';

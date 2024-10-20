@@ -1,0 +1,6 @@
+<div class="checkbox">
+    <input [type]="type" [id]="Id" (change)="changeState(!IsChecked)" [checked]="IsChecked" />
+    <label [htmlFor]="Id" *ngIf="ShowLabel">
+        {{ Text }}
+    </label>
+</div>

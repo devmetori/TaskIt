@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 
 import { TTask } from '@app/common/types';
 import { UUID } from '@/app/common/utils';
+import { CheckboxComponent } from '@/app/ui/base';
 
 @Component({
     selector: 'app-task-item',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, CheckboxComponent],
     templateUrl: './task-item.component.html',
     styleUrl: './task-item.component.scss',
 })

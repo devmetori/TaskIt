@@ -1,0 +1,49 @@
+:host {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    text-transform: capitalize;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    .text {
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    .arrow {
+        cursor: pointer;
+        display: block;
+        width: 15px;
+        height: 15px;
+        border-top: 2px solid #5051f9;
+        border-left: 2px solid #5051f9;
+        &:hover {
+            border-color: #3d3dc5;
+        }
+    }
+    .arrow.right {
+        transform: rotate(135deg);
+    }
+
+    .arrow.left {
+        transform: rotate(-45deg);
+    }
+}
+.btn-todoy {
+    cursor: pointer;
+    background-color: #5051f9;
+    transition: background-color 0.5s ease;
+    color: #fff;
+    border: none;
+    padding: 5px 1rem;
+    border-radius: 50px;
+    font-size: small;
+    &:hover {
+        background-color: #3d3dc5;
+    }
+}
