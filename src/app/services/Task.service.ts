@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { TKPI, TTask, TTodoList, TDefaultValue } from '@app/common/types';
-import { defaultKpi, defaultList } from '@app/common/data';
+import { TKPI, TTask, TTodoList, TDefaultValue } from '@/app/common/types';
+import { defaultKpi, defaultList } from '@/app/common/data';
 import { CalendarService } from './calendar.service';
 import { StoreService } from './store.service';
-import { UUID } from '@app/common/utils';
+import { UUID } from '@/app/common/utils';
 
 @Injectable({
     providedIn: 'root',
@@ -69,7 +69,7 @@ export class TaskService {
         const isSelected = this._selectedList.value.id === id;
         const isListEmpty = list.length <= 0;
 
-        isSelected && this.updateSelectedList(isListEmpty ? defaultList : list[0]);
+        if (isSelected) this.updateSelectedList(isListEmpty ? defaultList : list[0]);
         this.updateLists(isListEmpty ? [defaultList] : list);
     }
     updateListName(id: string, newValue: string) {

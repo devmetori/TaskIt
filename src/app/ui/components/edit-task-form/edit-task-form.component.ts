@@ -1,4 +1,4 @@
-import {  Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -17,7 +17,7 @@ import { ModalService } from '../modal';
 export class EditTaskFormComponent {
     @Input() task: TTask = {} as TTask;
 
-    constructor(private readonly modalService: ModalService) { }
+    constructor(private readonly modalService: ModalService) {}
 
     setTaskPriority(priority: number) {
         this.task = { ...this.task, priority };
@@ -39,6 +39,5 @@ export class EditTaskFormComponent {
             priorityColor: this.task.priority === 1 ? 'green' : this.task.priority === 2 ? 'yellow' : 'red',
         };
         this.modalService.NewAction({ action: MadalFormAction.EDIT_TASK, data: newTask });
-
     }
 }

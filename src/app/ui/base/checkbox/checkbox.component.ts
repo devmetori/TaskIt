@@ -11,10 +11,10 @@ import { UUID } from '@/app/common/utils';
 })
 export class CheckboxComponent {
     @Input() Id: string = UUID(4);
-    @Input() Text: string = '';
+    @Input() Text = '';
     @Input() type: 'checkbox' | 'radio' = 'checkbox';
-    @Input() IsChecked: boolean = false;
-    @Input() ShowLabel: boolean = false;
+    @Input() IsChecked = false;
+    @Input() ShowLabel = false;
     @Output() OnChange = new EventEmitter<boolean>();
 
     changeState(state: boolean): void {

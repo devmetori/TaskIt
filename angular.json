@@ -70,16 +70,19 @@
                     }
                 },
                 "test": {
-                    "builder": "@angular-devkit/build-angular:jest",
+                    "builder": "@analogjs/vitest-angular:test"
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
                     "options": {
-                        "tsConfig": "tsconfig.spec.json",
-                        "polyfills": ["zone.js", "zone.js/testing"]
+                        "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
                     }
                 }
             }
         }
     },
     "cli": {
-      "analytics": false
+        "analytics": false,
+        "schematicCollections": ["angular-eslint"]
     }
 }

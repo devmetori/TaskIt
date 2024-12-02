@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import '@/app/test/mock/matchMedia.mock';
 import { globalProviders } from '@/app/test/setup.spect';
 import { TaskComponent } from './task.component';
 

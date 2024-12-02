@@ -85,7 +85,6 @@ export class CalendarService {
         this.generateCalendar();
     }
     isRangeDay(date: Date) {
-
         return {
             isToday: isSameDay(date, this.today),
             isThisWeek: isSameWeek(date, this.today),

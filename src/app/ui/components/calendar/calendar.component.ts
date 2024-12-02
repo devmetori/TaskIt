@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { isSameDay } from 'date-fns';
 import { Subscription } from 'rxjs';
 
-import { CalendarService } from '@app/services';
-import { CalendarControlsComponent } from '@app/ui/base';
-import { TTask } from '@app/common/types';
+import { CalendarControlsComponent } from '@/app/ui/base';
+import { CalendarService } from '@/app/services';
+import { TTask } from '@/app/common/types';
 
 @Component({
     selector: 'app-calendar',

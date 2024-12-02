@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -38,7 +38,6 @@ export class NewtaskFormComponent {
             priorityColor: this.task.priority === 1 ? 'green' : this.task.priority === 2 ? 'orange' : 'red',
         };
 
-        this.modalService.NewAction({action: MadalFormAction.ADD_NEW_TASK, data: Newtask});
-       
+        this.modalService.NewAction({ action: MadalFormAction.ADD_NEW_TASK, data: Newtask });
     }
 }

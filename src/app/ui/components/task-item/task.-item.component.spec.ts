@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { TaskItemComponent } from './task-item.component';
 import { TTask } from '@/app/common/types';
@@ -57,13 +58,13 @@ describe('TaskItemComponent', () => {
     });
 
     it('Debería emitir el evento de eliminación', () => {
-        jest.spyOn(component.checkTask, 'emit');
+        vi.spyOn(component.checkTask, 'emit');
         component.check(data[0]);
         expect(component.checkTask.emit).toHaveBeenCalled();
     });
 
     it('Debería emitir el evento de edición', () => {
-        jest.spyOn(component.editTask, 'emit');
+        vi.spyOn(component.editTask, 'emit');
         const newTask = { ...data[0] };
         component.OpenModalEditTask(newTask);
         expect(component.editTask.emit).toHaveBeenCalledWith(newTask);

@@ -1,4 +1,4 @@
-<li class="item" [ngClass]="{ active: list.id == selected }" (click)="selectList(list)">
+<li class="item" [ngClass]="{ active: list.id === selected }" (click)="selectList(list)"  tabindex="0">
     <input
         [value]="list.name"
         class="text"
@@ -8,5 +8,5 @@
         aria-label="Nombre de la lista de tareas"
         [id]="list.id"
     />
-    <span class="on-delete" (click)="removeList(list.id)"></span>
+    <span class="on-delete" (click)="removeList(list.id)" (keyup.enter)="removeList(list.id)" tabindex="0"></span>
 </li>

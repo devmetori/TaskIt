@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
 
 import { MadalFormAction } from '@/app/common/enums';
-type ModalSizeProperties = {
+interface ModalSizeProperties {
     minWidth?: string;
     width?: string;
     maxWidth?: string;
@@ -13,8 +13,9 @@ export interface ModelOptions {
     size?: ModalSizeProperties;
     mQueries?: string[];
     props?: { key: string; value: unknown };
-
 }
 
-
-export type TModalActionEvent = { action: MadalFormAction, data: any }
+export interface TModalActionEvent {
+    action: MadalFormAction;
+    data: any;
+}

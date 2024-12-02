@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { TSimpleKpi } from '@app/common/types';
+import { TSimpleKpi } from '@/app/common/types';
 
 @Component({
     selector: 'app-kpi',
@@ -11,5 +11,5 @@ import { TSimpleKpi } from '@app/common/types';
 })
 export class KpiComponent {
     @Input() KPI: TSimpleKpi = {} as TSimpleKpi;
-    @Input() title: string = '';
+    @Input() title = '';
 }

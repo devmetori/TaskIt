@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { vi } from 'vitest';
 
 import { CalendarComponent } from './calendar.component';
 import { globalProviders, Todos } from '@/app/test';
@@ -33,7 +34,7 @@ describe('CalendarComponent', () => {
     });
 
     it('Debería llamar a selectDay() al hacer clic en un día', () => {
-        jest.spyOn(component, 'selectDay');
+        vi.spyOn(component, 'selectDay');
         fixture.detectChanges();
 
         const dayElement = fixture.debugElement.query(By.css('.cell'));

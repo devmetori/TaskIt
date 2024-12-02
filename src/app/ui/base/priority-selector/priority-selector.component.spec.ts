@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { PrioritySelectorComponent } from './priority-selector.component';
-import { TPrioritySelectorDirection, TPrioritySelectorSize } from '@/app/common';
 
 describe('PrioritySelectorComponent', () => {
     let component: PrioritySelectorComponent;
@@ -29,7 +29,7 @@ describe('PrioritySelectorComponent', () => {
 
     it('Debería emitir el valor correcto cuando se llama a onChangePriority', () => {
         const level = 2;
-        jest.spyOn(component.onChange, 'emit');
+        vi.spyOn(component.onChange, 'emit');
         component.onChangePriority(level);
         expect(component.onChange.emit).toHaveBeenCalledWith(level);
     });

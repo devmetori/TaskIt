@@ -5,7 +5,7 @@
         aria-label="Selector de opciones de ordenación de la lista de tareas"
     >
         <ng-container *ngFor="let option of sortOptions">
-            <option [value]="option.value" [selected]="selectedOption.value == option.value">
+            <option [value]="option.value" [selected]="selectedOption.value === option.value">
                 {{ option.label }}
             </option>
         </ng-container>

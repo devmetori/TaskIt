@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { ListItemComponent } from './list-item.component';
 import { defaultKpi } from '@/app/common/data';
@@ -24,7 +25,7 @@ describe('ListItemComponent', () => {
     });
 
     it('Debería emitir el ID de la lista el elimnar uno de la lista', () => {
-        jest.spyOn(component.remove, 'emit');
+        vi.spyOn(component.remove, 'emit');
         const id = UUID(6);
         component.list = {
             id,
@@ -41,7 +42,7 @@ describe('ListItemComponent', () => {
     });
 
     it('Debería  cambiar el nombre de la llista cuando se cambia el valor del input', () => {
-        jest.spyOn(component.newName, 'emit');
+        vi.spyOn(component.newName, 'emit');
         const id = UUID(6);
         const newName = 'Lista 2';
         component.list = {

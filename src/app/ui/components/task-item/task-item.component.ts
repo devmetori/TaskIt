@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { TTask } from '@app/common/types';
-import { UUID } from '@/app/common/utils';
 import { CheckboxComponent } from '@/app/ui/base';
+import { TTask } from '@/app/common/types';
+import { UUID } from '@/app/common';
 
 @Component({
     selector: 'app-task-item',
@@ -15,7 +15,7 @@ import { CheckboxComponent } from '@/app/ui/base';
 })
 export class TaskItemComponent {
     @Input() task: TTask = {} as TTask;
-    @Input() isReadonly: boolean = false;
+    @Input() isReadonly = false;
     @Output() checkTask = new EventEmitter<TTask>();
     @Output() editTask = new EventEmitter<TTask>();
     InstanceId = UUID(4);

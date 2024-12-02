@@ -1,11 +1,4 @@
-import {
-    ApplicationRef,
-    ComponentRef,
-    Injectable,
-    OnDestroy,
-    Type,
-    createComponent,
-} from '@angular/core';
+import { ApplicationRef, ComponentRef, Injectable, OnDestroy, Type, createComponent } from '@angular/core';
 import { ModelOptions, TModalActionEvent } from './types';
 import { ModalComponent } from './modal.component';
 import { Subject } from 'rxjs';
@@ -17,11 +10,9 @@ export class ModalService implements OnDestroy {
     newModalComponent!: ComponentRef<ModalComponent>;
     options: ModelOptions | undefined;
     mediaQueries: MediaQueryList[] = [];
-    private OnModalAction = new Subject<TModalActionEvent>;
+    private OnModalAction = new Subject<TModalActionEvent>();
 
-    constructor(
-        private appRef: ApplicationRef,
-    ) {}
+    constructor(private appRef: ApplicationRef) {}
 
     ngOnDestroy(): void {
         if (this.newModalComponent) {
@@ -33,8 +24,7 @@ export class ModalService implements OnDestroy {
     }
     NewAction(event: TModalActionEvent) {
         this.OnModalAction.next(event);
-        this.close()
-
+        this.close();
     }
     open<C>(vComponent: Type<C>, options?: ModelOptions) {
         const InnerComponent = vComponent as Type<C>;
@@ -43,16 +33,14 @@ export class ModalService implements OnDestroy {
         const contentComponent = createComponent(InnerComponent, {
             environmentInjector: this.appRef.injector,
         });
-      
 
         if (this.options.props) {
             const { key, value } = this.options.props;
             contentComponent.setInput(key, value);
         }
 
-
         this.newModalComponent = createComponent(ModalComponent, {
-            environmentInjector:   this.appRef.injector,
+            environmentInjector: this.appRef.injector,
             projectableNodes: [[contentComponent.location.nativeElement]],
         });
 

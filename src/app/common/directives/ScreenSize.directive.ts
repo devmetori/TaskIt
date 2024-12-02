@@ -9,7 +9,7 @@ import { BREAKPOINTS } from '../data';
 })
 export class ScreenSizeDirective implements OnChanges, OnDestroy {
     @Input() appScreenSize: IBreakpoint[] = [];
-    private listeners: Map<string, () => void> = new Map();
+    private listeners = new Map<string, () => void>();
 
     constructor(
         private el: ElementRef,
@@ -29,11 +29,13 @@ export class ScreenSizeDirective implements OnChanges, OnDestroy {
     private updateScreenSizes(): void {
         this.cleanupListeners();
         this.appScreenSize.forEach((breakpoint) => {
-            const mql = window.matchMedia(BREAKPOINTS[breakpoint.breakpoint]);
-            const listener = () => this.applyStyles(mql, breakpoint.className);
-            mql.addEventListener('change', listener);
-            this.listeners.set(breakpoint.breakpoint, listener);
-            this.applyStyles(mql, breakpoint.className);
+            if (window?.matchMedia) {
+                const mql = window?.matchMedia(BREAKPOINTS[breakpoint.breakpoint]);
+                const listener = () => this.applyStyles(mql, breakpoint.className);
+                mql.addEventListener('change', listener);
+                this.listeners.set(breakpoint.breakpoint, listener);
+                this.applyStyles(mql, breakpoint.className);
+            }
         });
     }
 

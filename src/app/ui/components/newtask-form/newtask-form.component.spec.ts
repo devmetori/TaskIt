@@ -29,8 +29,6 @@ describe('Componente NewtaskForm', () => {
         expect(compiled.querySelector('form')).toBeTruthy();
     });
 
-
-
     it('Debería asignar una fecha a la tarea', () => {
         const date = new Date();
         component.task = { ...task, date };

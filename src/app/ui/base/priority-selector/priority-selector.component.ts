@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TPrioritySelectorSize, TPrioritySelectorDirection } from '@/app/common/types';
@@ -10,11 +10,10 @@ import { Priorities } from '@/app/common/data';
     imports: [CommonModule],
     templateUrl: './priority-selector.component.html',
     styleUrl: './priority-selector.component.scss',
-   
 })
 export class PrioritySelectorComponent {
     priorities = Priorities();
-    @Input() selected: number = 1;
+    @Input() selected = 1;
     @Input() size: TPrioritySelectorSize = 'sm';
     @Input() direction: TPrioritySelectorDirection = 'hr';
     @Output() onChange = new EventEmitter<number>();

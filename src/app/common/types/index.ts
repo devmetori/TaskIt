@@ -2,22 +2,22 @@ import { BREAKPOINTS } from '../data';
 
 export type TPriority = 'low' | 'medium' | 'high';
 
-export type TPriotyList = {
+export interface TPriotyList {
     id: string;
     level: number;
     label: string;
     selected: boolean;
     color: string;
-};
+}
 
-export type TTaskInput = {
+export interface TTaskInput {
     description: string;
     date: Date;
     endDate: Date;
     priority: number;
-};
+}
 
-export type TTask = {
+export interface TTask {
     id: string;
     description: string;
     dateStart: Date;
@@ -26,45 +26,49 @@ export type TTask = {
     completed: boolean;
     priority: number;
     priorityColor: string;
-};
+}
 
 export type TSort = 'description' | 'date' | 'priority' | 'status';
 
-export type TTodoList = {
+export interface TTodoList {
     id: string;
     name: string;
     Tasks: TTask[];
     KPI: TKPI;
-};
+}
 
-export type TSimpleKpi = {
+export interface TSimpleKpi {
     total: number;
     completed: number;
-};
+}
 
-export type TKPI = {
+export interface TKPI {
     today: TSimpleKpi;
     week: TSimpleKpi;
     month: TSimpleKpi;
-};
-export type TKPIUpdateValue = { negative: boolean; task: TTask; list: TTodoList };
+}
+export interface TKPIUpdateValue {
+    negative: boolean;
+    task: TTask;
+    list: TTodoList;
+}
 
-export type TSortOption = {
+export interface TSortOption {
     value: TSort;
     label: string;
     asc: boolean;
-};
+}
 
-export type TRandomTodoList = {
+export interface TRandomTodoList {
     numLists: number;
     year: number;
     month: number;
-};
+}
 
-export type TDefaultValue = {
+export interface TDefaultValue {
     lists: TTodoList[];
     selectedList: TTodoList;
-};
+}
 
 export interface IBreakpoint {
     breakpoint: keyof typeof BREAKPOINTS;

@@ -100,7 +100,7 @@ export class TaskComponent implements OnDestroy, OnInit {
         this.taskService.addNewTask(Newtask);
     }
     editTask(task: TTask) {
-        var result = this.modalService
+        const result = this.modalService
             .open(EditTaskFormComponent, {
                 props: { key: 'task', value: { ...task } },
                 size: {

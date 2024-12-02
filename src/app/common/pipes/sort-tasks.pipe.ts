@@ -10,9 +10,9 @@ export class SortTasksPipe implements PipeTransform {
     private cachedData: TTask[] = [];
     private cachedResult: TTask[] = [];
     private cachedSortKey: TSort | null = null;
-    private cachedAsc: boolean = true;
+    private cachedAsc = true;
 
-    transform(tasks: TTask[], sortKey: TSort, asc: boolean = true): TTask[] {
+    transform(tasks: TTask[], sortKey: TSort, asc = true): TTask[] {
         if (!tasks) return [];
 
         if (this.isCacheValid(tasks, sortKey, asc)) {

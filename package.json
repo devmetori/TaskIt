@@ -1,6 +1,7 @@
 {
     "private": true,
     "name": "taskit",
+    "type": "module",
     "description": "TaskIt es una aplicación de lista de tareas muy simple construida con Angular. Permite a los usuarios crear, editar y eliminar tareas, proporcionando una interfaz de usuario minimalista.",
     "author": {
         "name": "Mekanint Tort"
@@ -12,7 +13,16 @@
         "dev": "ng serve --configuration development --port 3000",
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
-        "test": "ng test"
+        "format": "prettier --write \"src/**/*.ts\"",
+        "test": "ng test",
+        "test:watch": "ng test --watch",
+        "test:ui": "vitest --ui",
+        "coverage": "vitest run --coverage",
+        "lint": "ng lint ",
+        "pre:push": "pnpm lint && pnpm test && pnpm build",
+        "pre:commit": "pnpm lint:staged",
+        "lint:staged": "lint-staged",
+        "prepare": "husky"
     },
     "dependencies": {
         "@angular/animations": "^17.3.12",
@@ -29,14 +39,27 @@
         "zone.js": "~0.14.10"
     },
     "devDependencies": {
-        "@angular-builders/jest": "^17.0.3",
+        "@analogjs/platform": "^1.9.4",
+        "@analogjs/vite-plugin-angular": "^1.7.0",
+        "@analogjs/vitest-angular": "^1.7.0",
+        "@angular-devkit/architect": "^0.1900.2",
         "@angular-devkit/build-angular": "^17.3.10",
+        "@angular-devkit/schematics": "^19.0.2",
         "@angular/cli": "^17.3.10",
         "@angular/compiler-cli": "^17.3.12",
-        "@types/jest": "^29.5.13",
-        "jest": "^29.7.0",
+        "@nx/vite": "~18.0.0",
+        "@vitest/coverage-v8": "^2.1.8",
+        "@vitest/ui": "^2.1.8",
+        "angular-eslint": "19.0.0",
+        "eslint": "^9.15.0",
+        "husky": "^9.1.7",
+        "jsdom": "^22.0.0",
+        "lint-staged": "^15.2.10",
         "prettier": "^3.3.3",
-        "typescript": "~5.2.2"
+        "typescript": "~5.2.2",
+        "typescript-eslint": "8.16.0",
+        "vite-tsconfig-paths": "^4.2.0",
+        "vitest": "^2.1.8"
     },
     "prettier": {
         "singleQuote": true,
@@ -44,5 +67,10 @@
         "printWidth": 120,
         "tabWidth": 4
     },
-    "packageManager": "pnpm@9.1.2"
+    "lint-staged": {
+        "*.ts": [
+            "prettier --write",
+            "eslint --fix"
+        ]
+    }
 }

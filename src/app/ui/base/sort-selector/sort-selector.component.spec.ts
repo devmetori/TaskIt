@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { SortSelectorComponent } from './sort-selector.component';
 
@@ -29,7 +30,7 @@ describe('SortSelectorComponent', () => {
     });
 
     it('Debería emitir el evento onChange al seleccionar una opción', () => {
-        jest.spyOn(component.onChange, 'emit');
+        vi.spyOn(component.onChange, 'emit');
         const option = component.sortOptions[1];
         component.optionSelected(option);
         expect(component.onChange.emit).toHaveBeenCalledWith(option);
@@ -42,7 +43,7 @@ describe('SortSelectorComponent', () => {
     });
 
     it('Debería tener un método selectOption que se llame al seleccionar una opción', () => {
-        jest.spyOn(component, 'selectOption');
+        vi.spyOn(component, 'selectOption');
         const option = component.sortOptions[3];
         const select = fixture.nativeElement.querySelector('select');
         select.value = option.value;
