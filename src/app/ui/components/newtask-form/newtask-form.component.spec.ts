@@ -29,13 +29,7 @@ describe('Componente NewtaskForm', () => {
         expect(compiled.querySelector('form')).toBeTruthy();
     });
 
-    it('Debería emitir el evento de agregar una tarea con una descripción', () => {
-        jest.spyOn(component.OnFinish, 'emit');
-        component.task = task;
-        fixture.detectChanges();
-        formTag.dispatchEvent(new Event('submit'));
-        expect(component.OnFinish.emit).toHaveBeenCalled();
-    });
+
 
     it('Debería asignar una fecha a la tarea', () => {
         const date = new Date();

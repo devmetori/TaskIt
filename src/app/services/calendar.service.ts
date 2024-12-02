@@ -5,6 +5,7 @@ import {
     endOfWeek,
     isSameDay,
     isSameMonth,
+    isSameWeek,
     isToday,
     isWeekend,
     startOfDay,
@@ -20,11 +21,18 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CalendarService {
     private _selectedDay = new BehaviorSubject<Date>(startOfDay(new Date()));
-    selectedDate$ = this._selectedDay.asObservable();
     private _currentMonth = new BehaviorSubject<Date>(new Date());
-    currentMonth$ = this._currentMonth.asObservable();
     private _Days = new BehaviorSubject<Date[]>([]);
-    Days$ = this._Days.asObservable();
+    today = new Date();
+    get currentMonth$() {
+        return this._currentMonth.asObservable();
+    }
+    get selectedDate$() {
+        return this._selectedDay.asObservable();
+    }
+    get Days$() {
+        return this._Days.asObservable();
+    }
 
     constructor() {
         this.generateCalendar();
@@ -75,5 +83,13 @@ export class CalendarService {
         this.selectDay(today);
         this._currentMonth.next(today);
         this.generateCalendar();
+    }
+    isRangeDay(date: Date) {
+
+        return {
+            isToday: isSameDay(date, this.today),
+            isThisWeek: isSameWeek(date, this.today),
+            isThisMonth: isSameMonth(date, this.today),
+        };
     }
 }

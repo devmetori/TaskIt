@@ -13,7 +13,7 @@ export type TPriotyList = {
 export type TTaskInput = {
     description: string;
     date: Date;
-    endDate?: Date;
+    endDate: Date;
     priority: number;
 };
 

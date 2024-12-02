@@ -1,14 +1,14 @@
 import {
     ApplicationRef,
     ComponentRef,
-    EnvironmentInjector,
     Injectable,
     OnDestroy,
     Type,
     createComponent,
 } from '@angular/core';
-import { ModelOptions, TOnFinish } from './types';
+import { ModelOptions, TModalActionEvent } from './types';
 import { ModalComponent } from './modal.component';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -17,10 +17,10 @@ export class ModalService implements OnDestroy {
     newModalComponent!: ComponentRef<ModalComponent>;
     options: ModelOptions | undefined;
     mediaQueries: MediaQueryList[] = [];
+    private OnModalAction = new Subject<TModalActionEvent>;
 
     constructor(
         private appRef: ApplicationRef,
-        private injector: EnvironmentInjector,
     ) {}
 
     ngOnDestroy(): void {
@@ -31,34 +31,37 @@ export class ModalService implements OnDestroy {
             this.clearMediaQueryListeners();
         }
     }
+    NewAction(event: TModalActionEvent) {
+        this.OnModalAction.next(event);
+        this.close()
 
-    open<C extends TOnFinish>(vComponent: Type<C>, options?: ModelOptions) {
+    }
+    open<C>(vComponent: Type<C>, options?: ModelOptions) {
         const InnerComponent = vComponent as Type<C>;
         this.options = options as ModelOptions;
 
-        const newComponent = createComponent(InnerComponent, {
-            environmentInjector: this.injector,
+        const contentComponent = createComponent(InnerComponent, {
+            environmentInjector: this.appRef.injector,
         });
+      
 
         if (this.options.props) {
             const { key, value } = this.options.props;
-            newComponent.setInput(key, value);
+            contentComponent.setInput(key, value);
         }
 
-        newComponent.instance.OnFinish.subscribe(() => {
-            this.close();
-        });
 
         this.newModalComponent = createComponent(ModalComponent, {
-            environmentInjector: this.injector,
-            projectableNodes: [[newComponent.location.nativeElement]],
+            environmentInjector:   this.appRef.injector,
+            projectableNodes: [[contentComponent.location.nativeElement]],
         });
 
         document.body.appendChild(this.newModalComponent.location.nativeElement);
 
-        this.appRef.attachView(newComponent.hostView);
+        this.appRef.attachView(contentComponent.hostView);
         this.appRef.attachView(this.newModalComponent.hostView);
         this.setupVisibility(options?.mQueries || ['(min-width: 0)']);
+        return this.OnModalAction.asObservable();
     }
 
     close() {

@@ -35,22 +35,7 @@ describe('EditTaskFormComponent', () => {
         const form = fixture.debugElement.query(By.css('form'));
         expect(form).toBeTruthy();
     });
+    
 
-    it('Debería emitir  un evento cuando se hace submit en el formulario', () => {
-        jest.spyOn(component.OnFinish, 'emit');
-        const form = fixture.debugElement.query(By.css('form'));
-        form.nativeElement.dispatchEvent(new Event('submit'));
-        expect(component.OnFinish.emit).toHaveBeenCalled();
-    });
-
-    it('Debería se elimina la tares también debe emitir un evento de notificació para cerrar el', () => {
-        jest.spyOn(component.OnFinish, 'emit');
-        jest.spyOn(component, 'deteleTask');
-        const btnDelete = fixture.debugElement.query(By.css('.btn--danger'));
-
-        btnDelete.nativeElement.dispatchEvent(new Event('click'));
-
-        expect(component.deteleTask).toHaveBeenCalled();
-        expect(component.OnFinish.emit).toHaveBeenCalled();
-    });
+   
 });

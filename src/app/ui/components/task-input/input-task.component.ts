@@ -17,6 +17,7 @@ export class TaskInputComponent {
     task: TTaskInput = {
         description: '',
         date: new Date(),
+        endDate: new Date(),
         priority: 1,
     };
     @Output() addTask = new EventEmitter<TTaskInput>();

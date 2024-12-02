@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {  Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { PrioritySelectorComponent } from '@/app/ui/base';
-import { TaskService } from '@/app/services';
+import { MadalFormAction } from '@/app/common/enums';
 import { TTask } from '@/app/common/types';
+import { ModalService } from '../modal';
 
 @Component({
     selector: 'app-edit-task-form',
@@ -14,18 +15,21 @@ import { TTask } from '@/app/common/types';
     styleUrl: './edit-task-form.component.scss',
 })
 export class EditTaskFormComponent {
-    @Output() OnFinish = new EventEmitter<void>();
     @Input() task: TTask = {} as TTask;
 
-    constructor(private readonly taskService: TaskService) {}
+    constructor(private readonly modalService: ModalService) { }
+
+    setTaskPriority(priority: number) {
+        this.task = { ...this.task, priority };
+    }
+
     deteleTask(task: TTask) {
-        this.taskService.deleteTask(task);
-        this.OnFinish.emit();
+        const newAction = { action: MadalFormAction.DELETE_TASK, data: task };
+        this.modalService.NewAction(newAction);
     }
 
     hadleSubmit(event: SubmitEvent) {
         event.preventDefault();
-
         const newTask: TTask = {
             ...this.task,
             description: this.task.description,
@@ -34,8 +38,7 @@ export class EditTaskFormComponent {
             priority: this.task.priority,
             priorityColor: this.task.priority === 1 ? 'green' : this.task.priority === 2 ? 'yellow' : 'red',
         };
+        this.modalService.NewAction({ action: MadalFormAction.EDIT_TASK, data: newTask });
 
-        this.taskService.updateTask(newTask);
-        this.OnFinish.emit();
     }
 }

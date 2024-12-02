@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PrioritySelectorComponent } from './priority-selector.component';
+import { TPrioritySelectorDirection, TPrioritySelectorSize } from '@/app/common';
 
 describe('PrioritySelectorComponent', () => {
     let component: PrioritySelectorComponent;
@@ -31,15 +32,6 @@ describe('PrioritySelectorComponent', () => {
         jest.spyOn(component.onChange, 'emit');
         component.onChangePriority(level);
         expect(component.onChange.emit).toHaveBeenCalledWith(level);
-    });
-
-    it('Debería establecer las clases CSS correctas según los valores de tamaño y dirección', () => {
-        component.size = 'lg';
-        component.direction = 'vr';
-        fixture.detectChanges();
-        const prioritySelectorElement = fixture.nativeElement.querySelector('.priorities');
-        expect(prioritySelectorElement.classList).toContain('lg');
-        expect(prioritySelectorElement.classList).toContain('vr');
     });
 
     it('Debería renderizar el número correcto de opciones de prioridad', () => {

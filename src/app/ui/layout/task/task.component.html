@@ -7,7 +7,7 @@
     <div class="content">
         <ul class="list">
             <app-list-item
-                *ngFor="let list of lists"
+                *ngFor="let list of lists; trackBy: trackById"
                 [list]="list"
                 [selected]="selectedList.id"
                 (remove)="removeList($event)"
@@ -29,7 +29,12 @@
     <div class="content">
         <ng-container *ngIf="lists.length > 0">
             <ul class="list">
-                <ng-container *ngFor="let task of selectedList.Tasks | sortTasks: sortOption.value : sortOption.asc">
+                <ng-container
+                    *ngFor="
+                        let task of selectedList.Tasks | sortTasks: sortOption.value : sortOption.asc;
+                        trackBy: trackById
+                    "
+                >
                     <app-task-item
                         [task]="task"
                         (checkTask)="checkTask($event)"
@@ -60,7 +65,7 @@
                 {{ selectedDate.toLocaleString('default', { month: 'long' }) }}
             </span>
             <ul class="list">
-                <ng-container *ngFor="let task of selectedList?.Tasks">
+                <ng-container *ngFor="let task of selectedList?.Tasks; trackBy: trackById">
                     <app-task-item
                         [task]="task"
                         class="task-item"

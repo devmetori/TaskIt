@@ -14,7 +14,7 @@
             <span class="title">Prioridad</span>
             <app-priority-selector
                 [selected]="task.priority"
-                (onChange)="task.priority = $event"
+                (onChange)="setTaskPriority($event)"
                 [size]="'sm'"
                 [direction]="'hr'"
             />
@@ -37,7 +37,7 @@
                     id="dueDate"
                     aria-label="fecha de fin de la tarea"
                     name="endDueDate"
-                    [ngModel]="task.dateStart | date: 'yyyy-MM-dd'"
+                    [ngModel]="task.dateEnd | date: 'yyyy-MM-dd'"
                     (ngModelChange)="task.dateEnd = $event"
                 />
             </span>
