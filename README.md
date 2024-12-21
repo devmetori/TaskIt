@@ -10,10 +10,6 @@ Con TaskIt, los usuarios pueden crear nuevas tareas rápidamente mediante un for
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
 
-# Diseño
-
-![Diseño](./src/assets/desktop-view.png)
-
 ## Ejecución en local
 
 Clonar el proyecto
