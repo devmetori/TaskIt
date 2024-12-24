@@ -1,7 +1,5 @@
 import { BREAKPOINTS } from '../data';
 
-export type TPriority = 'low' | 'medium' | 'high';
-
 export interface TPriotyList {
     id: string;
     level: number;
@@ -28,8 +26,6 @@ export interface TTask {
     priorityColor: string;
 }
 
-export type TSort = 'description' | 'date' | 'priority' | 'status';
-
 export interface TTodoList {
     id: string;
     name: string;
@@ -47,27 +43,13 @@ export interface TKPI {
     week: TSimpleKpi;
     month: TSimpleKpi;
 }
-export interface TKPIUpdateValue {
-    negative: boolean;
-    task: TTask;
-    list: TTodoList;
-}
+
+export type TSort = 'description' | 'date' | 'priority' | 'status';
 
 export interface TSortOption {
     value: TSort;
     label: string;
     asc: boolean;
-}
-
-export interface TRandomTodoList {
-    numLists: number;
-    year: number;
-    month: number;
-}
-
-export interface TDefaultValue {
-    lists: TTodoList[];
-    selectedList: TTodoList;
 }
 
 export interface IBreakpoint {
@@ -76,4 +58,31 @@ export interface IBreakpoint {
 }
 
 export type TPrioritySelectorSize = 'sm' | 'md' | 'lg';
+
 export type TPrioritySelectorDirection = 'vr' | 'hr';
+
+/**
+ * State of the application
+ * @interface CalendarState
+ * @returns {CalendarState} - State of the application
+ * @property {Date} CurrentMonth - Current month
+ * @property {Date} SelectedDay - Selected day
+ * @property {Date[]} WeekDays - Days of the week
+ * @property {Date[]} Days - Days of the month
+ */
+export interface CalendarState {
+    CurrentMonth: Date;
+    SelectedDay: Date;
+    WeekDays: Date[];
+    Days: Date[];
+}
+
+/**
+ *  State of the task
+ * @interface TaskState
+ * @returns {TaskState} - State of the task
+ */
+export interface TaskState {
+    SelectedList: TTodoList;
+    Lists: TTodoList[];
+}

@@ -1,10 +1,14 @@
+import { TestBed } from '@angular/core/testing';
 import { CalendarService } from './calendar.service';
 
 describe('CalendarService', () => {
     let service: CalendarService;
 
     beforeEach(() => {
-        service = new CalendarService();
+        TestBed.configureTestingModule({
+            providers: [CalendarService],
+        });
+        service = TestBed.inject(CalendarService);
     });
 
     it('Debería ser creado el servicio', () => {
@@ -12,18 +16,19 @@ describe('CalendarService', () => {
     });
 
     it('Debería tener una fecha seleccionada predeterminada', () => {
-        service.selectedDate$.subscribe((date) => {
-            expect(date).toBeDefined();
-            //expect(date).toEqual(new Date());
-        });
+        const todoy = new Date();
+        const SelectedDay = service.Store.Select((state) => state.SelectedDay)();
+        expect(SelectedDay.toDateString()).toBeDefined();
+        expect(SelectedDay.toDateString()).toEqual(todoy.toDateString());
     });
 
     it('Debería actualizar la fecha seleccionada', () => {
         const newDate = new Date(2022, 0, 1);
         service.selectDay(newDate);
-        service.selectedDate$.subscribe((date) => {
-            expect(date).toEqual(newDate);
-        });
+
+        const SelectedDay = service.Store.Select((state) => state.SelectedDay)();
+
+        expect(SelectedDay).toEqual(newDate);
     });
 
     it('Debería verificar si una fecha está seleccionada', () => {

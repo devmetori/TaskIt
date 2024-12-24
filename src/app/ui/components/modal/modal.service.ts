@@ -7,21 +7,13 @@ import { Subject } from 'rxjs';
     providedIn: 'root',
 })
 export class ModalService implements OnDestroy {
+    private OnModalAction = new Subject<TModalActionEvent>();
     newModalComponent!: ComponentRef<ModalComponent>;
     options: ModelOptions | undefined;
     mediaQueries: MediaQueryList[] = [];
-    private OnModalAction = new Subject<TModalActionEvent>();
 
     constructor(private appRef: ApplicationRef) {}
 
-    ngOnDestroy(): void {
-        if (this.newModalComponent) {
-            this.newModalComponent.destroy();
-        }
-        if (this.mediaQueries.length > 0) {
-            this.clearMediaQueryListeners();
-        }
-    }
     NewAction(event: TModalActionEvent) {
         this.OnModalAction.next(event);
         this.close();
@@ -90,5 +82,13 @@ export class ModalService implements OnDestroy {
     clearMediaQueryListeners() {
         this.mediaQueries.forEach((mq) => mq.removeEventListener('change', this.handleMediaChange));
         this.mediaQueries = [];
+    }
+    ngOnDestroy(): void {
+        if (this.newModalComponent) {
+            this.newModalComponent.destroy();
+        }
+        if (this.mediaQueries.length > 0) {
+            this.clearMediaQueryListeners();
+        }
     }
 }

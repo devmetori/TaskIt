@@ -10,7 +10,7 @@ describe('TaskComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TaskComponent],
-            providers: globalProviders,
+            providers: [globalProviders],
         }).compileComponents();
 
         fixture = TestBed.createComponent(TaskComponent);

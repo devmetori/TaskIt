@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -11,6 +11,7 @@ import { TTodoList } from '@/app/common/types';
     imports: [FormsModule, CommonModule],
     templateUrl: './list-item.component.html',
     styleUrl: './list-item.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListItemComponent {
     @Input() list: TTodoList = {} as TTodoList;

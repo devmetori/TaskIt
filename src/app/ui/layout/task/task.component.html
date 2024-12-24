@@ -7,15 +7,15 @@
     <div class="content">
         <ul class="list">
             <app-list-item
-                *ngFor="let list of lists; trackBy: trackById"
+                *ngFor="let list of Lists(); trackBy: trackById"
                 [list]="list"
-                [selected]="selectedList.id"
+                [selected]="SelectedList().id"
                 (remove)="removeList($event)"
                 (selectNewList)="selectList($event)"
                 (newName)="updateListName($event)"
                 [appScreenSize]="screenSizes"
             />
-            <span *ngIf="lists.length <= 0" class="empty">Añade una nueva lista para empezar</span>
+            <span *ngIf="Lists().length <= 0" class="empty">Añade una nueva lista para empezar</span>
         </ul>
 
         <button class="add" (click)="addList()">+ Crear lista</button>
@@ -23,17 +23,14 @@
 </section>
 <section class="Container-TaskList">
     <div class="header">
-        <app-input-task (addTask)="addNewTask($event)" [appScreenSize]="screenSizes" [isDisabled]="lists.length <= 0" />
+        <app-input-task (addTask)="addNewTask($event)" [appScreenSize]="screenSizes" [isDisabled]="Lists().length <= 0" />
         <app-sort-selector (onChange)="sortOption = $event" [appScreenSize]="screenSizes" />
     </div>
     <div class="content">
-        <ng-container *ngIf="lists.length > 0">
+        <ng-container *ngIf="Lists().length > 0">
             <ul class="list">
                 <ng-container
-                    *ngFor="
-                        let task of selectedList.Tasks | sortTasks: sortOption.value : sortOption.asc;
-                        trackBy: trackById
-                    "
+                    *ngFor="let task of SelectedList().Tasks | sortTasks: sortOption.value : sortOption.asc;trackBy: trackById"
                 >
                     <app-task-item
                         [task]="task"
@@ -42,30 +39,29 @@
                         (editTask)="editTask($event)"
                     />
                 </ng-container>
-                <span *ngIf="selectedList.Tasks.length <= 0" class="empty">Añade una nueva tarea para empezar</span>
+                <span *ngIf="SelectedList().Tasks.length <= 0" class="empty">Añade una nueva tarea para empezar</span>
             </ul>
             <button class="add-new" (click)="createNewTask()">+</button>
         </ng-container>
     </div>
 </section>
 <section class="container-calendar">
-    <ng-container *ngIf="lists.length > 0">
+    <ng-container *ngIf="Lists().length > 0">
         <div class="header">
-            <app-kpi [KPI]="selectedList.KPI.today" title="Hoy" />
-            <app-kpi [KPI]="selectedList.KPI.week" title="Esta semana" />
-            <app-kpi [KPI]="selectedList.KPI.month" title="Este mes" />
+            <app-kpi [KPI]="SelectedList().KPI.today" title="Hoy" />
+            <app-kpi [KPI]="SelectedList().KPI.week" title="Esta semana" />
+            <app-kpi [KPI]="SelectedList().KPI.month" title="Este mes" />
         </div>
         <div class="content">
-            <app-calendar [CalendarEvents]="selectedList.Tasks" />
+            <app-calendar [CalendarEvents]="SelectedList().Tasks" />
         </div>
 
         <div class="footer">
             <span class="selected-date">
-                {{ selectedDate.getDate() }} de
-                {{ selectedDate.toLocaleString('default', { month: 'long' }) }}
+                {{ selectedDay() | date: 'd MMMM' : '' : 'es-ES' }}
             </span>
             <ul class="list">
-                <ng-container *ngFor="let task of selectedList?.Tasks; trackBy: trackById">
+                <ng-container *ngFor="let task of SelectedList()?.Tasks; trackBy: trackById">
                     <app-task-item
                         [task]="task"
                         class="task-item"
@@ -74,7 +70,7 @@
                         *ngIf="isSelected(task.dateStart)"
                     />
                 </ng-container>
-                <span *ngIf="selectedList.Tasks.length <= 0" class="empty">No hay tareas para este día...</span>
+                <span *ngIf="SelectedList().Tasks.length <= 0" class="empty">No hay tareas para este día...</span>
             </ul>
         </div>
     </ng-container>

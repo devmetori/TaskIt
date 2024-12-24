@@ -1,4 +1,4 @@
-import { TKPI, TPriotyList, TTodoList, TRandomTodoList, IBreakpoint, TTask } from '../types';
+import { TKPI, TPriotyList, TTodoList, IBreakpoint, TTask } from '../types';
 import { isSameDay, isSameMonth, isSameWeek } from 'date-fns';
 import { UUID, randomDate } from '../utils';
 
@@ -93,7 +93,15 @@ export const GenerateRandomTasks = ({
  * @param {number} year - Year
  * @returns {TTodoList[]} - List of todo lists
  */
-export const generateRandomTodoLists = ({ month, numLists, year }: TRandomTodoList): TTodoList[] => {
+export const generateRandomTodoLists = ({
+    month,
+    numLists,
+    year,
+}: {
+    numLists: number;
+    year: number;
+    month: number;
+}): TTodoList[] => {
     const today = new Date();
 
     return Array.from({ length: numLists }, (_, listIndex) => {
@@ -141,9 +149,9 @@ export const generateRandomTodoLists = ({ month, numLists, year }: TRandomTodoLi
 };
 
 /**
- * lista de los breakpoints disponibles
+ *  List of breakpoints
  * @type {IBreakpoint[]}
- * @returns {IBreakpoint[]} - Lista de breakpoints
+ * @returns {IBreakpoint[]} - List of breakpoints
  *
  * @example
  */
@@ -155,9 +163,9 @@ export const BREAKPOINTS = {
 };
 
 /**
- *  Lista de tamaños de pantalla
+ *  List of screen sizes
  * @type {IBreakpoint[]}
- * @returns {IBreakpoint[]} - Lista de tamaños de pantalla
+ * @returns {IBreakpoint[]} -  List of screen sizes
  */
 export const screenSize: IBreakpoint[] = [
     { breakpoint: 'sm', className: 'phone' },

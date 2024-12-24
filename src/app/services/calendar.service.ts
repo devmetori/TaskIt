@@ -1,66 +1,65 @@
 import {
+    addDays,
     addMonths,
     eachDayOfInterval,
-    endOfMonth,
     endOfWeek,
     isSameDay,
     isSameMonth,
     isSameWeek,
     isToday,
     isWeekend,
-    startOfDay,
     startOfMonth,
     startOfWeek,
     subMonths,
 } from 'date-fns';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
-@Injectable({
-    providedIn: 'root',
-})
+import { CalendarState } from '@/app/common/types';
+import { Store } from './Store';
+
+@Injectable({ providedIn: 'root' })
 export class CalendarService {
-    private _selectedDay = new BehaviorSubject<Date>(startOfDay(new Date()));
-    private _currentMonth = new BehaviorSubject<Date>(new Date());
-    private _Days = new BehaviorSubject<Date[]>([]);
-    today = new Date();
-    get currentMonth$() {
-        return this._currentMonth.asObservable();
-    }
-    get selectedDate$() {
-        return this._selectedDay.asObservable();
-    }
-    get Days$() {
-        return this._Days.asObservable();
-    }
+    private today = new Date();
+    readonly Store = new Store<CalendarState>();
 
     constructor() {
-        this.generateCalendar();
+        this.Store.FillState({
+            CurrentMonth: this.today,
+            SelectedDay: this.today,
+            WeekDays: this.GenerateWeekDays(),
+            Days: this.GenerateMonthDays(),
+        });
     }
 
     selectDay(date: Date): void {
-        this._selectedDay.next(date);
+        this.Store.setState({ SelectedDay: date });
     }
 
-    generateCalendar(): void {
-        const startDay = startOfMonth(this._currentMonth.getValue());
-        const endDay = endOfMonth(this._currentMonth.getValue());
-        const start = startOfWeek(startDay, { weekStartsOn: 1 });
-        const end = endOfWeek(endDay, { weekStartsOn: 1 });
-        const days = eachDayOfInterval({ start, end });
-        this._Days.next(days);
+    GenerateWeekDays(referenceDate: Date = new Date()): Date[] {
+        const start = startOfWeek(referenceDate, { weekStartsOn: 1 });
+        const end = endOfWeek(referenceDate, { weekStartsOn: 1 });
+        return eachDayOfInterval({ start, end });
+    }
+    GenerateMonthDays(referenceDate: Date = new Date()): Date[] {
+        const startMonth = startOfMonth(referenceDate);
+        const start = startOfWeek(startMonth, { weekStartsOn: 1 });
+        const end = addDays(start, 41);
+        return eachDayOfInterval({ start, end });
     }
 
     nextMonth(): void {
-        const month = addMonths(this._currentMonth.getValue(), 1);
-        this._currentMonth.next(month);
-        this.generateCalendar();
+        const currentMonth = this.Store.Select((state) => state.CurrentMonth)();
+        const month = addMonths(currentMonth, 1);
+        const DaysOfTheMonth = this.GenerateMonthDays(month);
+        this.Store.setState({ CurrentMonth: month, Days: DaysOfTheMonth });
     }
 
     previousMonth(): void {
-        const month = subMonths(this._currentMonth.getValue(), 1);
-        this._currentMonth.next(month);
-        this.generateCalendar();
+        const currentMonth = this.Store.Select((state) => state.CurrentMonth)();
+        const month = subMonths(currentMonth, 1);
+        const DaysOfTheMonth = this.GenerateMonthDays(month);
+
+        this.Store.setState({ CurrentMonth: month, Days: DaysOfTheMonth });
     }
 
     isWeekend(date: Date): boolean {
@@ -72,17 +71,17 @@ export class CalendarService {
     }
 
     isSelected(date: Date): boolean {
-        return isSameDay(date, this._selectedDay.getValue());
+        const selectedDay = this.Store.Select((state) => state.SelectedDay);
+        return isSameDay(date, selectedDay());
     }
     isCurrentMonth(date: Date): boolean {
-        return !isSameMonth(date, this._currentMonth.getValue());
+        const currentMonth = this.Store.Select((state) => state.CurrentMonth);
+        return !isSameMonth(date, currentMonth());
     }
 
     SelectToday(): void {
-        const today = new Date();
-        this.selectDay(today);
-        this._currentMonth.next(today);
-        this.generateCalendar();
+        const DaysOfTheMonth = this.GenerateMonthDays(this.today);
+        this.Store.setState({ SelectedDay: this.today, CurrentMonth: this.today, Days: DaysOfTheMonth });
     }
     isRangeDay(date: Date) {
         return {

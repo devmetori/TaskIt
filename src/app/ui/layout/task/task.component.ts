@@ -1,8 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 
-import { ScreenSizeDirective } from '@/app/common/directives';
 import {
     CalendarComponent,
     KpiComponent,
@@ -14,20 +12,22 @@ import {
 } from '@/app/ui/components';
 import { IBreakpoint, TSortOption, TTask, TTaskInput, TTodoList } from '@/app/common/types';
 import { CalendarService } from '@/app/ui/components/calendar';
+import { ScreenSizeDirective } from '@/app/common/directives';
 import { ModalService } from '@/app/ui/components/modal';
 import { SortSelectorComponent } from '@/app/ui/base';
+import { MadalFormAction } from '@/app/common/enums';
 import { SortTasksPipe } from '@/app/common/pipes';
 import { screenSize } from '@/app/common/data';
 import { TaskService } from '@/app/services';
 import { UUID } from '@/app/common/utils';
-import { MadalFormAction } from '@/app/common/enums';
 
 @Component({
     selector: 'app-task-list',
     standalone: true,
-    providers: [TaskService, CalendarService],
     imports: [
-        CommonModule,
+        DatePipe,
+        NgIf,
+        NgFor,
         CalendarComponent,
         KpiComponent,
         ListItemComponent,
@@ -37,36 +37,23 @@ import { MadalFormAction } from '@/app/common/enums';
         SortTasksPipe,
         SortSelectorComponent,
     ],
+
     templateUrl: './task.component.html',
     styleUrl: './task.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskComponent implements OnDestroy, OnInit {
+export class TaskComponent {
     sortOption: TSortOption = { value: 'date', label: 'Descripción', asc: true } as TSortOption;
+    selectedDay = this.calendarService.Store.Select((state) => state.SelectedDay);
+    SelectedList = this.taskService.Store.Select((state) => state.SelectedList);
+    Lists = this.taskService.Store.Select((state) => state.Lists);
     screenSizes: IBreakpoint[] = screenSize;
-    lists: TTodoList[] = [];
-    selectedList: TTodoList = {} as TTodoList;
-    selectedDate: Date = new Date();
-    private Subscription: Subscription = new Subscription();
 
     constructor(
-        private taskService: TaskService,
-        private calendarService: CalendarService,
-        private modalService: ModalService,
+        private readonly taskService: TaskService,
+        private readonly calendarService: CalendarService,
+        private readonly modalService: ModalService,
     ) {}
-    ngOnInit(): void {
-        this.Subscription.add(
-            this.taskService.lists$.subscribe((lists) => {
-                this.lists = lists;
-            }),
-        );
-        this.Subscription.add(
-            this.taskService.lists$.subscribe((lists) => {
-                this.lists = lists;
-            }),
-        );
-        this.Subscription.add(this.taskService.selectedList$.subscribe((list) => (this.selectedList = list)));
-        this.Subscription.add(this.calendarService.selectedDate$.subscribe((date) => (this.selectedDate = date)));
-    }
 
     trackById(index: number, item: TTodoList | TTask): string {
         return item.id;
@@ -83,8 +70,8 @@ export class TaskComponent implements OnDestroy, OnInit {
         this.taskService.selectList(list);
     }
     updateListName(newValue: string) {
-        if (!newValue && this.selectedList.name === newValue) return;
-        this.taskService.updateListName(this.selectedList.id, newValue);
+        if (!newValue && this.SelectedList().name === newValue) return;
+        this.taskService.updateListName(this.SelectedList().id, newValue);
     }
     addNewTask(task: TTaskInput) {
         const Newtask: TTask = {
@@ -100,24 +87,24 @@ export class TaskComponent implements OnDestroy, OnInit {
         this.taskService.addNewTask(Newtask);
     }
     editTask(task: TTask) {
-        const result = this.modalService
-            .open(EditTaskFormComponent, {
-                props: { key: 'task', value: { ...task } },
-                size: {
-                    width: '350px',
-                    height: '350px',
-                },
-            })
-            .subscribe(({ action, data }) => {
-                if (action === MadalFormAction.DELETE_TASK) {
-                    this.taskService.deleteTask(data);
-                }
-                if (action === MadalFormAction.EDIT_TASK) {
-                    if (task == data) return;
-                    this.taskService.updateTask(data);
-                }
-                result.unsubscribe();
-            });
+        const OpenAction = this.modalService.open(EditTaskFormComponent, {
+            props: { key: 'task', value: { ...task } },
+            size: {
+                width: '350px',
+                height: '350px',
+            },
+        });
+
+        const observer = OpenAction.subscribe(({ action, data }) => {
+            if (action === MadalFormAction.DELETE_TASK) {
+                this.taskService.deleteTask(data);
+            }
+            if (action === MadalFormAction.EDIT_TASK) {
+                if (task == data) return;
+                this.taskService.updateTask(data);
+            }
+            observer.unsubscribe();
+        });
     }
     checkTask(task: TTask) {
         this.taskService.checkTask(task);
@@ -139,14 +126,11 @@ export class TaskComponent implements OnDestroy, OnInit {
                 if (action === MadalFormAction.ADD_NEW_TASK) {
                     this.taskService.addNewTask(data);
                 }
+
                 result.unsubscribe();
             });
     }
     isSelected(date: Date): boolean {
         return this.calendarService.isSelected(date);
-    }
-
-    ngOnDestroy(): void {
-        this.Subscription.unsubscribe();
     }
 }

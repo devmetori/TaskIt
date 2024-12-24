@@ -1,8 +1,8 @@
 <div class="calendar">
     <app-calendar-controls />
     <div class="calendar__body">
-        <div *ngFor="let day of weekDays" class="head-cell">{{ day }}</div>
-        <ng-container *ngFor="let day of days">
+        <span *ngFor="let day of weekDays()" class="head-cell">  {{ day | date: 'EEE' : 'es-ES' }}</span>
+        <ng-container *ngFor="let day of Days()">
             <div
                 (click)="selectDay(day)"
                 [class.not-current-month]="isCurrentMonth(day)"

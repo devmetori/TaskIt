@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -11,6 +11,7 @@ import { TTaskInput } from '@/app/common/types';
     imports: [CommonModule, FormsModule, PrioritySelectorComponent],
     templateUrl: './input-task.component.html',
     styleUrl: './input-task.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskInputComponent {
     @Input() isDisabled = false;

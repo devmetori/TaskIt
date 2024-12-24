@@ -3,12 +3,11 @@
     "name": "taskit",
     "type": "module",
     "description": "TaskIt es una aplicación de lista de tareas muy simple construida con Angular. Permite a los usuarios crear, editar y eliminar tareas, proporcionando una interfaz de usuario minimalista.",
+    "version": "1.0.1",
     "author": {
         "name": "Mekanint Tort"
     },
-    "version": "1.0.0",
     "scripts": {
-        "ng": "ng",
         "start": "ng serve",
         "dev": "ng serve --configuration development --port 3000",
         "build": "ng build",

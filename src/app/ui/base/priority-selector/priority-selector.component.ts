@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass, NgFor, NgStyle } from '@angular/common';
 
 import { TPrioritySelectorSize, TPrioritySelectorDirection } from '@/app/common/types';
 import { Priorities } from '@/app/common/data';
@@ -7,7 +7,7 @@ import { Priorities } from '@/app/common/data';
 @Component({
     selector: 'app-priority-selector',
     standalone: true,
-    imports: [CommonModule],
+    imports: [NgClass, NgStyle, NgFor],
     templateUrl: './priority-selector.component.html',
     styleUrl: './priority-selector.component.scss',
 })

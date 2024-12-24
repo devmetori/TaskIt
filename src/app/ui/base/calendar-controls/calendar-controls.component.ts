@@ -1,7 +1,7 @@
-import { CalendarService } from '@/app/services/calendar.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
+
+import { CalendarService } from '@/app/services';
 
 @Component({
     selector: 'app-calendar-controls',
@@ -9,17 +9,12 @@ import { Subscription } from 'rxjs';
     imports: [CommonModule],
     templateUrl: './calendar-controls.component.html',
     styleUrl: './calendar-controls.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarControlsComponent {
-    private subscriptions = new Subscription();
-    currentMonth: Date = new Date();
-    constructor(private readonly calendarService: CalendarService) {
-        this.subscriptions.add(
-            this.calendarService.currentMonth$.subscribe((date) => {
-                this.currentMonth = date;
-            }),
-        );
-    }
+    CurrentMonth = this.calendarService.Store.Select((state) => state.CurrentMonth);
+
+    constructor(private readonly calendarService: CalendarService) {}
 
     nextMonth(): void {
         this.calendarService.nextMonth();

@@ -1,15 +1,16 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, HostListener } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ModalService } from './modal.service';
 import { ModelOptions } from './types';
 
 @Component({
+    standalone: true,
     selector: 'app-modal',
+    imports: [CommonModule],
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.scss'],
-    imports: [CommonModule],
-    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent implements AfterViewInit {
     @ViewChild('modal') modal!: ElementRef<HTMLDivElement>;

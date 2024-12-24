@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
-import { TKPI, TTask, TTodoList, TDefaultValue } from '@/app/common/types';
+import { TKPI, TTask, TTodoList, TaskState } from '@/app/common/types';
 import { defaultKpi, defaultList } from '@/app/common/data';
 import { CalendarService } from './calendar.service';
 import { StoreService } from './store.service';
 import { UUID } from '@/app/common/utils';
+import { Store } from './Store';
 
 @Injectable({
     providedIn: 'root',
@@ -14,41 +14,35 @@ export class TaskService {
     private readonly SelectedListName: string = 'selectedList';
     private readonly ListsName: string = 'lists';
 
-    private readonly defaultValue: TDefaultValue = this.getInitialValue();
-    private _lists = new BehaviorSubject<TTodoList[]>([...this.defaultValue.lists]);
-    private _selectedList = new BehaviorSubject<TTodoList>({ ...this.defaultValue.selectedList });
+    readonly Store = new Store<TaskState>();
 
-    get lists$() {
-        return this._lists.asObservable();
-    }
-
-    get selectedList$() {
-        return this._selectedList.asObservable();
-    }
     constructor(
         private readonly storeService: StoreService,
         private readonly calendarService: CalendarService,
-    ) {}
+    ) {
+        const values = this.getInitialValue();
+        this.Store.FillState(values);
+    }
 
-    private getInitialValue(): TDefaultValue {
+    private getInitialValue(): TaskState {
         const lists = this.storeService.getItem<TTodoList[]>(this.ListsName) as TTodoList[];
         const selectedList = this.storeService.getItem<TTodoList>(this.SelectedListName) as TTodoList;
 
-        if (Array.isArray(lists) && lists.length > 0) return { lists: lists, selectedList: selectedList ?? lists[0] };
+        if (Array.isArray(lists) && lists.length > 0) return { Lists: lists, SelectedList: selectedList ?? lists[0] };
 
         this.storeService.setItem(this.ListsName, [defaultList]);
         this.storeService.setItem(this.SelectedListName, defaultList);
-        return { lists: [defaultList], selectedList: defaultList };
+        return { Lists: [defaultList], SelectedList: defaultList };
     }
 
     private updateLists(lists: TTodoList[]): void {
         this.storeService.setItem(this.ListsName, lists);
-        this._lists.next([...lists]);
+        this.Store.setState({ Lists: lists });
     }
 
     private updateSelectedList(selectedList: TTodoList): void {
         this.storeService.setItem(this.SelectedListName, selectedList);
-        this._selectedList.next({ ...selectedList });
+        this.Store.setState({ SelectedList: selectedList });
     }
     addList() {
         const newList = {
@@ -57,23 +51,28 @@ export class TaskService {
             name: 'Nueva lista',
             Tasks: [],
         } as TTodoList;
+        const lists = this.Store.Select((state) => state.Lists);
         this.updateSelectedList({ ...newList });
-        this.updateLists([newList, ...this._lists.value]);
+        this.updateLists([newList, ...lists()]);
     }
 
     selectList(list: TTodoList) {
         this.updateSelectedList(list);
     }
     removeList(id: string) {
-        const list = this._lists.value.filter((l) => l.id !== id);
-        const isSelected = this._selectedList.value.id === id;
+        const SelectedList = this.Store.Select((state) => state.SelectedList);
+        const Lists = this.Store.Select((state) => state.Lists);
+
+        const list = Lists().filter((l) => l.id !== id);
+        const isSelected = SelectedList().id === id;
         const isListEmpty = list.length <= 0;
 
         if (isSelected) this.updateSelectedList(isListEmpty ? defaultList : list[0]);
         this.updateLists(isListEmpty ? [defaultList] : list);
     }
     updateListName(id: string, newValue: string) {
-        const updatedLists = this._lists.value.map((list) => {
+        const Lists = this.Store.Select((state) => state.Lists);
+        const updatedLists = Lists().map((list) => {
             if (list.id === id) {
                 list.name = newValue;
                 this.updateSelectedList(list);
@@ -83,8 +82,11 @@ export class TaskService {
         this.updateLists(updatedLists);
     }
     addNewTask(task: TTask) {
-        const newState = this._lists.value.map((list) => {
-            if (list.id === this._selectedList.value?.id) {
+        const Lists = this.Store.Select((state) => state.Lists);
+        const SelectedList = this.Store.Select((state) => state.SelectedList);
+
+        const newState = Lists().map((list) => {
+            if (list.id === SelectedList()?.id) {
                 list.Tasks = [task, ...list.Tasks];
                 list.KPI = this.updateKPIData(list.KPI, task, 'increment');
                 this.updateSelectedList(list);
@@ -95,8 +97,11 @@ export class TaskService {
         this.updateLists(newState);
     }
     updateTask(newTask: TTask) {
-        const updatedLists = this._lists.value.map((list) => {
-            if (list.id === this._selectedList.value?.id) {
+        const Lists = this.Store.Select((state) => state.Lists);
+        const SelectedList = this.Store.Select((state) => state.SelectedList);
+
+        const updatedLists = Lists().map((list) => {
+            if (list.id === SelectedList()?.id) {
                 list.Tasks = list.Tasks.map((t) => (t.id === newTask.id ? newTask : t));
                 this.updateSelectedList(list);
             }
@@ -107,13 +112,14 @@ export class TaskService {
     }
 
     checkTask(task: TTask): void {
-        const SelectedList = this._selectedList.value;
+        const Lists = this.Store.Select((state) => state.Lists);
+        const SelectedList = this.Store.Select((state) => state.SelectedList);
         const defaultValue = {
             tasks: [] as TTask[],
             KPI: defaultKpi,
         };
-        const updatedLists = this._lists.value.map((list) => {
-            if (list.id === SelectedList.id) {
+        const updatedLists = Lists().map((list) => {
+            if (list.id === SelectedList().id) {
                 const data = list.Tasks.reduce((acc, t) => {
                     t.completed = t.id === task.id ? !t.completed : t.completed;
                     acc.tasks.push(t);
@@ -131,9 +137,10 @@ export class TaskService {
     }
 
     deleteTask(task: TTask) {
-        const selectdList = this._selectedList.value;
-        const updatedLists = this._lists.value.map((list) => {
-            if (list.id === selectdList?.id) {
+        const Lists = this.Store.Select((state) => state.Lists);
+        const SelectedList = this.Store.Select((state) => state.SelectedList);
+        const updatedLists = Lists().map((list) => {
+            if (list.id === SelectedList()?.id) {
                 list.Tasks = list.Tasks.filter((t) => t.id !== task.id);
                 list.KPI = this.updateKPIData(list.KPI, task, 'decrement');
                 this.updateSelectedList({ ...list });

@@ -1,16 +1,17 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgFor } from '@angular/common';
 
 import { TSortOption } from '@/app/common/types';
 
 @Component({
     selector: 'app-sort-selector',
     standalone: true,
-    imports: [CommonModule],
+    imports: [NgFor],
     templateUrl: './sort-selector.component.html',
     styleUrl: './sort-selector.component.scss',
 })
 export class SortSelectorComponent {
+    @Output() onChange = new EventEmitter<TSortOption>();
     selectOption(event: Event) {
         const target = event.target as HTMLSelectElement;
         const value = target.value as TSortOption['value'];
@@ -21,7 +22,6 @@ export class SortSelectorComponent {
         this.selectedOption = { ...this.selectedOption, asc: !this.selectedOption.asc };
         this.onChange.emit(this.selectedOption);
     }
-    @Output() onChange = new EventEmitter<TSortOption>();
     sortOptions: TSortOption[] = [
         { value: 'description', label: 'Descripción', asc: true },
         { value: 'date', label: 'Fecha', asc: true },

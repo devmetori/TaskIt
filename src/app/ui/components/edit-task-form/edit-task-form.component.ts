@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -13,6 +13,7 @@ import { ModalService } from '../modal';
     imports: [FormsModule, PrioritySelectorComponent, CommonModule],
     templateUrl: './edit-task-form.component.html',
     styleUrl: './edit-task-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditTaskFormComponent {
     @Input() task: TTask = {} as TTask;

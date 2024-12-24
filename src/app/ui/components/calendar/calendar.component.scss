@@ -16,7 +16,7 @@
     &__body {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        grid-template-rows: 30px repeat(5, 1fr);
+        grid-template-rows: repeat(7, 1fr);
         width: 100%;
         height: 100%;
         border: solid #282932 2px;
@@ -31,6 +31,7 @@
             font-weight: bold;
             border-bottom: solid #282932 2px;
             padding: 1rem 0;
+            text-transform: capitalize;
         }
         .cell {
             display: flex;

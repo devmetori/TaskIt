@@ -1,11 +1,11 @@
 import { Directive, Input, Renderer2, ElementRef, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+
 import { IBreakpoint } from '../types';
 import { BREAKPOINTS } from '../data';
 
 @Directive({
     selector: '[appScreenSize]',
     standalone: true,
-    providers: [],
 })
 export class ScreenSizeDirective implements OnChanges, OnDestroy {
     @Input() appScreenSize: IBreakpoint[] = [];
