@@ -43,3 +43,7 @@ html
 Thumbs.db
 .angular
 resources.md
+
+# Ignore all local files
+.env
+/src/environments/*

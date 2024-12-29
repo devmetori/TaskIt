@@ -24,7 +24,7 @@
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": ["src/styles.scss"],
+                        "styles": ["src/app/styles/global.styles.scss"],
                         "scripts": []
                     },
                     "configurations": {
@@ -46,7 +46,13 @@
                         "development": {
                             "optimization": false,
                             "extractLicenses": false,
-                            "sourceMap": true
+                            "sourceMap": true, 
+                            "fileReplacements": [
+                                {
+                                  "replace": "src/environments/environment.ts",
+                                  "with": "src/environments/environment.development.ts"
+                                }
+                              ]
                         }
                     },
                     "defaultConfiguration": "production"
@@ -70,7 +76,12 @@
                     }
                 },
                 "test": {
-                    "builder": "@analogjs/vitest-angular:test"
+                    "builder": "@analogjs/vitest-angular:test", 
+                    "options": {
+                        "tsConfig": "tsconfig.spec.json",
+                        "codeCoverage": true,
+                        "scripts": []
+                    }
                 },
                 "lint": {
                     "builder": "@angular-eslint/builder:lint",

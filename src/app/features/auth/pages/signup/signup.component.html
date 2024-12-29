@@ -1,0 +1,50 @@
+<form class="wrapper" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <div class="heading">
+        <picture class="logo">
+            <img src="assets/img/logo.svg" alt="App logo" srcset="" />
+        </picture>
+        <h1 class="text text-large">Sign In</h1>
+        <p class="text text-normal">
+            New user? <span><a href="#" class="text text-links">Create an account</a></span>
+        </p>
+    </div>
+    <div name="field-set" class="field-set">
+        <div class="field-set__hor">
+            <div class="input-control">
+                <label for="name" class="input-label" hidden>Name</label>
+                <input type="text" name="name" id="name" class="input-field" placeholder="Your name"  formControlName="name"/>
+            </div>
+            <div class="input-control">
+                <label for="surname" class="input-label" hidden>Surname</label>
+                <input type="text" name="surname" id="Surname" class="input-field" placeholder="Surname" formControlName="surname" />
+            </div>
+        </div>
+        <div class="input-control">
+            <label for="email" class="input-label" hidden>Email Address</label>
+            <input type="email" name="email" id="email" class="input-field" placeholder="Email Address" formControlName="email" />
+        </div>
+        <div class="field-group">
+            <div class="input-control">
+                <label for="password" class="input-label" hidden>Password</label>
+                <input type="password" name="password" id="password" class="input-field" placeholder="Password" formControlName="password" />
+            </div>
+            <a href="#" class="forgot-pwd-link">Forgot Password</a>
+        </div>
+        
+        <button type="submit" name="submit" class="input-submit"  [disabled]="!signupForm.valid" >Sign Up</button>
+    </div>
+    <div class="striped">
+        <span class="striped-line"></span>
+        <span class="striped-text">Or</span>
+        <span class="striped-line"></span>
+    </div>
+    <div class="method">
+        <a href="#" class="method-action">
+            <i class="ion ion-logo-google"></i>
+        </a>
+
+        <a href="#" class="method-action">
+            <i class="ion ion-logo-github"></i>
+        </a>
+    </div>
+</form>

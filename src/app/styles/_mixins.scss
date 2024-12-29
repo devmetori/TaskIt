@@ -1,0 +1,18 @@
+@mixin breakpoint($size) {
+    $breakpoint: map-get($breakpoints, $size);
+    @if $breakpoint {
+        @media (max-width: #{$breakpoint}) {
+            @content;
+        }
+    } @else {
+        @warn "El breakpoint '#{$size}' no está definido en el mapa '$breakpoints'.";
+    }
+}
+
+@mixin create-var($theme-map) {
+    @each $category, $values in $theme-map {
+        @each $name, $value in $values {
+            --#{$category}-#{$name}: #{$value};
+        }
+    }
+}

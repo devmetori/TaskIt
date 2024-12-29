@@ -2,9 +2,9 @@
     "extends": "./tsconfig.json",
     "compilerOptions": {
         "outDir": "./out-tsc/spec",
-       /*  "types": ["vitest/globals"], */
+        "types": ["vitest/globals"],
         "target": "es2016"
     },
-    "include": ["src/**/*.spec.ts", "src/**/*.d.ts", "src/**/*.mock.ts"],
+    "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],
     "files": ["src/test-setup.ts"]
 }

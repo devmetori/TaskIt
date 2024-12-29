@@ -1,0 +1,63 @@
+.item {
+    height: 75px;
+    width: 95%;
+    background: #282932;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: solid 1px transparent;
+
+    .description {
+        background-color: transparent;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #ffffff;
+        text-wrap: nowrap;
+    }
+    .on-edit {
+        color: #5553f5;
+        font-size: 24px;
+        cursor: pointer;
+        transition: color 0.5s ease;
+        &:hover {
+            color: #ffffff;
+        }
+    }
+
+    .description.completed {
+        text-decoration: line-through;
+        color: #ffffff7e;
+    }
+}
+:host {
+    width: 100%;
+
+    &.task-item .item {
+        border: solid #282932 2px;
+        background: transparent;
+        color: white;
+    }
+}
+
+.actions {
+    display: flex;
+    max-width: 60px;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    position: relative;
+    .date {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 11px;
+        text-wrap: nowrap;
+        position: absolute;
+        bottom: 0;
+        right: 40px;
+        font-style: italic;
+    }
+}

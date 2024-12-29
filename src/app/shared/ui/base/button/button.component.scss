@@ -1,0 +1,93 @@
+.btn {
+    width: 100%;
+    display: inline-block;
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #c5c5c5;
+    border-radius: 5px;
+    color: #000;
+    cursor: pointer;
+    padding: 6px 12px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+
+    &:hover {
+        background-color: #c5c5c5;
+        transition-duration: 0.1s;
+    }
+    &:disabled {
+        background-color: #fafbfc;
+        border-color: rgba(27, 31, 35, 0.15);
+        color: #959da5;
+        pointer-events: none;
+    }
+    &:active {
+        background-color: #edeff2;
+        box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+        transition: none 0s;
+    }
+    &:focus {
+        outline: 1px transparent;
+    }
+    &--loading {
+        background-color: transparent;
+        pointer-events: none;
+        &::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            border: 4px solid transparent;
+            border-top-color: #c5c5c5;
+            border-radius: 50%;
+            animation: loading-spinner 1s ease infinite;
+        }
+    }
+
+    &--outline {
+        background-color: transparent;
+    }
+    &--ghost {
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+    &--sm {
+        font-size: 12px;
+        line-height: 16px;
+        padding: 4px 12px;
+    }
+    &--md {
+        font-size: 16px;
+        line-height: 24px;
+        padding: 10px 24px;
+    }
+    &--lg {
+        font-size: 20px;
+        line-height: 28px;
+        padding: 12px 32px;
+    }
+
+    &--xl {
+        font-size: 24px;
+        line-height: 32px;
+        padding: 16px 40px;
+    }
+}
+
+@keyframes loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}

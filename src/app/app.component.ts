@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
-import { TaskComponent } from '@/app/ui';
+import { RouterModule } from '@angular/router';
 
-import { ScreenSizeDirective } from '@/app/common/directives';
-import { screenSize } from '@/app/common/data';
+import { ResponsiveService, RESPONSIVE_CONFIG } from '@/app/core/services';
+import { BREAKPOINTS } from '@/app/shared/data';
 
 @Component({
-    selector: 'app-root',
     standalone: true,
-    imports: [TaskComponent, ScreenSizeDirective],
-    templateUrl: './app.component.html',
+    selector: 'app-root',
+    imports: [RouterModule],
+    providers: [
+        {
+            provide: RESPONSIVE_CONFIG,
+            useValue: BREAKPOINTS,
+        },
+        ResponsiveService,
+    ],
+    template: ` <router-outlet /> `,
 })
-export class AppComponent {
-    breakpoints = screenSize;
-}
+export class AppComponent {}

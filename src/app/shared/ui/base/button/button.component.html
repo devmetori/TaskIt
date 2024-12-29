@@ -1,0 +1,12 @@
+<!-- <button [disabled]=" IsDisable || IsLoading" (click)="onClick()">
+    <span *ngIf="loading" class="spinner"></span>
+    <ng-content></ng-content>
+</button>
+ -->
+
+@if(!IsLoading){
+    <ng-content></ng-content>
+    <ng-content select="icon"></ng-content>
+
+}
+

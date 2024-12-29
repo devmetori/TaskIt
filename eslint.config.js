@@ -20,7 +20,7 @@ export default tseslint.config(
             '@typescript-eslint/no-empty-function': 'off',
             "@angular-eslint/no-output-on-prefix": "warn",
             '@angular-eslint/directive-selector': [
-                'error',
+                'warn',
                 {
                     type: 'attribute',
                     prefix: 'app',
@@ -28,7 +28,7 @@ export default tseslint.config(
                 },
             ],
             '@angular-eslint/component-selector': [
-                'error',
+                'warn',
                 {
                     type: 'element',
                     prefix: 'app',
